@@ -11,6 +11,10 @@ Usage:
                      --backbone_ckpt checkpoints/tslanet_hhar_u0.pt \\
                      --k 4 --device cuda
 
+  python run_pact.py --dataset hhar --src 0 --tgt 6 \\
+                     --backbone_type timesnet \\
+                     --backbone_ckpt checkpoints/timesnet_hhar/timesnet_hhar_u0_dm128_e2.pt
+
   python run_pact.py --dataset fd --src FD-A --tgt FD-B --calib_frac 0.05 \\
                      --backbone_ckpt checkpoints/tslanet_fd_FD-A.pt
 
@@ -27,6 +31,7 @@ from sklearn.model_selection import StratifiedShuffleSplit
 
 from pact import PACT
 from backbone.tslanet import load_tslanet
+from backbone.timesnet import load_timesnet
 from datasets import FDDataset, HHARDataset, SleepEDFDataset
 
 
@@ -43,6 +48,9 @@ def parse_args():
                    help="Target domain ID (same format as --src)")
     p.add_argument("--data_root",     default="data",
                    help="Root directory containing processed datasets")
+    p.add_argument("--backbone_type", default="tslanet",
+                   choices=["tslanet", "timesnet"],
+                   help="Backbone architecture (default: tslanet)")
     p.add_argument("--backbone_ckpt", required=True,
                    help="Path to pre-trained source backbone checkpoint (.pt)")
     p.add_argument("--k",             type=int,   default=4,
@@ -110,8 +118,11 @@ def main():
     print(f"{'='*60}\n")
 
     # ── Load backbone ──────────────────────────────────────────────────────────
-    print("Loading backbone …")
-    backbone = load_tslanet(args.backbone_ckpt, args.dataset, device=device)
+    print(f"Loading {args.backbone_type} backbone …")
+    if args.backbone_type == "timesnet":
+        backbone = load_timesnet(args.backbone_ckpt, args.dataset, device=device)
+    else:
+        backbone = load_tslanet(args.backbone_ckpt, args.dataset, device=device)
 
     # ── Load data ──────────────────────────────────────────────────────────────
     print("Loading datasets …")

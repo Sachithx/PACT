@@ -28,6 +28,18 @@ pip install -r requirements.txt
 
 ## Quick start
 
+**Step 0 — train a source backbone** (skip if you have pre-trained checkpoints):
+
+```bash
+# TSLANet (all 9 HHAR users, ~5 min/user on GPU)
+python train_tslanet_hhar.py
+
+# TimesNet (all 9 HHAR users)
+python train_timesnet_hhar.py
+```
+
+Checkpoints are saved to `checkpoints/tslanet_hhar/` and `checkpoints/timesnet_hhar/`.
+
 ```python
 import torch
 from pact import PACT
@@ -38,7 +50,7 @@ from torch.utils.data import DataLoader
 device = torch.device("cuda")
 
 # 1. Load frozen source backbone
-backbone = load_tslanet("checkpoints/tslanet_hhar_u0.pt", dataset="hhar", device=device)
+backbone = load_tslanet("checkpoints/tslanet_hhar/tslanet_hhar_u0_ps8_d2_dim128.pt", dataset="hhar", device=device)
 
 # 2. Load data
 src_train = HHARDataset(user_id=0, split="train", data_root="data")
@@ -73,27 +85,29 @@ print(f"Target F1 (recovery):  {f1_tgt:.4f}")
 ## Command-line usage
 
 ```bash
-# HHAR cross-user: User-a → User-g
+# HHAR cross-user: User-a → User-g  (TSLANet backbone)
 python run_pact.py \
-  --dataset hhar \
-  --src 0 --tgt 6 \
-  --data_root data \
-  --backbone_ckpt checkpoints/tslanet_hhar_u0.pt \
+  --dataset hhar --src 0 --tgt 6 --data_root . \
+  --backbone_type tslanet \
+  --backbone_ckpt checkpoints/tslanet_hhar/tslanet_hhar_u0_ps8_d2_dim128.pt \
+  --k 4 --calib_frac 0.05
+
+# Same scenario with TimesNet backbone
+python run_pact.py \
+  --dataset hhar --src 0 --tgt 6 --data_root . \
+  --backbone_type timesnet \
+  --backbone_ckpt checkpoints/timesnet_hhar/timesnet_hhar_u0_dm128_e2.pt \
   --k 4 --calib_frac 0.05
 
 # FD fault diagnosis: FD-A → FD-B
 python run_pact.py \
-  --dataset fd \
-  --src FD-A --tgt FD-B \
-  --data_root data \
-  --backbone_ckpt checkpoints/tslanet_fd_FD-A.pt
+  --dataset fd --src FD-A --tgt FD-B --data_root data \
+  --backbone_ckpt checkpoints/tslanet_hhar/tslanet_fd_FD-A_ps8_d2_dim128.pt
 
 # Sleep-EDF: subject 0 → subject 11
 python run_pact.py \
-  --dataset sleep \
-  --src 0 --tgt 11 \
-  --data_root data \
-  --backbone_ckpt checkpoints/tslanet_sleep_0.pt
+  --dataset sleep --src 0 --tgt 11 --data_root data \
+  --backbone_ckpt checkpoints/tslanet_sleep/tslanet_sleep_u0_ps8_d2_dim128.pt
 ```
 
 ---
@@ -153,15 +167,19 @@ Data files follow the [AdaTime](https://github.com/emadeldeen24/AdaTime) preproc
 ```
 PACT/
 ├── pact/
-│   ├── core.py       # Main PACT class, IdentityAdapter, GateMLP
-│   └── kmeans.py     # Numpy k-means
+│   ├── core.py              # Main PACT class, IdentityAdapter, GateMLP
+│   └── kmeans.py            # Numpy k-means
 ├── datasets/
-│   ├── fd.py         # FD dataset loader
-│   ├── hhar.py       # HHAR dataset loader
-│   └── sleep_edf.py  # Sleep-EDF dataset loader
+│   ├── fd.py                # FD dataset loader
+│   ├── hhar.py              # HHAR dataset loader
+│   └── sleep_edf.py         # Sleep-EDF dataset loader
 ├── backbone/
-│   └── tslanet.py    # TSLANet backbone + checkpoint loader
-├── run_pact.py       # End-to-end script
+│   ├── tslanet.py           # TSLANet backbone + checkpoint loader
+│   └── timesnet.py          # TimesNet backbone + checkpoint loader
+├── Time-Series-Library/     # Cloned TSLib (TimesNet layers)
+├── train_tslanet_hhar.py    # Train TSLANet source backbones on HHAR
+├── train_timesnet_hhar.py   # Train TimesNet source backbones on HHAR
+├── run_pact.py              # End-to-end eval (--backbone_type tslanet|timesnet)
 └── requirements.txt
 ```
 
