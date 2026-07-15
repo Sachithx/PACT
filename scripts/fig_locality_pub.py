@@ -184,12 +184,6 @@ def fig_locality():
     )
     _spines_off(ax_c)
 
-    fig.suptitle(
-        "Operating-condition shift is concentrated in local embedding regions",
-        fontsize=9.8,
-        fontweight="bold",
-        y=1.04,
-    )
     out = RESULTS_ROOT / "figures"
     out.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "png"):
