@@ -43,6 +43,7 @@ def parse_args():
                    help="learned = MLP re-fit on accumulated calibration (rehearsal); "
                         "prototype = parameter-free per-concept Gaussian, O(1) per new domain")
     p.add_argument("--adapter_ep", type=int, default=200)
+    p.add_argument("--adapter_weight_decay", type=float, default=0.0)
     p.add_argument("--gate_ep", type=int, default=200)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--batch", type=int, default=256)
@@ -96,6 +97,7 @@ def main():
 
     cfg = PactConfig(k=args.k, emb_dim=model.emb_dim, calib_frac=args.calib_frac,
                      adapter_ep=args.adapter_ep, gate_ep=args.gate_ep,
+                     adapter_weight_decay=args.adapter_weight_decay,
                      seed=args.seed, batch=args.batch,
                      adapter_kind=args.adapter_kind, lora_rank=args.lora_rank,
                      gate_kind=args.gate_kind)
@@ -112,6 +114,9 @@ def main():
 
     labels = res["labels"]
     pd.DataFrame(res["metrics"]).to_csv(out_dir / "metrics.csv", index=False)
+    pd.DataFrame(res["margin_diagnostics"]).to_csv(
+        out_dir / "margin_condition_source.csv", index=False
+    )
     for name, mat in [("soft", res["A_soft"]), ("hard", res["A_hard"]),
                       ("oracle", res["A_orc"]), ("acc", res["ACC"])]:
         pd.DataFrame(mat, index=labels, columns=labels).to_csv(
@@ -121,9 +126,14 @@ def main():
                  out_dir / "soft_f1_heatmap.png")
 
     final = res["metrics"][-1]
+    diagnostics = res["margin_diagnostics"]
+    correct = diagnostics["correct"]
+    violation_rate = diagnostics["violation"][correct].mean() if correct.any() else float("nan")
     print(f"\nFinal: AA={final['AA']:.4f}  BWT={final['BWT']:+.4f}  "
           f"F_all={final['F_all']:.4f}  F_tgt={final['F_tgt']:.4f}  "
           f"RF={final['RF']:.4f}  PRF={final['PRF']:.4f}")
+    print(f"Margin-condition violations on correctly classified source test samples: "
+          f"{violation_rate:.2%}")
     print(f"Results -> {out_dir}")
 
 

@@ -7,6 +7,7 @@ import pandas as pd
 
 import _bootstrap  # noqa: F401
 from _bootstrap import RESULTS_ROOT
+from src.cl_metrics import compute_cl_metrics
 
 DATASETS = ["fd", "hhar", "sleep"]
 PACT_METHODS = {
@@ -24,15 +25,20 @@ def load_summaries(root, pattern):
         if not s.exists():
             continue
         r = pd.read_csv(s).iloc[0]
+        matrix = d / "f1_matrix.csv"
+        if not matrix.exists():
+            continue
+        A = pd.read_csv(matrix, index_col=0).values
+        aa, bwt, forgetting, rf, _ = compute_cl_metrics(A, A.shape[0] - 1)
         name = d.name
         ds = name.split("_")[0]
+        if ds not in DATASETS:
+            continue
         method = r.get("method", r.get("control", name.split("_")[-1]))
         if "fullft" in name and method != "full-ft":
             method = "full-ft"
         rows.append(dict(dataset=ds, tag=name, method=method,
-                         AA=r["AA"], BWT=r.get("BWT", float("nan")),
-                         F=r.get("F", r.get("F_all", float("nan"))),
-                         RF=r.get("RF", float("nan"))))
+                         AA=aa, BWT=bwt, F=forgetting, RF=rf))
     return rows
 
 
@@ -41,13 +47,15 @@ def load_pact():
     for sub, bb in [("sequential", "tslanet"), ("sequential_tsfm", "moment")]:
         root = RESULTS_ROOT / sub
         for ds in DATASETS:
-            tag = f"{ds}_{bb}_adatime_K16_c5"
-            matches = list(root.glob(f"{tag}*"))
-            if not matches:
+            suffix = "_t0.5_identity" if bb == "tslanet" else ""
+            run = root / f"{ds}_{bb}_adatime_K16_c5{suffix}"
+            matrix = run / "soft_f1_matrix.csv"
+            if not matrix.exists():
                 continue
-            m = pd.read_csv(matches[0] / "metrics.csv").iloc[-1]
-            rows.append(dict(dataset=ds, tag=matches[0].name, method="PACT (ours)",
-                             AA=m["AA"], BWT=m["BWT"], F=m["F_all"], RF=m.get("RF", 0)))
+            A = pd.read_csv(matrix, index_col=0).values
+            aa, bwt, forgetting, rf, _ = compute_cl_metrics(A, A.shape[0] - 1)
+            rows.append(dict(dataset=ds, tag=run.name, method="PACT (ours)",
+                             AA=aa, BWT=bwt, F=forgetting, RF=rf))
     return rows
 
 
@@ -58,13 +66,18 @@ def main():
     rows += load_pact()
     # controls: no-adapt / no-gate on moment
     for d in RESULTS_ROOT.glob("controls/*_moment_*"):
-        s = d / "summary.csv"
-        if not s.exists():
-            continue
         ds = d.name.split("_")[0]
-        for _, r in pd.read_csv(s).iterrows():
-            rows.append(dict(dataset=ds, tag=d.name, method=r["control"],
-                             AA=r["AA"], BWT=r["BWT"], F=r["F"], RF=r["RF"]))
+        if ds not in DATASETS:
+            continue
+        for method, filename in (("no-adapt", "noadapt_f1_matrix.csv"),
+                                 ("no-gate", "nogate_f1_matrix.csv")):
+            matrix = d / filename
+            if not matrix.exists():
+                continue
+            A = pd.read_csv(matrix, index_col=0).values
+            aa, bwt, forgetting, rf, _ = compute_cl_metrics(A, A.shape[0] - 1)
+            rows.append(dict(dataset=ds, tag=d.name, method=method,
+                             AA=aa, BWT=bwt, F=forgetting, RF=rf))
 
     df = pd.DataFrame(rows).drop_duplicates(subset=["dataset", "method"], keep="last")
     df = df.sort_values(["dataset", "method"]).reset_index(drop=True)

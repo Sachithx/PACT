@@ -42,15 +42,15 @@ All numbers rounded to 3 decimals. Source: `results/` (July 2026 runs).
 
 | Method | FD AA | FD F | HHAR AA | HHAR F | Sleep AA | Sleep F |
 |---|---|---|---|---|---|---|
-| Full fine-tune | 0.640 | 0.283 | 0.654 | 0.345 | 0.584 | 0.116 |
-| Head fine-tune | 0.586 | 0.012 | 0.576 | 0.133 | 0.605 | 0.056 |
-| EWC | 0.590 | 0.001 | 0.526 | 0.093 | 0.620 | 0.004 |
-| MAS | 0.601 | 0.057 | 0.653 | 0.280 | 0.605 | 0.052 |
-| LwF | 0.549 | 0.256 | 0.723 | 0.155 | 0.622 | 0.026 |
-| Source-distill | 0.573 | 0.256 | 0.482 | 0.083 | 0.622 | 0.026 |
-| ORTCL (LF)‡ | 0.538 | 0.004 | 0.375 | 0.009 | 0.370 | 0.091 |
-| ORTCL+HeadFT‡ | 0.582 | 0.011 | 0.563 | 0.139 | 0.458 | 0.093 |
-| **PACT (ours)** | **0.978** | 0.002 | **0.886** | 0.007 | **0.663** | 0.013 |
+| Full fine-tune | 0.640 | 0.283 | 0.654 | 0.345 | 0.584 | 0.128 |
+| Head fine-tune | 0.586 | 0.014 | 0.576 | 0.148 | 0.605 | 0.073 |
+| EWC | 0.590 | 0.002 | 0.526 | 0.096 | 0.620 | 0.007 |
+| MAS | 0.601 | 0.057 | 0.653 | 0.280 | 0.605 | 0.068 |
+| LwF | 0.549 | 0.256 | 0.723 | 0.176 | 0.622 | 0.046 |
+| Source-distill | 0.573 | 0.256 | 0.482 | 0.113 | 0.622 | 0.036 |
+| ORTCL (LF)‡ | 0.538 | 0.004 | 0.375 | 0.043 | 0.370 | 0.173 |
+| ORTCL+HeadFT‡ | 0.582 | 0.010 | 0.563 | 0.142 | 0.458 | 0.136 |
+| **PACT (ours)** | **0.978** | 0.002 | **0.886** | 0.010 | **0.663** | 0.023 |
 
 ‡ = ORTCL adapted to TSLANet (ICB rotation) on the domain-incremental chain; LF uses no labels, HeadFT uses 5% calib per domain.
 ---
@@ -60,11 +60,11 @@ All numbers rounded to 3 decimals. Source: `results/` (July 2026 runs).
 | Method | FD AA | FD F | HHAR AA | HHAR F | Sleep AA | Sleep F |
 |---|---|---|---|---|---|---|
 | Frozen (no adapt) | 0.535 | 0.000 | 0.525 | 0.000 | 0.635 | 0.000 |
-| Head fine-tune | 0.856 | 0.139 | 0.600 | 0.152 | 0.552 | 0.159 |
-| LwF (head) | 0.859 | 0.033 | 0.646 | 0.050 | 0.619 | 0.052 |
-| Source-distill (head) | 0.749 | 0.028 | 0.597 | 0.070 | 0.626 | 0.048 |
-| Adapters, no gate | 0.879 | 0.113 | 0.632 | 0.035 | 0.606 | 0.016 |
-| **PACT (ours)** | **0.984** | 0.001 | 0.627 | **0.017** | **0.638** | **0.011** |
+| Head fine-tune | 0.856 | 0.139 | 0.600 | 0.152 | 0.552 | 0.164 |
+| LwF (head) | 0.859 | 0.033 | 0.646 | 0.051 | 0.619 | 0.060 |
+| Source-distill (head) | 0.749 | 0.028 | 0.597 | 0.070 | 0.626 | 0.056 |
+| Adapters, no gate | 0.879 | 0.113 | 0.632 | 0.037 | 0.606 | 0.023 |
+| **PACT (ours)** | **0.984** | 0.001 | 0.627 | **0.018** | **0.638** | **0.020** |
 
 ---
 
@@ -72,13 +72,13 @@ All numbers rounded to 3 decimals. Source: `results/` (July 2026 runs).
 
 | Backbone | FD AA | FD F | HHAR AA | HHAR F | Sleep AA | Sleep F |
 |---|---|---|---|---|---|---|
-| TSLANet | 0.978 | 0.002 | **0.886** | 0.007 | **0.663** | 0.013 |
-| PatchTST | 0.889 | 0.003 | 0.767 | 0.022 | 0.653 | 0.010 |
-| MOMENT (frozen) | **0.984** | 0.001 | 0.627 | 0.017 | 0.638 | 0.011 |
-| Chronos-Bolt (frozen) | 0.977 | 0.002 | 0.630 | 0.013 | 0.620 | 0.008 |
-| Sundial (frozen) | 0.982 | 0.000 | 0.806 | 0.013 | 0.608 | 0.006 |
-| Time-MoE (frozen) | 0.943 | 0.006 | 0.757 | 0.017 | 0.519 | 0.015 |
-| Moirai (frozen) | 0.972 | 0.006 | 0.666 | 0.010 | 0.657 | 0.014 |
+| TSLANet | 0.978 | 0.002 | **0.886** | 0.010 | **0.663** | 0.023 |
+| PatchTST | 0.889 | 0.003 | 0.767 | 0.024 | 0.653 | 0.017 |
+| MOMENT (frozen) | **0.984** | 0.001 | 0.627 | 0.018 | 0.638 | 0.020 |
+| Chronos-Bolt (frozen) | 0.977 | 0.002 | 0.630 | 0.014 | 0.620 | 0.015 |
+| Sundial (frozen) | 0.982 | 0.000 | 0.806 | 0.015 | 0.608 | 0.010 |
+| Time-MoE (frozen) | 0.943 | 0.006 | 0.757 | 0.017 | 0.519 | 0.025 |
+| Moirai (frozen) | 0.972 | 0.006 | 0.666 | 0.012 | 0.657 | 0.022 |
 
 Chronos-T5 was dropped (too slow to run the full HHAR/Sleep-EDF chains) and
 replaced by Sundial, Time-MoE, and Moirai — see `scripts/tsfm.py` and
@@ -109,9 +109,9 @@ replaced by Sundial, Time-MoE, and Moirai — see `scripts/tsfm.py` and
 
 ## Table 6 — Hyperparameter ablations (FD chain)
 
-**Concepts K (TSLANet):** 4→0.968, 8→0.971, 16→0.978, 32→0.976, 64→0.975 (F ≤ 0.002)
+**Charts K (TSLANet):** 4→0.968, 8→0.971, 16→0.978, 32→0.976, 64→0.975 (F ≤ 0.002)
 
-**Concepts K (MOMENT):** 8→0.982, 16→0.984, 32→0.980 (F ≤ 0.004)
+**Charts K (MOMENT):** 8→0.982, 16→0.984, 32→0.980 (F ≤ 0.005)
 
 **Temperature τ:** 0.1→0.979, 0.3→0.979, 0.5→0.978, 1.0→0.978, 2.0→0.971
 

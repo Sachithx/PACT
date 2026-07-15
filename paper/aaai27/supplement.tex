@@ -105,6 +105,10 @@ epochs at $10^{-3}$. Source-distillation is a constructed baseline combining
 target cross-entropy with KL divergence from the frozen source model. ORTCL is
 ported to the final TSLANet ICB layer; the LF variant uses no target labels and
 ORTCL+HeadFT uses the same 5\% labeled split.
+These method-specific epoch counts reproduce the configured procedures but are
+not compute-matched: PACT fits transports and gates for 200 epochs, whereas the
+TSLANet baselines use 20 and frozen-TSFM head baselines use 80. We therefore do
+not interpret the comparisons as equal-compute benchmarks.
 
 \paragraph{Storage and measured cost.}
 For embedding width $p$, one full-rank bank adds $Kp(p+1)$ parameters per target
@@ -121,8 +125,8 @@ hardware metadata were not retained in the result artifact.
 
 \emph{Proof.}
 Let $c=\kappa(z)$ and $u=\hat z-z$. By the inference rule, the triangle
-inequality, the assumed pointwise bound
-$\lVert\Delta^{d}_{c}(z)\rVert_2\le B(z)$, and
+inequality, the definition
+$B(z)=\max_{d\in\{1,\ldots,T\}}\lVert\Delta^{d}_{c}(z)\rVert_2$, and
 $\sum_{d=1}^{T}\pi_{c,d}(z)=1-\pi_{c,0}(z)$,
 \begin{align}
 \lVert u\rVert_2

@@ -43,6 +43,7 @@ def parse_args():
     p.add_argument("--temperature", type=float, default=0.5)
     p.add_argument("--adapter_kind", choices=["identity", "lora"], default="identity")
     p.add_argument("--lora_rank", type=int, default=8)
+    p.add_argument("--adapter_weight_decay", type=float, default=0.0)
     p.add_argument("--gate_kind", choices=["learned", "prototype", "prototype_diag",
                                             "prototype_lowrank", "prototype_masked",
                                             "prototype_mixture", "analytic", "confidence"],
@@ -113,6 +114,7 @@ def main():
     cfg = PactConfig(k=args.k, emb_dim=model.emb_dim, calib_frac=args.calib_frac,
                      calib_n=args.calib_n, seed=args.seed, batch=args.batch,
                      adapter_kind=args.adapter_kind, lora_rank=args.lora_rank,
+                     adapter_weight_decay=args.adapter_weight_decay,
                      gate_kind=args.gate_kind)
     res = run_sequential(model, spec, order, DATA_ROOT, device, cfg,
                          temperature=args.temperature, verbose=True)
@@ -129,10 +131,18 @@ def main():
     labels = res["labels"]
     import pandas as pd
     pd.DataFrame(res["metrics"]).to_csv(out_dir / "metrics.csv", index=False)
+    pd.DataFrame(res["margin_diagnostics"]).to_csv(
+        out_dir / "margin_condition_source.csv", index=False
+    )
     pd.DataFrame(res["A_soft"], index=labels, columns=labels).to_csv(
         out_dir / "soft_f1_matrix.csv")
     pd.DataFrame(res["A_orc"], index=labels, columns=labels).to_csv(
         out_dir / "oracle_f1_matrix.csv")
+    diagnostics = res["margin_diagnostics"]
+    correct = diagnostics["correct"]
+    violation_rate = diagnostics["violation"][correct].mean() if correct.any() else float("nan")
+    print(f"Margin-condition violations on correctly classified source test samples: "
+          f"{violation_rate:.2%}")
     print(f"Results -> {out_dir}")
     print(f"Elapsed {time.time()-t0:.0f}s")
 

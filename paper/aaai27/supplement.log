@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  16 JUL 2026 00:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  16 JUL 2026 01:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -427,27 +427,27 @@ ocal/texlive/2025/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}
 
 {/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 10.0pt on input line 122.
+(Font)              scaled to size 10.0pt on input line 126.
 <figures/fig_backbones.pdf, id=14, 543.81985pt x 267.59007pt>
 File: figures/fig_backbones.pdf Graphic file (type pdf)
 <use figures/fig_backbones.pdf>
-Package pdftex.def Info: figures/fig_backbones.pdf  used on input line 148.
+Package pdftex.def Info: figures/fig_backbones.pdf  used on input line 152.
 (pdftex.def)             Requested size: 465.41786pt x 229.01237pt.
 <figures/fig_ablation.pdf, id=15, 543.76588pt x 227.6265pt>
 File: figures/fig_ablation.pdf Graphic file (type pdf)
 <use figures/fig_ablation.pdf>
-Package pdftex.def Info: figures/fig_ablation.pdf  used on input line 157.
+Package pdftex.def Info: figures/fig_ablation.pdf  used on input line 161.
 (pdftex.def)             Requested size: 465.41786pt x 194.83105pt.
 <figures/fig_robustness.pdf, id=16, 543.60524pt x 198.90688pt>
 File: figures/fig_robustness.pdf Graphic file (type pdf)
 <use figures/fig_robustness.pdf>
-Package pdftex.def Info: figures/fig_robustness.pdf  used on input line 168.
+Package pdftex.def Info: figures/fig_robustness.pdf  used on input line 172.
 (pdftex.def)             Requested size: 465.41786pt x 170.30083pt.
 <figures/fig_retention_matrices.pdf, id=17, 499.05104pt x 454.80577pt>
 File: figures/fig_retention_matrices.pdf Graphic file (type pdf)
 <use figures/fig_retention_matrices.pdf>
 Package pdftex.def Info: figures/fig_retention_matrices.pdf  used on input line
- 178.
+ 182.
 (pdftex.def)             Requested size: 465.41786pt x 424.16557pt.
 
 (./tables/appendix_tables.tex
@@ -487,7 +487,7 @@ L3 programming layer <2020/03/25>
 Here is how much of TeX's memory you used:
  7258 strings out of 467538
  115760 string characters out of 5419553
- 571527 words of memory out of 5000000
+ 572527 words of memory out of 5000000
  36036 multiletter control sequences out of 15000+600000
  669066 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -509,7 +509,7 @@ live/2025/texmf-dist/fonts/type1/public/tex-gyre/qtmr.pfb></usr/local/texlive/2
 f-dist/fonts/type1/public/newtx/ztmb.pfb></usr/local/texlive/2025/texmf-dist/fo
 nts/type1/public/newtx/ztmr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1
 /public/newtx/ztmri.pfb>
-Output written on supplement.pdf (8 pages, 478209 bytes).
+Output written on supplement.pdf (8 pages, 479155 bytes).
 PDF statistics:
  213 PDF objects out of 1000 (max. 8388607)
  122 compressed objects within 2 object streams

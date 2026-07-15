@@ -5,7 +5,7 @@ Fig 1 (tradeoff)    -- accuracy-forgetting scatter, domain-incremental chain,
 Fig 2 (backbones)   -- AA / F across five backbones, chain (Table 3).
 Fig 3 (ablation)    -- (a) component ablation FD chain (Table 4);
                        (b) gate routing FD/HHAR/Sleep (Table 5, TSLANet).
-Fig 4 (robustness)  -- (a) label-budget scaling (Table 6+7); (b) concept
+Fig 4 (robustness)  -- (a) label-budget scaling (Table 6+7); (b) chart
                        count K sweep; (c) gate temperature tau sweep (Table 6).
 
 All numbers hardcoded from results/tables/{ALL_TABLES.md,paper_tables.tex,
@@ -72,13 +72,13 @@ def fig_tradeoff():
     # name -> (color, marker, {dataset: (F, AA)})
     M = {
         "Frozen / no adaptation": (C["black"], "X", {"FD": (0.000, 0.574), "HHAR": (0.000, 0.349), "Sleep-EDF": (0.000, 0.622)}),
-        "Full fine-tune": (C["verm"], "o", {"FD": (0.283, 0.640), "HHAR": (0.345, 0.654), "Sleep-EDF": (0.116, 0.584)}),
-        "Head fine-tune": (C["sky"], "s", {"FD": (0.012, 0.586), "HHAR": (0.133, 0.576), "Sleep-EDF": (0.056, 0.605)}),
-        "EWC":            (C["orange"], "^", {"FD": (0.001, 0.590), "HHAR": (0.093, 0.526), "Sleep-EDF": (0.004, 0.620)}),
-        "MAS":            (C["purple"], "D", {"FD": (0.057, 0.601), "HHAR": (0.280, 0.653), "Sleep-EDF": (0.052, 0.605)}),
-        "LwF":            (C["blue"], "v", {"FD": (0.256, 0.549), "HHAR": (0.155, 0.723), "Sleep-EDF": (0.026, 0.622)}),
-        "Source-distill": (C["gray"], "P", {"FD": (0.256, 0.573), "HHAR": (0.083, 0.482), "Sleep-EDF": (0.026, 0.622)}),
-        "PACT (ours)":    (C["teal"], "*", {"FD": (0.002, 0.978), "HHAR": (0.007, 0.886), "Sleep-EDF": (0.013, 0.663)}),
+        "Full fine-tune": (C["verm"], "o", {"FD": (0.283, 0.640), "HHAR": (0.345, 0.654), "Sleep-EDF": (0.128, 0.584)}),
+        "Head fine-tune": (C["sky"], "s", {"FD": (0.014, 0.586), "HHAR": (0.148, 0.576), "Sleep-EDF": (0.073, 0.605)}),
+        "EWC":            (C["orange"], "^", {"FD": (0.002, 0.590), "HHAR": (0.096, 0.526), "Sleep-EDF": (0.007, 0.620)}),
+        "MAS":            (C["purple"], "D", {"FD": (0.057, 0.601), "HHAR": (0.280, 0.653), "Sleep-EDF": (0.068, 0.605)}),
+        "LwF":            (C["blue"], "v", {"FD": (0.256, 0.549), "HHAR": (0.176, 0.723), "Sleep-EDF": (0.046, 0.622)}),
+        "Source-distill": (C["gray"], "P", {"FD": (0.256, 0.573), "HHAR": (0.113, 0.482), "Sleep-EDF": (0.036, 0.622)}),
+        "PACT (ours)":    (C["teal"], "*", {"FD": (0.002, 0.978), "HHAR": (0.010, 0.886), "Sleep-EDF": (0.023, 0.663)}),
     }
     fig, axes = plt.subplots(1, 3, figsize=(FIGSIZE_W, 2.95), sharey=True)
     for ax, ds in zip(axes, DATASETS):
@@ -127,10 +127,10 @@ def fig_backbones():
         "Moirai (frozen)": [0.972, 0.666, 0.657],
     }
     F = {
-        "TSLANet": [0.002, 0.007, 0.013], "PatchTST": [0.003, 0.022, 0.010],
-        "MOMENT (frozen)": [0.001, 0.017, 0.011], "Chronos-Bolt (frozen)": [0.002, 0.013, 0.008],
-        "Sundial (frozen)": [0.000, 0.013, 0.006], "Time-MoE (frozen)": [0.006, 0.017, 0.015],
-        "Moirai (frozen)": [0.006, 0.010, 0.014],
+        "TSLANet": [0.002, 0.010, 0.023], "PatchTST": [0.003, 0.024, 0.017],
+        "MOMENT (frozen)": [0.001, 0.018, 0.020], "Chronos-Bolt (frozen)": [0.002, 0.014, 0.015],
+        "Sundial (frozen)": [0.000, 0.015, 0.010], "Time-MoE (frozen)": [0.006, 0.017, 0.025],
+        "Moirai (frozen)": [0.006, 0.012, 0.022],
     }
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(FIGSIZE_W, 4.3), sharex=True,
                                   gridspec_kw={"height_ratios": [3, 1.3]})
@@ -224,10 +224,10 @@ def fig_robustness():
     b.set_xscale("log", base=2)
     b.set_xticks([4, 8, 16, 32, 64])
     b.set_xticklabels(["4", "8", "16", "32", "64"])
-    b.set_xlabel(r"Concepts $K$")
+    b.set_xlabel(r"Charts $K$")
     b.set_ylabel(r"AA  ($\uparrow$, FD chain)")
     b.set_ylim(0.955, 0.995)
-    b.set_title("(b) Concept count", fontsize=9)
+    b.set_title("(b) Chart count", fontsize=9)
     b.grid(True, linewidth=0.5, color="#e1e0d9", zorder=0)
     b.legend(frameon=False, loc="lower center", fontsize=7.5)
     _spines_off(b)

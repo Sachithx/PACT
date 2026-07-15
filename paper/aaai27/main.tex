@@ -454,16 +454,16 @@ Fig.~\ref{fig:locality}. All three are computed on source embeddings partitioned
 into $K$ regions by $k$-means, with centroids $\{\mu_c\}_{c=1}^{K}$ and hard
 assignment $\kappa(z)=\arg\min_c\lVert z-\mu_c\rVert_2$.
 
-\paragraph{(a) Damage is heterogeneous across regions.}
-For region $c$ and target domain $d$, let $A_c(\mathcal{D})$ be the macro-$F_1$
+\paragraph{(a) Damage is heterogeneous across charts.}
+For chart $c$ and target domain $d$, let $A_c(\mathcal{D})$ be the macro-$F_1$
 of the frozen pair $(f_\theta,h_\phi)$ restricted to samples of $\mathcal{D}$
-assigned to region $c$. The region-conditional degradation is
+assigned to chart $c$. The chart-conditional degradation is
 \begin{equation}
 \delta_c^{(d)} \;=\; A_c(\mathcal{D}_0)\;-\;A_c(\mathcal{D}_d).
 \end{equation}
 Were shift global, $\{\delta_c^{(d)}\}_c$ would be near-constant in $c$. It is
-not. Its coefficient of variation across regions is large, and a nontrivial
-fraction of regions satisfy $\delta_c^{(d)}\approx 0$.
+not. Its coefficient of variation across supported charts is large, and a
+nontrivial fraction of supported charts satisfy $\delta_c^{(d)}\approx 0$.
 
 \paragraph{(b) One affine map cannot fit the shift, several can.}
 Fit the best single affine correction on the calibration set by minimizing the
@@ -475,18 +475,16 @@ frozen-head risk,
 \frac{1}{|\mathcal{C}_d|}\!\!\sum_{(x,y)\in\mathcal{C}_d}\!\!
 \ell_{\mathrm{CE}}\big(h_\phi(Wz+b),\,y\big),
 \end{equation}
-and compare it against a piecewise-affine correction with one map per region,
-\begin{align}
+and compare it against a piecewise-affine correction with one map per chart.
+For chart $c$, write
+$\ell_c(z,y)=\ell_{\mathrm{CE}}(h_\phi(W_cz+b_c),y)$. Then
+\begin{equation}
 \mathcal{R}_{\mathrm{atlas}}(d;K)
-&=
+=
 \min_{\{W_c,b_c\}}\;
 \frac{1}{|\mathcal{C}_d|}\!\!\sum_{(x,y)\in\mathcal{C}_d}\!\!
-\ell_{\kappa(z)}(z,y),
-\notag\\
-\ell_c(z,y)
-&=
-\ell_{\mathrm{CE}}\big(h_\phi(W_cz+b_c),\,y\big).
-\end{align}
+\ell_{\kappa(z)}(z,y).
+\end{equation}
 All $K$ values use the same 5\% stratified calibration split for fitting and the
 same disjoint domain test split for evaluation. Each affine map has $p^2+p$
 parameters and is regularized toward the identity with weight $10^{-3}$; the
@@ -512,9 +510,9 @@ degradation: a global correction can alter already-correct embeddings.
 
 \paragraph{Consequences.}
 Three design commitments follow directly, and we adopt no others.
-\textbf{(i)} Corrections must be \emph{local}, defined on regions rather than on
+\textbf{(i)} Corrections must be \emph{local}, defined on charts rather than on
 the whole space. \textbf{(ii)} Each correction must be \emph{anchored at the
-identity}, so that a region needing no change receives none. \textbf{(iii)} A
+identity}, so that a chart needing no change receives none. \textbf{(iii)} A
 correction learned for one domain must be \emph{frozen}, so that later domains
 cannot reach back and displace it.
 
@@ -522,14 +520,14 @@ cannot reach back and displace it.
 \centering
 \includegraphics[width=.92\textwidth]{figures/fig_locality.pdf}
 \caption{\textbf{Distribution shift acts locally.}
-(a)~Per-region macro-$F_1$ drop is highly heterogeneous: some regions degrade
-sharply while others remain intact.
+(a)~Per-chart macro-$F_1$ drop is highly heterogeneous among supported charts;
+``n/a'' marks charts with no target-domain support.
 (b)~Maps are fitted on the labeled calibration split and evaluated on the
 disjoint test split; the residual falls sharply as local capacity is introduced,
 supporting a piecewise model of the observed shift.
 (c)~A global map fitted to the most shifted target changes target and source
 margins differently and reduces source macro-$F_1$, illustrating one mechanism
-associated with source degradation.}
+associated with source degradation; charts without target support are omitted.}
 \label{fig:locality}
 \end{figure*}
 
@@ -546,8 +544,8 @@ and it learns it one region at a time.
 
 \paragraph{Charts.}
 We compute $\{\mu_c\}_{c=1}^{K}$ once on $Z_0$ by $k$-means and never update
-them. We use the term \emph{chart} informally for a local Voronoi region
-represented by a centroid, and assign an embedding to its nearest chart,
+them. We call these local Voronoi regions \emph{charts}. Each chart is
+represented by a centroid, and an embedding is assigned to its nearest chart,
 \begin{equation}
 \kappa(z)=\arg\min_{c\in\{1,\ldots,K\}}\lVert z-\mu_c\rVert_2.
 \label{eq:chart-assignment}
@@ -669,13 +667,18 @@ and define the identity mass assigned to $z$ as
 \begin{equation}
 \pi_0(z) \;=\; \pi_{\kappa(z),0}(z) \;\in\; [0,1].
 \end{equation}
+Finally, define the largest available residual correction at $z$ as
+\begin{equation}
+B(z) \;=\; \max_{d\in\{1,\ldots,T\}}
+\big\lVert\Delta^d_{\kappa(z)}(z)\big\rVert_2.
+\end{equation}
+Unlike the parameter-space identity penalty, $B(z)$ is a pointwise quantity
+that can be computed directly for any embedding and fitted atlas.
 
 \begin{proposition}[Margin-bounded non-degradation]
 \label{prop:margin}
 Let $z$ be any embedding that the frozen model classifies correctly, so
-$m(z)>0$, and suppose
-$\lVert\Delta^d_{\kappa(z)}(z)\rVert_2\le B(z)$ for every adapted domain $d$.
-Then
+$m(z)>0$. Then
 \begin{equation}
 \big\lVert \hat z - z \big\rVert_2 \;\le\; \big(1-\pi_0(z)\big)\,B(z) ,
 \end{equation}
@@ -688,11 +691,13 @@ In particular, if $\pi_0(z)=1$ then $\hat z = z$ exactly and the prediction is
 identical to that of the original frozen model.
 \end{proposition}
 
-The proof is given in the supplementary material. This is a conditional
-prediction-preservation result, not a claim of zero forgetting: degradation
-requires both low identity mass and a sufficiently large residual correction.
-The identity anchor in Eq.~\eqref{eq:transport-loss} discourages the latter,
-while the explicit source branch makes the former measurable.
+The proof is given in the supplementary material. The displacement bound is
+unconditional by definition of $B(z)$; prediction preservation remains
+conditional on Eq.~\eqref{eq:margin-condition}. This is not a claim of zero
+forgetting: degradation requires both low identity mass and a sufficiently
+large residual correction. The identity anchor in
+Eq.~\eqref{eq:transport-loss} discourages the latter, while both factors in the
+condition are measurable after fitting.
 
 \paragraph{The gap that measures routing error.}
 Because misrouting is the sole degradation channel left by the frozen host, it
@@ -748,6 +753,11 @@ dataset; this is the native setting of UDA/TTA baselines. The
 \emph{domain-incremental chain} protocol---the setting PACT
 targets---presents all domains of a dataset sequentially, so that
 forgetting on earlier domains is measured directly after the full stream.
+Pairwise runs refit the source model for each ordered source--target pair and
+then average across pairs; chain runs fit one fixed source model and follow one
+complete domain order. Their frozen/source-only scores are therefore not
+expected to match (for example, HHAR averages many pairwise sources but the
+chain begins from User~0).
 
 \paragraph{Backbones.}
 We instantiate PACT on two specialist encoders (TSLANet, PatchTST)
@@ -771,10 +781,14 @@ combined with KL distillation from the frozen source model.
 
 \paragraph{Metrics.}
 Let $A_{t,j}$ be the macro-$F_1$ on domain $j$ after adapting through domain $t$. After the full stream ($t=T$) we report
-\emph{Average macro-$F_1$ (AA)}
+\emph{Average macro-$F_1$}
 $\mathrm{AA}=\frac{1}{T+1}\sum_{j=0}^{T}A_{T,j}$\;($\uparrow$);
+\emph{Backward Transfer}
+$\mathrm{BWT}=\frac{1}{T}\sum_{j=0}^{T-1}(A_{T,j}-A_{j,j})$
+($\uparrow$; negative values indicate net degradation);
 \emph{Forgetting}
-$F=\frac{1}{T}\sum_{j=0}^{T-1}\max(0,A_{j,j}-A_{T,j})$\;($\downarrow$, 0 = none);
+$F=\frac{1}{T}\sum_{j=0}^{T-1}
+\max(0,\max_{j\le l<T}A_{l,j}-A_{T,j})$\;($\downarrow$, 0 = none);
 and \emph{Relative Forgetting}
 $\mathrm{RF}=\frac{1}{T}\sum_{j=0}^{T-1}
 \frac{\max(0,\max_{j\le l<T}A_{l,j}-A_{T,j})}
@@ -799,8 +813,9 @@ non-adapted model and never recover the drift.
 
 On FD, PACT reaches AA $= 0.978$ with $F = 0.002$, while the
 next-best baseline (MAS) achieves only $0.601$. On HHAR with 9 domains,
-PACT attains $0.886$ while all baselines remain below $0.723$. On
-Sleep-EDF, PACT leads at $0.663$ against a best baseline of $0.622$.
+PACT attains $0.886$ with $F=0.010$ while all baselines remain below $0.723$.
+On Sleep-EDF, PACT leads at $0.663$ with $F=0.023$ against a best baseline of
+$0.622$.
 On the pairwise AdaTime benchmark, PACT attains the best AA on FD ($0.981$)
 and HHAR ($0.963$) while holding $F\!\le\!0.001$. On Sleep-EDF, PACT reaches
 $0.715$, behind source-distillation at $0.721$, under the same 5\%
@@ -808,7 +823,7 @@ target-label budget.
 
 We note one honest exception: on HHAR with frozen MOMENT, LwF restricted to the head reaches
 marginally higher average macro-$F_1$ than PACT ($0.646$ vs.\ $0.627$) but at roughly
-$3\times$ the forgetting ($F$: $0.050$ vs.\ $0.017$)---the one setting in the
+$3\times$ the forgetting ($F$: $0.051$ vs.\ $0.018$)---the one setting in the
 paper where a baseline is not strictly dominated on both axes.
 
 %---------------------------------------------------------------------
@@ -818,7 +833,7 @@ Because PACT only requires an embedding and a frozen head, it applies
 unchanged to specialist encoders and to forecasting-pretrained TSFMs used
 purely as frozen feature extractors. Across seven backbones,
 measured forgetting remains low
-($F\!\le\!0.022$ everywhere). The two backbone families are complementary:
+($F\!\le\!0.025$ everywhere). The two backbone families are complementary:
 the frozen TSFMs (MOMENT, Chronos-Bolt, Sundial, Moirai) cluster at the top
 on FD (up to $0.984$), while the lighter specialist TSLANet is strongest on
 HHAR ($0.886$) and Sleep-EDF ($0.663$); Time-MoE trails the other TSFMs on FD ($0.943$) but is
@@ -859,7 +874,7 @@ $\tau\in[0.1,2.0]$; full-affine and rank-8 residual transports differ by
 $0.007$ AA.
 With frozen MOMENT, average macro-$F_1$ generally increases with the calibration budget
 (FD rises from $0.955$ at 1\% to $0.993$ at 20\%), and forgetting remains
-$F\!\le\!0.004$ throughout the sweeps. Full curves and order-sensitivity
+below $0.025$ throughout the sweeps. Full curves and order-sensitivity
 tables are in the supplementary material.
 
 %---------------------------------------------------------------------
@@ -891,6 +906,10 @@ calibration per domain is extremely sparse, the learned gate may not
 separate overlapping distributions; the HHAR results ($0.886$ with TSLANet
 but $0.627$ with frozen MOMENT) show that gate quality depends on the
 separability of the underlying embeddings.
+Hard nearest-centroid chart assignment can also misroute a shifted embedding
+that crosses a chart boundary; soft top-$k$ chart assignment is an important
+ablation and extension. Future work will additionally study multi-layer chart
+discovery inside foundation models and session-level domain routing.
 
 \bibliography{aaai2027}
 

@@ -36,6 +36,7 @@ class PactConfig:
     calib_n: int | None = None      # fixed label budget; overrides calib_frac when set
     adapter_ep: int = 200
     adapter_lr: float = 1e-3
+    adapter_weight_decay: float = 0.0
     gate_ep: int = 200
     gate_lr: float = 1e-3
     penalty: float = 1e-3
@@ -68,7 +69,11 @@ def extract_embs(model, loader, device):
 def train_adapters(calib_embs, calib_lbls, centroids, frozen_head, device, cfg: PactConfig):
     """Train K adapters for one domain's calibration data."""
     adapters = make_adapter_bank(cfg.k, cfg.emb_dim, cfg.adapter_kind, cfg.lora_rank).to(device)
-    opt = torch.optim.AdamW(adapters.parameters(), lr=cfg.adapter_lr)
+    opt = torch.optim.AdamW(
+        adapters.parameters(),
+        lr=cfg.adapter_lr,
+        weight_decay=cfg.adapter_weight_decay,
+    )
     crit = nn.CrossEntropyLoss()
     asgn = assign_concepts(calib_embs, centroids)
 

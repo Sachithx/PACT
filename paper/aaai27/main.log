@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  16 JUL 2026 00:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  16 JUL 2026 01:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -522,55 +522,57 @@ LaTeX Font Info:    Font shape `T1/ntxtlf/m/sc' will be
 <figures/fig_locality.pdf, id=67, 492.75845pt x 197.24182pt>
 File: figures/fig_locality.pdf Graphic file (type pdf)
 <use figures/fig_locality.pdf>
-Package pdftex.def Info: figures/fig_locality.pdf  used on input line 523.
+Package pdftex.def Info: figures/fig_locality.pdf  used on input line 521.
 (pdftex.def)             Requested size: 465.41786pt x 186.29817pt.
 [4]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/scit' will be
-(Font)              scaled to size 10.0pt on input line 682.
+(Font)              scaled to size 10.0pt on input line 685.
 <figures/fig_tradeoff.pdf, id=71, 543.76588pt x 236.82753pt>
 File: figures/fig_tradeoff.pdf Graphic file (type pdf)
 <use figures/fig_tradeoff.pdf>
-Package pdftex.def Info: figures/fig_tradeoff.pdf  used on input line 724.
+Package pdftex.def Info: figures/fig_tradeoff.pdf  used on input line 729.
 (pdftex.def)             Requested size: 465.41786pt x 202.70645pt.
  [5 <./figures/fig_locality.pdf>]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 7.0pt on input line 762.
+(Font)              scaled to size 7.0pt on input line 772.
 LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 7.0pt on input line 762.
+(Font)              scaled to size 7.0pt on input line 772.
 
-Underfull \hbox (badness 2452) in paragraph at lines 773--786
+Underfull \hbox (badness 2452) in paragraph at lines 783--800
  \T1/ntxtlf/b/n/10 Met-rics. \T1/ntxtlf/m/n/10 Let $\OML/cmm/m/it/10 A[]$ \T1/n
 txtlf/m/n/10 be the macro-$\OML/cmm/m/it/10 F[]$ \T1/ntxtlf/m/n/10 on do-main $
 \OML/cmm/m/it/10 j$
  []
 
 
-Underfull \hbox (badness 5954) in paragraph at lines 773--786
+Underfull \hbox (badness 5954) in paragraph at lines 783--800
 \T1/ntxtlf/m/n/10 af-ter adapt-ing through do-main $\OML/cmm/m/it/10 t$\T1/ntxt
 lf/m/n/10 . Af-ter the full
  []
 
 
-Underfull \hbox (badness 6526) in paragraph at lines 773--786
+Underfull \hbox (badness 6526) in paragraph at lines 783--800
 \T1/ntxtlf/m/n/10 stream ($\OML/cmm/m/it/10 t \OT1/cmr/m/n/10 = \OML/cmm/m/it/1
 0 T$\T1/ntxtlf/m/n/10 ) we re-port \T1/ntxtlf/m/it/10 Av-er-age macro-$\OML/cmm
 /m/it/10 F[]$
  []
 
 
-Underfull \hbox (badness 2495) in paragraph at lines 773--786
-\T1/ntxtlf/m/it/10 (AA) $[] \OT1/cmr/m/n/10 = [] [][] \OML/cmm/m/it/10 A[]$\T1/
-ntxtlf/m/n/10 ($\OMS/cmsy/m/n/10 "$\T1/ntxtlf/m/n/10 ); \T1/ntxtlf/m/it/10 For-
-get-ting $\OML/cmm/m/it/10 F \OT1/cmr/m/n/10 =
+Underfull \hbox (badness 1014) in paragraph at lines 783--800
+\OML/cmm/m/it/10 A[]\OT1/cmr/m/n/10 )$\T1/ntxtlf/m/n/10 ($\OMS/cmsy/m/n/10 #$\T
+1/ntxtlf/m/n/10 , 0 = none); and \T1/ntxtlf/m/it/10 Rel-a-tive For-get-ting $[]
+ \OT1/cmr/m/n/10 =
  []
 
 [6 <./figures/fig_tradeoff.pdf>]
-Underfull \hbox (badness 1874) in paragraph at lines 834--842
+Underfull \hbox (badness 1874) in paragraph at lines 849--857
 \T1/ntxtlf/m/n/10 Macro-$\OML/cmm/m/it/10 F[]$ \T1/ntxtlf/m/n/10 rises mono-ton
 -i-cally from the frozen head
  []
 
-(./main.bbl [7]) [8] (./main.aux)
+(./main.bbl [7] [8]) [9
+
+] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
@@ -602,10 +604,10 @@ e/2025/texmf-dist/fonts/type1/public/tex-gyre/qtmr.pfb></usr/local/texlive/2025
 st/fonts/type1/public/newtx/ztmbi.pfb></usr/local/texlive/2025/texmf-dist/fonts
 /type1/public/newtx/ztmr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
 blic/newtx/ztmri.pfb>
-Output written on main.pdf (8 pages, 540183 bytes).
+Output written on main.pdf (9 pages, 543930 bytes).
 PDF statistics:
- 222 PDF objects out of 1000 (max. 8388607)
- 128 compressed objects within 2 object streams
+ 226 PDF objects out of 1000 (max. 8388607)
+ 130 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

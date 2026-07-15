@@ -67,27 +67,42 @@ def fig_locality():
 
     # (a) Heterogeneous local damage.
     drop = (
-        panel_a.groupby("cluster", as_index=False)["drop"]
-        .mean()
-        .dropna()
-        .sort_values("drop", ascending=True)
+        panel_a.groupby("cluster")["drop"]
+        .agg(drop="mean", support_domains="count")
+        .reset_index()
     )
+    supported = drop[drop["support_domains"] > 0].sort_values("drop", ascending=True)
+    unsupported = drop[drop["support_domains"] == 0].sort_values("cluster")
+    drop = pd.concat([supported, unsupported], ignore_index=True)
+    y = np.arange(len(drop))
     ax_a.barh(
-        np.arange(len(drop)),
-        drop["drop"],
+        y[drop["support_domains"] > 0],
+        drop.loc[drop["support_domains"] > 0, "drop"],
         color=C["blue"],
         edgecolor="black",
         linewidth=0.35,
         zorder=3,
     )
+    for yi in y[drop["support_domains"] == 0]:
+        ax_a.axhspan(
+            yi - 0.38,
+            yi + 0.38,
+            facecolor="white",
+            edgecolor="#aaaaaa",
+            hatch="////",
+            linewidth=0.45,
+            zorder=1,
+        )
+        ax_a.text(0.5, yi, "n/a", ha="center", va="center", fontsize=6.8, color="#555555")
     ax_a.axvline(0, color="#333333", linewidth=0.7)
-    ax_a.set_yticks(np.arange(len(drop)))
+    ax_a.set_xlim(0, 1.05)
+    ax_a.set_yticks(y)
     ax_a.set_yticklabels([f"c{int(c)}" for c in drop["cluster"]])
     ax_a.set_xlabel(r"Chart-wise macro-$F_1$ drop")
     ax_a.set_ylabel("Chart")
     ax_a.set_title("(a) Shift is local")
     ax_a.grid(True, axis="x", color=C["grid"], linewidth=0.45, zorder=0)
-    cv = np.nanstd(drop["drop"]) / max(np.nanmean(drop["drop"]), 1e-9)
+    cv = np.nanstd(supported["drop"]) / max(np.nanmean(supported["drop"]), 1e-9)
     ax_a.text(
         0.98,
         0.05,

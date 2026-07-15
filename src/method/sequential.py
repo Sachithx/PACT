@@ -2,7 +2,7 @@
 
 Domains arrive one at a time. At step t:
   1. draw a calib_frac labelled slice from domain t;
-  2. train a frozen per-concept adapter bank A_t for it;
+  2. train a frozen per-chart adapter bank A_t for it;
   3. retrain the (t+1)-way soft gate on accumulated calibration (src + 1..t);
   4. evaluate on all seen domains [0..t] (soft mixture / hard gate / oracle);
   5. accumulate CL metrics.
@@ -11,13 +11,14 @@ Host-level forgetting is 0 by construction (backbone + head + past adapters
 all frozen); non-trivial BWT can only come from gate routing changes, so
 near-zero BWT is a genuine result.
 
-CL metrics follow Lopez-Paz & Ranzato (GEM, NeurIPS 2017) for AA/BWT/F and the
-DualCD definitions for RF/PRF.
+AA and BWT follow Lopez-Paz & Ranzato (GEM, NeurIPS 2017). F, RF, and PRF use
+the running maximum over each domain's evaluation history as their reference.
 """
 
 import numpy as np
 import torch
 from sklearn.metrics import accuracy_score, f1_score
+from ..cl_metrics import compute_cl_metrics
 from ..data.calib import calib_indices
 from ..models.concepts import assign_concepts, kmeans_numpy
 from ..models.gate import (build_prototype_gates, build_prototype_gates_diag,
@@ -67,50 +68,6 @@ def fit_gates(src_embs, src_asgn, accumulated_calib, device, cfg: PactConfig,
     raise ValueError(f"Unknown gate_kind: {cfg.gate_kind!r}")
 
 
-# ── CL metrics ─────────────────────────────────────────────────────────────────
-
-def compute_cl_metrics(A, t, include_source=True):
-    """AA, BWT, F, RF, PRF up to step t from a NaN-padded T x T matrix A.
-
-    BWT = mean per-domain (final - first-seen).
-    F   = mean per-domain max(0, -(final - first-seen)) (per-domain, so it does
-          not hide cancellations between domains).
-    RF/PRF use the DualCD peak-over-intermediate-rows definition.
-    """
-    seen = t + 1
-    AA = float(np.nanmean(A[t, :seen]))
-    start_j = 0 if include_source else 1
-
-    bwt_vals, f_vals = [], []
-    for j in range(start_j, seen):
-        if j == t or np.isnan(A[j, j]) or np.isnan(A[t, j]):
-            continue
-        delta = A[t, j] - A[j, j]
-        bwt_vals.append(delta)
-        f_vals.append(max(0.0, -delta))
-    BWT = float(np.mean(bwt_vals)) if bwt_vals else 0.0
-    F = float(np.mean(f_vals)) if f_vals else 0.0
-
-    rf_list, prf_list = [], []
-    for j in range(start_j, seen):
-        if j == t:
-            continue
-        final_j = A[t, j]
-        if np.isnan(final_j):
-            continue
-        peak_vals = [A[i, j] for i in range(j, t) if not np.isnan(A[i, j])]
-        if not peak_vals:
-            continue
-        peak_j = max(peak_vals)
-        drop = max(0.0, peak_j - final_j)
-        rf_j = drop / (peak_j + 1e-9)
-        rf_list.append(rf_j)
-        prf_list.append((1.0 - final_j) * rf_j)
-    RF = float(np.mean(rf_list)) if rf_list else 0.0
-    PRF = float(np.mean(prf_list)) if prf_list else 0.0
-    return AA, BWT, F, RF, PRF
-
-
 @torch.no_grad()
 def predict_soft_mixture(embs_np, centroids, soft_gates, adapters_list,
                          frozen_head, device, temperature, k):
@@ -135,6 +92,60 @@ def predict_soft_mixture(embs_np, centroids, soft_gates, adapters_list,
             mixed = mixed + wts[:, r + 1: r + 2] * adp_r[c](batch_c)
         corr[mask_c] = mixed
     return frozen_head(corr).argmax(1).cpu().numpy()
+
+
+@torch.no_grad()
+def margin_condition_diagnostics(embs_np, labels_np, centroids, soft_gates,
+                                 adapters_list, frozen_head, device,
+                                 temperature, k):
+    """Evaluate Proposition 1's pointwise condition on labeled embeddings."""
+    assignments = assign_concepts(embs_np, centroids)
+    embs = torch.from_numpy(embs_np).to(device)
+    labels = torch.from_numpy(labels_np).long().to(device)
+    identity_mass = torch.ones(len(embs), device=device)
+    residual_bound = torch.zeros(len(embs), device=device)
+
+    for c in range(k):
+        mask_np = assignments == c
+        if not mask_np.any():
+            continue
+        indices = torch.from_numpy(np.flatnonzero(mask_np)).long().to(device)
+        batch = embs[indices]
+        gate = soft_gates[c] if c < len(soft_gates) else None
+        if gate is not None:
+            gate.eval()
+            identity_mass[indices] = torch.softmax(
+                gate(batch) / temperature, dim=1
+            )[:, 0]
+
+        residual_norms = []
+        for adapters in adapters_list:
+            adapters[c].eval()
+            residual_norms.append(torch.linalg.vector_norm(adapters[c](batch) - batch, dim=1))
+        if residual_norms:
+            residual_bound[indices] = torch.stack(residual_norms, dim=1).amax(dim=1)
+
+    logits = frozen_head(embs)
+    true_logits = logits.gather(1, labels[:, None]).squeeze(1)
+    competing_logits = logits.clone()
+    competing_logits[torch.arange(len(labels), device=device), labels] = -torch.inf
+    margin = true_logits - competing_logits.amax(dim=1)
+    lipschitz = torch.linalg.vector_norm(frozen_head.weight, dim=1).amax()
+    displacement_bound = (1.0 - identity_mass) * residual_bound
+    margin_threshold = margin / (2.0 * lipschitz)
+    correct = margin > 0
+    violation = correct & (displacement_bound >= margin_threshold)
+
+    return {
+        "chart": assignments,
+        "correct": correct.cpu().numpy(),
+        "identity_mass": identity_mass.cpu().numpy(),
+        "residual_bound": residual_bound.cpu().numpy(),
+        "displacement_bound": displacement_bound.cpu().numpy(),
+        "margin": margin.cpu().numpy(),
+        "margin_threshold": margin_threshold.cpu().numpy(),
+        "violation": violation.cpu().numpy(),
+    }
 
 
 # ── Sequential procedure ────────────────────────────────────────────────────────
@@ -220,5 +231,10 @@ def run_sequential(model, spec, domain_order, data_root, device, cfg: PactConfig
             print(f"Step {t} — {lbl_t:<10} AA={AA:.4f} BWT={BWT:+.4f} "
                   f"F_all={F_all:.4f} F_tgt={F_tgt:.4f} RF={RF:.4f} PRF={PRF:.4f}")
 
+    margin_diagnostics = margin_condition_diagnostics(
+        test_embs[labels[0]], test_lbls[labels[0]], centroids, soft_gates,
+        adapters_list, frozen_head, device, temperature, cfg.k,
+    )
     return dict(labels=labels, A_soft=A_soft, A_hard=A_hard, A_orc=A_orc,
-                ACC=ACC, metrics=metrics_rows, centroids=centroids)
+                ACC=ACC, metrics=metrics_rows, centroids=centroids,
+                margin_diagnostics=margin_diagnostics)

@@ -4,7 +4,7 @@ Produces, from results/{sequential,sequential_tsfm,controls}:
   1. MAIN     : PACT per (dataset, backbone) at the base config.
   2. GATE     : soft vs hard vs oracle routing (from gate_ablation.csv logic).
   3. CONTROLS : no-adapt / no-gate / full-FT vs PACT (isolates each component).
-  4. K        : concept-count sweep.
+  4. K        : chart-count sweep.
   5. TEMP     : gate temperature sweep.
   6. BUDGET   : calibration label-budget sweep.
   7. ADAPTER  : identity vs LoRA adapters.
@@ -21,9 +21,12 @@ import pandas as pd
 
 import _bootstrap  # noqa: F401
 from _bootstrap import RESULTS_ROOT
-from src.method.sequential import compute_cl_metrics
+from src.cl_metrics import compute_cl_metrics
 
 DATASETS = ["fd", "hhar", "sleep"]
+PAPER_BACKBONES = [
+    "tslanet", "patchtst", "moment", "chronos-bolt", "sundial", "time-moe", "moirai"
+]
 TABLES = RESULTS_ROOT / "tables"
 
 
@@ -94,6 +97,18 @@ def _isbase_adapter(a):
     return pd.isna(a) or a == "identity"
 
 
+def is_campaign_run(r):
+    """Exclude exploratory gate variants from the paper campaign tables."""
+    if r["backbone"] not in PAPER_BACKBONES:
+        return False
+    tag = r["tag"]
+    if r["backbone"] in ("tslanet", "patchtst"):
+        pattern = rf"{r['dataset']}_{r['backbone']}_[a-z0-9_]+_K\d+_c\d+_t[\d.]+_(identity|lora)"
+    else:
+        pattern = rf"{r['dataset']}_{r['backbone']}_[a-z0-9_]+_K\d+_c\d+"
+    return re.fullmatch(pattern, tag) is not None
+
+
 def is_base(r):
     return (r["order"] in ("adatime", "default") and r["K"] == 16 and r["c"] == 5
             and _isbase_t(r["t"]) and _isbase_adapter(r["adapter"]))
@@ -102,6 +117,7 @@ def is_base(r):
 def main():
     TABLES.mkdir(parents=True, exist_ok=True)
     df = collect_runs()
+    df = df[df.apply(is_campaign_run, axis=1)]
 
     # 1. MAIN (base config)
     main_df = df[df.apply(is_base, axis=1)].sort_values(["dataset", "backbone"])
@@ -114,15 +130,21 @@ def main():
     croot = RESULTS_ROOT / "controls"
     if croot.exists():
         for d in sorted(croot.iterdir()):
-            s = d / "summary.csv"
-            if not s.exists():
-                continue
             info = parse_tag(d.name.replace("_fullft", "_K0_c0"))
-            sdf = pd.read_csv(s)
-            for _, r in sdf.iterrows():
+            if info is None or info["backbone"] not in PAPER_BACKBONES:
+                continue
+            matrices = {
+                "no-adapt": d / "noadapt_f1_matrix.csv",
+                "no-gate": d / "nogate_f1_matrix.csv",
+                "full-ft": d / "fullft_f1_matrix.csv",
+            }
+            for control, matrix in matrices.items():
+                if not matrix.exists():
+                    continue
+                aa, bwt, f, rf, prf = metrics_from_matrix(matrix)
                 ctrl_rows.append(dict(dataset=info["dataset"], backbone=info["backbone"],
-                                      method=r["control"], AA=r["AA"], BWT=r["BWT"],
-                                      F=r["F"], RF=r["RF"], PRF=r["PRF"]))
+                                      method=control, AA=aa, BWT=bwt,
+                                      F=f, RF=rf, PRF=prf))
     # add PACT base for reference
     for _, r in main_df.iterrows():
         ctrl_rows.append(dict(dataset=r["dataset"], backbone=r["backbone"],

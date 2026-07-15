@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1784133874.44907 "main.aux" "main.bbl" "main" 1784133875.29223 0
+["bibtex main"] 1784135713.62686 "main.aux" "main.bbl" "main" 1784136836.40947 0
   "./aaai2027.bib" 1784131720.59312 65353 a9dbfd1ef4c8ad743e23c6da41a58834 ""
   "./aaai2027.bst" 1784127385.57984 30207 bd248dfe461b9b2fc7481a44feafe197 ""
-  "main.aux" 1784133875.00956 5168 0f5976ad9703065c45e9f6534406c467 "pdflatex"
+  "main.aux" 1784136836.15825 5168 f06ee9c01d71011a119e0e813333b2c6 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1784133874.54788 "main.tex" "main.pdf" "main" 1784133875.29236 0
+["pdflatex"] 1784136835.72605 "main.tex" "main.pdf" "main" 1784136836.40959 0
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf-pc.enc" 1698694482 3136 bbe665bd0bb471a2da1e8fd326cff9fa ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc" 1698694482 2914 fdbc4a54b9bc76f4551b5303f2737d33 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/tex-gyre/q-ts1.enc" 1529098226 3124 3813fd4c981d99822890a2861b0d274c ""
@@ -122,11 +122,11 @@
   "/usr/local/texlive/2025/texmf.cnf" 1767205061.23674 577 418a7058ec8e006d8704f60ecd22c938 ""
   "aaai2027.sty" 1784127385.40462 16915 1b1c792e2acfbbd8b672259e267b95d8 ""
   "figures/fig_intro_chain_moment.pdf" 1784130857.54959 78468 14b9db43bb9a92bd06d4f2b4d166ef48 ""
-  "figures/fig_locality.pdf" 1784133858.47543 71013 e5cfd98231b38af465e8b903c12e9d41 ""
-  "figures/fig_tradeoff.pdf" 1784130857.5472 71389 22496cd75711e22112927f36bf4a80d5 ""
-  "main.aux" 1784133875.00956 5168 0f5976ad9703065c45e9f6534406c467 "pdflatex"
-  "main.bbl" 1784133874.54598 11492 5d83ea01c8c1069e9eb10b3aeecc873d "bibtex main"
-  "main.tex" 1784131585.02324 43889 f74a226f49a49f18b54f2be8c65a3c07 ""
+  "figures/fig_locality.pdf" 1784136486.14012 71919 ba1109cf1ca57675c9c40e7f25e79e7d ""
+  "figures/fig_tradeoff.pdf" 1784136486.13916 71392 446705a7e0ae233b77a381c60774a049 ""
+  "main.aux" 1784136836.15825 5168 f06ee9c01d71011a119e0e813333b2c6 "pdflatex"
+  "main.bbl" 1784135713.71284 11358 97b87296668518acab98ec1856a951fb "bibtex main"
+  "main.tex" 1784136824.65502 45128 7e47be13d86ffa155a6fcc49e1bb9a72 ""
   (generated)
   "main.aux"
   "main.log"
