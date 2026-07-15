@@ -1,0 +1,84 @@
+\documentclass[letterpaper]{article}
+\usepackage[submission]{aaai2027}
+\usepackage[hyphens]{url}
+\usepackage{graphicx}
+\urlstyle{rm}
+\def\UrlFont{\rm}
+\usepackage{natbib}
+\usepackage{caption}
+\frenchspacing
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb}
+
+\pdfinfo{
+/TemplateVersion (2027.1)
+}
+
+\setcounter{secnumdepth}{0}
+
+\title{Supplementary Material for PACT: Identity-Preserving Domain-Incremental Adaptation of Frozen Time-Series Foundation Models}
+\author{Anonymous Submission}
+\affiliations{}
+
+\begin{document}
+
+\maketitle
+
+\section{Proof of Proposition 1}
+
+\emph{Proof.}
+Let $u=\hat z-z$. By the inference rule, the triangle inequality, the clipping
+condition $\lVert\Delta^{d}_{c}(z)\rVert_2\le B$, and
+$\sum_{d=1}^{T}\pi_{c,d}(z)=1-\pi_{c,0}(z)$,
+\begin{align}
+\lVert u\rVert_2
+&\le
+\sum_{c=1}^{K} w_c(z)
+\sum_{d=1}^{T}\pi_{c,d}(z)\,
+\big\lVert \Delta^{d}_{c}(z)\big\rVert_2 \notag\\
+&\le
+B \sum_{c=1}^{K} w_c(z)\big(1-\pi_{c,0}(z)\big)
+= B\big(1-\pi_0(z)\big).
+\end{align}
+Since every logit is $L$-Lipschitz, each logit changes by at most
+$L\lVert u\rVert_2$. The true-class margin after routing is therefore at least
+$m(z)-2L\lVert u\rVert_2$. If
+$(1-\pi_0(z))B<m(z)/(2L)$, the post-routing margin remains positive and the
+predicted class is unchanged. If $\pi_0(z)=1$, then all non-source
+responsibility vanishes on charts with nonzero membership, so $u=0$ and the
+prediction is exactly the frozen-host prediction. \hfill$\square$
+
+\section{Supplementary Figures}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_backbones.pdf}
+\caption{\textbf{PACT across seven backbones on the domain-incremental chain.}
+Top: average macro-$F_1$ (AA). Bottom: forgetting $F$, which remains low across
+specialist encoders and frozen TSFMs.}
+\label{fig:backbones}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_ablation.pdf}
+\caption{\textbf{Ablations.} (a) Component ablation on the FD chain:
+macro-$F_1$ climbs across variants, but only PACT keeps forgetting near zero.
+(b) Gate routing: soft mixture tracks the oracle ceiling; the residual
+soft--oracle gap is largest on HHAR.}
+\label{fig:ablation}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_robustness.pdf}
+\caption{\textbf{Robustness and label efficiency.} Average macro-$F_1$ is
+stable across calibration budget, chart count, and gate temperature; forgetting
+stays near zero throughout the sweeps.}
+\label{fig:robustness}
+\end{figure*}
+
+\input{tables/appendix_tables.tex}
+
+\end{document}

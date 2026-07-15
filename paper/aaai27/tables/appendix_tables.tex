@@ -1,10 +1,10 @@
 % =====================================================================
-% APPENDIX -- FULL RESULT TABLES
-% Paste this whole file after \appendix in the main document.
+% SUPPLEMENT -- FULL RESULT TABLES
+% Included by supplement.tex.
 % Requires: booktabs, multirow (same as paper_tables.tex).
 %
 % This is paper_tables.tex (Tables 1-7, verbatim) relocated under one
-% appendix section, with Table 6 replaced: the original packed
+% supplement section, with Table 6 replaced: the original packed
 % slash-separated version rendered with stretched column gaps, so it is
 % swapped here for an expanded one-row-per-setting layout. That also let
 % us report the real per-row F instead of only a "<= x" ceiling, and in
@@ -16,8 +16,8 @@
 
 \section{Full Result Tables}
 \label{app:full-tables}
-This appendix reports the complete per-method numbers underlying the
-figures in \S\ref{sec:experiments}. Table~\ref{tab:main-pairwise} is the
+This supplement reports the complete per-method numbers underlying the
+figures in the main paper. Table~\ref{tab:main-pairwise} is the
 pairwise AdaTime benchmark; Tables~\ref{tab:chain-tslanet}--\ref{tab:budget-moment}
 are the domain-incremental chain. Recall the two protocols differ: pairwise
 adapts a single source$\rightarrow$target shift, whereas the chain
@@ -32,7 +32,7 @@ $0.573$ on the 4-domain chain).
 \centering
 \caption{Comparison on the AdaTime cross-domain benchmark (TSLANet backbone,
 averaged over 10 source$\rightarrow$target shifts per dataset).
-AA$\uparrow$ average accuracy; BWT and $F$ ($\downarrow$, 0 = no forgetting).
+AA$\uparrow$ average macro-$F_1$; BWT and $F$ ($\downarrow$, 0 = no forgetting).
 Best AA per dataset in \textbf{bold}. \textsuperscript{\dag}semi-supervised
 UDA (uses additional target labels).}
 \label{tab:main-pairwise}
@@ -83,7 +83,7 @@ All methods use the same 5\% labelled calibration budget per domain as PACT
 (ORTCL (LF) uses rotation only; ORTCL+HeadFT uses 5\% calib for head fine-tuning).
 AA$\uparrow$; $F$$\downarrow$. Best AA per dataset in \textbf{bold}.
 \textsuperscript{$\ddagger$}ORTCL: SVD rotation on last TSLANet ICB layer at each domain step.
-Underlies Figure~\ref{fig:tradeoff}.}
+Underlies the main trade-off figure.}
 \label{tab:chain-tslanet}
 \small
 \begin{tabular}{l ccc ccc ccc}
@@ -116,8 +116,8 @@ ORTCL+HeadFT\textsuperscript{$\ddagger$} & 0.582 & 0.011 & 0.020 & 0.563 & 0.139
 are omitted (intractable and contrary to the frozen-TSFM setting). Same 5\%
 calibration budget. AA$\uparrow$; $F$$\downarrow$. On HHAR, LwF (head)
 reaches marginally higher AA than PACT (0.646 vs.\ 0.627) but at roughly
-$3\times$ the forgetting ($F$: 0.050 vs.\ 0.017) -- the one case where a
-baseline is not strictly dominated; see \S\ref{sec:main-results}.}
+$3\times$ the forgetting ($F$: 0.050 vs.\ 0.017), the one case where a
+baseline is not strictly dominated.}
 \label{tab:chain-moment}
 \small
 \begin{tabular}{l ccc ccc ccc}
@@ -144,7 +144,7 @@ Adapters, no gate & 0.879 & 0.113 & 0.116 & 0.632 & 0.035 & 0.051 & 0.606 & 0.01
 \caption{PACT across backbones on the domain-incremental chain (base config:
 $K{=}16$, 5\% calibration, identity adapters). Specialist classifiers and
 frozen TSFMs both achieve near-zero forgetting. AA$\uparrow$; $F$/RF$\downarrow$.
-Underlies Figure~\ref{fig:backbones}.}
+Underlies the supplementary backbone figure.}
 \label{tab:backbones}
 \small
 \begin{tabular}{l ccc ccc ccc}
@@ -171,7 +171,7 @@ Moirai (frozen) & 0.972 & 0.006 & 0.006 & 0.666 & 0.010 & 0.017 & 0.657 & 0.014 
 \centering
 \caption{Component ablation on the FD chain. Each variant shares PACT's frozen
 backbone; adapters are identical where applicable. AA$\uparrow$; $F$$\downarrow$.
-Underlies Figure~\ref{fig:ablation}(a).}
+Underlies the supplementary ablation figure.}
 \label{tab:components}
 \small
 \begin{tabular}{l cc cc}
@@ -195,7 +195,7 @@ Adapters, no gate & 0.748 & 0.032 & 0.879 & 0.113\\
 \centering
 \caption{Gate routing ablation (final-step AA). Soft mixture matches or beats
 hard routing and sits near the oracle (perfect routing) upper bound.
-Underlies Figure~\ref{fig:ablation}(b) (TSLANet columns).}
+Underlies the supplementary ablation figure (TSLANet columns).}
 \label{tab:gate}
 \small
 \begin{tabular}{l ccc cc}
@@ -221,12 +221,12 @@ Sleep-EDF & 0.663 & 0.658 & 0.664 & 0.638 & 0.648\\
 % ALL_TABLES.md -- a rounding slip; sweep_budget_tslanet.csv gives
 % 0.9674585..., which rounds down, not up).
 % ---------------------------------------------------------------------
-\begin{table}[t]
+\begin{table*}[t]
 \centering
 \caption{Hyperparameter ablations on the FD chain (final-step AA / $F$).
 Each block varies one axis; all others held at the default ($K{=}16$,
 $\tau{=}0.5$, 5\% labels, identity adapter, AdaTime domain order). Best AA
-per block in \textbf{bold}. Underlies Figure~\ref{fig:robustness}(b,c).}
+per block in \textbf{bold}. Underlies the supplementary robustness figure.}
 \label{tab:hparams}
 \small
 \begin{tabular}{ll cc}
@@ -270,17 +270,17 @@ Axis & Setting & AA & $F$\\
  & $3{\to}2{\to}1{\to}0$ & 0.967 & 0.003\\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 % ---------------------------------------------------------------------
 % TABLE 7 — LABEL-BUDGET SCALING (MOMENT, all datasets)
 % ---------------------------------------------------------------------
 \begin{table}[t]
 \centering
-\caption{Label-budget scaling with frozen MOMENT ($K{=}16$). Accuracy
+\caption{Label-budget scaling with frozen MOMENT ($K{=}16$). Average macro-$F_1$
 increases with calibration labels on every dataset (Sleep-EDF dips slightly
 from 1\% to 2\% before rising); forgetting stays near zero throughout.
-Underlies Figure~\ref{fig:robustness}(a).}
+Underlies the supplementary robustness figure.}
 \label{tab:budget-moment}
 \small
 \begin{tabular}{l ccccc}
