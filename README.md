@@ -2,7 +2,11 @@
 
 **Forgetting-Free Domain-Incremental Adaptation of Time-Series Foundation Models**
 
-> Submitted to AAAI 2027
+<p align="center">
+  <img src="results/figures/fig_intro_chain_moment.png" width="700">
+</p>
+
+<p align="center"><em>PACT maintains near-perfect average accuracy as operating conditions accumulate sequentially, while all baselines degrade significantly. Frozen MOMENT-large backbone, 5% calibration labels per step, no condition identity at test time.</em></p>
 
 ## Overview
 
@@ -184,19 +188,6 @@ Key hyperparameters (defaults in `PactConfig`):
 | `adapter_ep` | 200 | Adapter training epochs |
 | `gate_ep` | 200 | Gate training epochs |
 | `temperature` | 0.5 | Softmax temperature for gating |
-
-## Citation
-
-If you use PACT in your research, please cite:
-
-```bibtex
-@inproceedings{pact2027,
-  title={Forgetting-Free Domain Incremental Adaptation of Time-Series Foundation Models via Piecewise Chart Transport},
-  author={Anonymous},
-  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
-  year={2027}
-}
-```
 
 ## License
 
