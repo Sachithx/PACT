@@ -1,0 +1,1114 @@
+\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
+\usepackage[submission]{aaai2027}  % DO NOT CHANGE THIS
+% The serif, sans-serif, and monospaced fonts are loaded automatically by
+% aaai2027.sty (newtxtext, helvet, courier). DO NOT add \usepackage{times},
+% \usepackage{helvet}, \usepackage{courier}, or any other font package.
+\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
+\usepackage{graphicx} % DO NOT CHANGE THIS
+\urlstyle{rm} % DO NOT CHANGE THIS
+\def\UrlFont{\rm}  % DO NOT CHANGE THIS
+\usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\frenchspacing  % DO NOT CHANGE THIS
+%
+% These are recommended to typeset algorithms but not required. See the subsubsection on algorithms. Remove them if you don't have algorithms in your paper.
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%
+% These are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
+\usepackage{newfloat}
+\usepackage{listings}
+\DeclareCaptionStyle{ruled}{labelfont=normalfont,labelsep=colon,strut=off} % DO NOT CHANGE THIS
+\lstset{%
+	basicstyle={\footnotesize\ttfamily},% footnotesize acceptable for monospace
+	numbers=left,numberstyle=\footnotesize,xleftmargin=2em,% show line numbers, remove this entire line if you don't want the numbers.
+	aboveskip=0pt,belowskip=0pt,%
+	showstringspaces=false,tabsize=2,breaklines=true}
+\floatstyle{ruled}
+\newfloat{listing}{tb}{lst}{}
+\floatname{listing}{Listing}
+
+%
+% Recommended for better-looking tables
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% Math and theorem environments
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+
+%
+% Keep the \pdfinfo as shown here. There's no need
+% for you to add the /Title and /Author tags.
+\pdfinfo{
+/TemplateVersion (2027.1)
+}
+
+% DISALLOWED PACKAGES
+% \usepackage{authblk} -- This package is specifically forbidden
+% \usepackage{balance} -- This package is specifically forbidden
+% \usepackage{CJK} -- This package is specifically forbidden
+% \usepackage{float} -- This package is specifically forbidden
+% \usepackage{flushend} -- This package is specifically forbidden
+% \usepackage{fullpage} -- This package is specifically forbidden
+% \usepackage{geometry} -- This package is specifically forbidden
+% \usepackage{hyperref} -- This package is specifically forbidden
+% \usepackage{navigator} -- This package is specifically forbidden
+% (or any other package that embeds links such as navigator or hyperref)
+% \usepackage{indentfirst} -- This package is specifically forbidden
+% \usepackage{layout} -- This package is specifically forbidden
+% \usepackage{multicol} -- This package is specifically forbidden
+% \usepackage{nameref} -- This package is specifically forbidden
+% \usepackage{savetrees} -- This package is specifically forbidden
+% \usepackage{setspace} -- This package is specifically forbidden
+% \usepackage{stfloats} -- This package is specifically forbidden
+% \usepackage{tabu} -- This package is specifically forbidden
+% \usepackage{titlesec} -- This package is specifically forbidden
+% \usepackage{tocbibind} -- This package is specifically forbidden
+% \usepackage{ulem} -- This package is specifically forbidden
+% \usepackage{wrapfig} -- This package is specifically forbidden
+% DISALLOWED COMMANDS
+% \nocopyright -- Your paper will not be published if you use this command
+% \addtolength -- This command may not be used
+% \balance -- This command may not be used
+% \baselinestretch -- Your paper will not be published if you use this command
+% \clearpage -- No page breaks of any kind may be used for the final version of your paper
+% \columnsep -- This command may not be used
+% \newpage -- No page breaks of any kind may be used for the final version of your paper
+% \pagebreak -- No page breaks of any kind may be used for the final version of your paper
+% \pagestyle -- This command may not be used
+% \tiny -- This is not an acceptable font size.
+% \vspace{- -- No negative value may be used in proximity of a caption, figure, table, section, subsection, subsubsection, or reference
+% \vskip{- -- No negative value may be used to alter spacing above or below a caption, figure, table, section, subsection, subsubsection, or reference
+
+\setcounter{secnumdepth}{0} %May be changed to 1 or 2 if section numbers are desired.
+
+% The file aaai2027.sty is the style file for AAAI Press
+% proceedings, working notes, and technical reports.
+%
+
+% Title
+
+% Your title must be in mixed case, not sentence case.
+% That means all verbs (including short verbs like be, is, using,and go),
+% nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
+% articles, conjunctions, and prepositions are lower case unless they
+% directly follow a colon or long dash
+\title{PACT: Identity-Preserving Domain-Incremental Adaptation of Frozen Time-Series Foundation Models}
+\author{
+    %Authors
+    % All authors must be in the same font size and format.
+    Written by AAAI Press Staff\textsuperscript{\rm 1}\thanks{With help from the AAAI Publications Committee.}\\
+    AAAI Style Contributions by Peter Patel Schneider,
+    Sunil Issar,\\
+    J. Scott Penberthy,
+    George Ferguson,
+    Hans Guesgen,
+    Francisco Cruz\equalcontrib\corresponding,
+    Marc Pujol-Gonzalez\equalcontrib\corresponding
+}
+\affiliations{
+    %Afiliations
+    \textsuperscript{\rm 1}Association for the Advancement of Artificial Intelligence\\
+    % If you have multiple authors and multiple affiliations
+    % use superscripts in text and roman font to identify them.
+    % For example,
+
+    % Sunil Issar\textsuperscript{\rm 2},
+    % J. Scott Penberthy\textsuperscript{\rm 3},
+    % George Ferguson\textsuperscript{\rm 4}\corresponding,
+    % Hans Guesgen\textsuperscript{\rm 5}
+    % Note that the comma should be placed after the superscript
+
+    1101 Pennsylvania Ave, NW Suite 300\\
+    Washington, DC 20004 USA\\
+    % email address must be in roman text type, not monospace or sans serif
+    proceedings-questions@aaai.org
+%
+% See more examples next
+}
+
+%Example, Single Author, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
+\iffalse
+\title{My Publication Title --- Single Author}
+\author {
+    Author Name
+}
+\affiliations{
+    Affiliation\\
+    Affiliation Line 2\\
+    name@example.com
+}
+\fi
+
+\iffalse
+%Example, Multiple Authors, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
+\title{My Publication Title --- Multiple Authors}
+\author {
+    % Authors
+    First Author Name\textsuperscript{\rm 1,\rm 2}\equalcontrib,
+    Second Author Name\textsuperscript{\rm 2}\equalcontrib,
+    Third Author Name\textsuperscript{\rm 1}\corresponding
+}
+\affiliations {
+    % Affiliations
+    \textsuperscript{\rm 1}Affiliation 1\\
+    \textsuperscript{\rm 2}Affiliation 2\\
+    firstAuthor@affiliation1.com, secondAuthor@affilation2.com, thirdAuthor@affiliation1.com
+}
+\fi
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Pretrained time-series foundation models (TSFMs) provide transferable
+representations for classification, but deployed systems often face
+operating conditions that arrive sequentially after training. Each new
+condition may provide only a small labeled calibration set, and condition
+identity may be unknown at inference. Fine-tuning shared parameters can
+recover macro-$F_1$ on the new condition but can degrade previously observed
+ones, while retention-focused methods often limit adaptation. We find that,
+for frozen TSFM encoders, operating-condition shift is strongly
+heterogeneous across local embedding regions: some regions move
+substantially while others remain stable. This motivates correcting drift
+locally rather than transforming the full representation. We introduce
+\textbf{PACT} (\emph{\textbf{P}iecewise \textbf{A}daptation via
+\textbf{C}hart \textbf{T}ransport}), a frozen-host adaptation method that
+covers the source embedding space with soft charts, learns lightweight
+residual transports for each new condition, and routes inputs through the
+accumulated transports while retaining an explicit identity path. The
+encoder, classifier head, and previously learned transports remain frozen.
+We further derive a margin-based condition under which a routed correction
+preserves the original prediction. Across four sequential bearing-fault
+operating conditions using only 5\% labeled calibration data and no
+condition identity at test time, PACT maintains average macro-$F_1$ above
+0.98. The same retention--adaptation pattern appears on human-activity
+recognition and sleep-staging streams across multiple backbones.
+\end{abstract}
+
+
+\section{Introduction}
+\label{sec:intro}
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/fig_intro_chain_moment.pdf}
+    \caption{PACT holds average macro-$F_1$ while adapting to new operating
+    conditions. On frozen MOMENT-large, every method starts from the same
+    source model (FD-A) and sequentially adapts to three new conditions, each
+    with 5\% labels, without domain identity at test time. Average macro-$F_1$
+    over all conditions seen so far is reported after each step. PACT reaches
+    0.984 by transporting each condition's embeddings locally, leaving the
+    frozen encoder and head untouched.}
+    \label{fig:intro}
+\end{figure}
+
+Pretrained time-series foundation models (TSFMs)
+\citep{moirai,ansari_chronos_2024,pmlr-v267-liu25be,shi_time-moe_2025}
+provide general-purpose representations that transfer across temporal
+domains and downstream tasks. A common deployment strategy is therefore
+to freeze the pretrained encoder and train only a lightweight
+classification head using task-specific labeled data. This approach is
+data-efficient and preserves the reusable representation learned during
+pretraining.
+
+Real deployments, however, are rarely stationary. A fault-diagnosis
+model may be trained under one combination of machine load, speed, and
+operating environment, yet encounter different conditions throughout
+the machine's service life. These conditions arrive sequentially, often
+with only a small labeled calibration set, and their identity may be
+unavailable at inference. The deployed classifier must consequently
+recognize samples from every condition observed so far without being
+told which condition generated each sample.
+
+Frozen TSFM classifiers can fail sharply under such shifts. On a
+bearing-fault benchmark, a classifier built on a frozen TSFM reaches
+$99.7\%$ accuracy on its source condition, while its macro-$F_1$ falls
+to $0.43$ after an operating-condition change. Fine-tuning can recover
+performance on the new condition, but at the cost of earlier ones. In
+our experiments, full fine-tuning reduces source-condition accuracy from
+$0.997$ to $0.38$, while head-only fine-tuning and global feature
+adaptation reduce it to $0.68$ and $0.54$, respectively. Regularization-
+based continual-learning methods constrain this degradation, but remain
+subject to the stability--plasticity trade-off: weak constraints permit
+adaptation but allow forgetting, whereas strong constraints retain the
+source model but limit recovery on the new condition
+\citep{ewc,mas,si,lwf}. Expandable methods reduce parameter interference
+by allocating condition-specific modules, but commonly depend on
+explicit or inferred condition identity to select the appropriate branch
+\citep{sprompts}. This assumption is unreliable when conditions are
+mixed and unlabeled at inference.
+
+These limitations motivate a more restrictive deployment objective:
+adapt to each newly observed condition without modifying the pretrained
+encoder, the classifier head, or corrections learned for earlier
+conditions. Freezing the host prevents adaptation from overwriting its
+representation or decision geometry. It also isolates any remaining
+degradation to the newly introduced correction and its routing
+mechanism, rather than distributing it across shared model parameters.
+
+\paragraph{Operating-condition shift is locally concentrated.}
+We investigate how the embedding space of a frozen TSFM changes across
+operating conditions. The displacement is highly non-uniform: a subset
+of representation regions moves substantially, while many regions
+remain comparatively stable. A single global transformation can
+therefore alter embeddings that require little or no correction. If
+these embeddings already lie on the correct side of the frozen
+classifier's decision boundary, unnecessary displacement can reduce
+performance on previously well-classified conditions. Across the shifts
+we examine, the damage produced by global correction is negatively
+associated with the amount of correction required by each region. This
+observation suggests that forgetting is not only a consequence of
+learning new conditions, but also of applying adaptation at an
+inappropriately coarse granularity.
+
+\paragraph{Piecewise adaptation with a frozen host.}
+Motivated by this observation, we introduce \textbf{PACT}
+(\emph{\textbf{P}iecewise \textbf{A}daptation via \textbf{C}hart
+\textbf{T}ransport}), a frozen-host method for sequential
+operating-condition adaptation. PACT partitions the source embedding
+space into local regions, termed \emph{charts}. For each newly observed
+condition, it learns a lightweight residual transport for each chart
+using only a small labeled calibration set. The transports are
+identity-initialized and optimized through the frozen classifier head,
+so adaptation moves shifted embeddings toward the decision geometry
+already represented by the host rather than modifying that geometry.
+Once learned, each transport is frozen; subsequent conditions add new
+corrections without changing the encoder, head, or previous transports.
+
+At inference, the condition identity is unknown. PACT therefore uses a
+gate calibrated from in-distribution embeddings to softly route each
+sample across the accumulated transports. An explicit identity path is
+always retained, preserving access to the original frozen
+representation. This design separates two sources of degradation.
+Overwriting of the host and earlier transports is excluded because these
+components never change. A prediction can differ from the original only
+through the routing and transport applied to its embedding. In
+particular, identity routing reproduces the original prediction exactly,
+and we derive a margin condition under which even a non-identity routed
+correction leaves the predicted class unchanged.
+
+Routing is essential rather than auxiliary. Per-chart transports without
+a gate can improve some shifts but harm others by applying unnecessary
+corrections. In several configurations, ungated correction performs
+below the unadapted source model. PACT therefore learns local correction
+and identity-preserving routing jointly as a single adaptation mechanism.
+
+We evaluate PACT in a domain-incremental setting where operating
+conditions arrive sequentially, only $5\%$ of each new condition is
+labeled for calibration, and condition identity is unavailable at test
+time. Across four operating conditions of a bearing-fault benchmark,
+PACT maintains an average accuracy of $0.984$ over all conditions seen
+so far. It is the only evaluated method to remain above $98\%$ average
+accuracy as conditions accumulate, while baselines that update shared
+parameters lose between $12$ and $45$ percentage points. We further
+observe the same retention--adaptation pattern on human-activity
+recognition and sleep-staging streams across multiple TSFM backbones.
+
+Our contributions are as follows:
+
+\begin{itemize}
+    \item We formulate sequential operating-condition adaptation for
+    frozen TSFM classifiers under few labeled calibration samples, no
+    condition identity at inference, and the requirement to retain all
+    previously observed conditions.
+
+    \item We show that operating-condition shift is locally concentrated
+    in the frozen embedding space and provide empirical evidence that
+    global correction can damage regions requiring little adaptation.
+
+    \item We introduce PACT, which combines identity-initialized
+    per-chart transports with soft, identity-preserving routing while
+    keeping the encoder, classifier head, and previous transports frozen.
+    We also derive a margin-based condition under which the original
+    prediction is preserved.
+
+    \item We evaluate PACT across bearing-fault diagnosis,
+    human-activity recognition, and sleep-staging streams with multiple
+    TSFM backbones. PACT consistently improves new-condition performance
+    while retaining earlier conditions, and our ablations show that
+    routing is necessary for reliable piecewise adaptation.
+\end{itemize}
+
+
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Domain and test-time adaptation.}
+Cross-domain fault-diagnosis methods handle operating-condition shift by
+aligning source and target representations during training, using
+adversarial objectives, distribution matching, or multi-source
+adaptation \citep{dann,mmda,msda}. They generally require target data
+before deployment and optimize a shared extractor for a fixed target.
+Test-time adaptation instead updates a deployed model from unlabeled
+test samples, commonly through normalization-statistic updates or entropy
+minimization \citep{tent}. CoTTA, EcoTTA, and EATA reduce source
+degradation through weight restoration, lightweight regularized modules,
+or penalties on source-important parameters
+\citep{cotta,ecotta,eata}. These approaches nevertheless adapt shared
+model components toward the current test distribution. In our setting,
+samples may come from any condition observed so far without revealing
+their condition identity, making such shared updates liable to degrade
+other conditions.
+
+\paragraph{Continual learning and expandable adaptation.}
+Regularization-based continual-learning methods constrain changes to
+parameters important for earlier tasks \citep{ewc,mas,si,lwf}, but retain
+the stability--plasticity trade-off because adaptation and retention
+compete within shared parameters. Expandable methods reduce this
+interference by allocating condition-specific capacity. S-Prompts learns
+domain-specific prompts and estimates the domain using feature
+centroids, while MoE-Adapters and SEMA use routed or dynamically expanded
+adapters \citep{sprompts,moeadapters,sema}. These methods are closest to
+PACT structurally, but commonly use hard expert selection, explicit or
+inferred domain cues, or modules inserted within the backbone. PACT
+instead preserves the complete pretrained encoder and head, retains an
+explicit identity path, and softly routes post-encoder embeddings among
+identity-anchored corrections.
+
+\paragraph{Frozen-backbone and time-series methods.}
+RanPAC, ADAM, and EASE retain a frozen backbone while constructing
+lightweight classifiers from projections, adapters, or accumulated
+prototypes \citep{ranpac,adam,ease}. They primarily address
+class-incremental learning, where the label space expands; our setting
+keeps the classes fixed while operating conditions change. Their
+prototypes support classification, whereas PACT uses representation
+regions to route condition-specific corrections. Adaptation of
+pretrained time-series models has otherwise focused mainly on forecasting
+and anomaly detection through observed targets, normalization, or
+unlabeled test-time updates \citep{fsnet,revin,adtta}. These lines do not
+jointly address sequential operating-condition shift with a frozen TSFM
+encoder and head, few labeled calibration samples, no condition identity
+at inference, and retention of all previously observed conditions. PACT
+is designed for this conjunction without modifying the host or storing a
+replay buffer.
+
+\section{Method}
+\label{sec:method}
+
+\subsection{Setting}
+\label{sec:setting}
+
+We study domain-incremental continual learning for time-series classification
+on top of a frozen pretrained encoder.
+
+Let $x\in\mathbb{R}^{C\times L}$ denote a time series with $C$ channels and
+length $L$. A pretrained encoder $f_\theta:\mathbb{R}^{C\times L}\to\mathbb{R}^{d}$
+maps it to an embedding $z=f_\theta(x)$, and a head
+$h_\phi:\mathbb{R}^{d}\to\mathbb{R}^{Y}$ maps that embedding to class logits over a
+label set $\mathcal{Y}=\{1,\dots,Y\}$. The head is fit once on a source domain
+$\mathcal{D}_0$ and is linear. Thereafter a stream of domains
+$\mathcal{D}_1,\dots,\mathcal{D}_T$ arrives sequentially. All domains share the
+label space and the underlying task. They differ only in input distribution,
+induced by a change of operating condition, subject, or sensor.
+
+When domain $\mathcal{D}_d$ arrives we observe a small labeled
+\emph{calibration set} $\mathcal{C}_d\subset\mathcal{D}_d$ with
+$|\mathcal{C}_d|=\rho\,|\mathcal{D}_d|$ and $\rho=5\%$. Earlier domains are never
+revisited. Domain identity is available during calibration and unavailable at
+test time.
+
+We require a deployed model that, after the stream has advanced to domain $t$,
+satisfies four constraints.
+\textbf{(C1)} It classifies inputs drawn from any seen domain $j\le t$.
+\textbf{(C2)} It receives no domain label at test time.
+\textbf{(C3)} Its accuracy on earlier domains does not decay as the stream grows.
+\textbf{(C4)} It never modifies $f_\theta$ or $h_\phi$, so that behavior on
+in-distribution inputs is recoverable exactly rather than approximately.
+
+Constraint (C4) is what separates this setting from fine-tuning. A large
+pretrained model that is retrained on a $5\%$ calibration slice overfits that
+slice and destroys the representation that made it valuable. Our design takes
+the encoder and the head as immutable and asks what can be done in the
+$d$-dimensional embedding space alone.
+
+\paragraph{Time-series foundation models as the frozen backbone.}
+Our primary instantiation takes $f_\theta$ to be a pretrained time-series
+foundation model (TSFM) and fits $h_\phi$ by linear probing on $\mathcal{D}_0$,
+with no end-to-end training at any stage. Two adjustments make a
+forecasting-pretrained encoder usable as a classifier.
+
+First, \emph{multi-window pooling}. A TSFM has a fixed context length $P$. A
+series with $L>P$ is split into $W$ windows $\{x^{(w)}\}$ of length $P$ and the
+window embeddings are mean-pooled,
+\begin{equation}
+z \;=\; \frac{1}{W}\sum_{w=1}^{W}\mathrm{enc}\big(x^{(w)}\big).
+\label{eq:pooling}
+\end{equation}
+This retains full temporal resolution. The common alternative, downsampling the
+series to length $P$, discards exactly the high-frequency content that
+distinguishes operating conditions.
+
+Second, \emph{embedding standardization}. Raw transformer embeddings have
+strongly anisotropic per-coordinate scales. We standardize with source-fit
+statistics $(m,s)$,
+\begin{equation}
+z \;\leftarrow\; (z-m)\oslash s ,
+\label{eq:standardize}
+\end{equation}
+where $\oslash$ is elementwise division. This makes Euclidean geometry in
+$\mathbb{R}^{d}$ meaningful, which every subsequent component depends on.
+Multivariate inputs are embedded channel-independently and averaged.
+
+Nothing that follows uses any property of $f_\theta$ beyond
+Eqs.~\eqref{eq:pooling}--\eqref{eq:standardize}. The method applies unchanged to
+a task-specialist backbone trained end-to-end on $\mathcal{D}_0$.
+
+\paragraph{Notation.}
+We write $Z_0=\{f_\theta(x)\}_{x\in\mathcal{D}_0}$ for the source embeddings and
+$Z_d$ for the calibration embeddings of domain $d$. We write $A_{t,j}$ for the
+macro-$F_1$ score on the held-out test split of domain $j$ after the model has
+been adapted through domain $t$, for $j\le t$.
+
+%---------------------------------------------------------------------
+\subsection{Distribution Shift Acts Locally}
+\label{sec:locality}
+
+The design of \textsc{PACT} follows from a single empirical observation, which
+we state and then measure. \emph{A change of operating condition does not
+displace the representation manifold uniformly. It leaves some regions almost
+fixed and transports others substantially.}
+
+If this holds, then any correction that applies one transform to the whole
+embedding space is misspecified. It must expend capacity moving regions that did
+not need to move, and the collateral displacement of those regions is precisely
+what erases earlier domains. Forgetting, in this view, is not an unavoidable
+cost of plasticity. It is an artifact of correcting at the wrong granularity.
+
+We make the claim falsifiable with three measurements, reported in
+Fig.~\ref{fig:locality}. All three are computed on source embeddings partitioned
+into $K$ regions by $k$-means, with centroids $\{\mu_c\}_{c=1}^{K}$ and hard
+assignment $\kappa(z)=\arg\min_c\lVert z-\mu_c\rVert_2$.
+
+\paragraph{(a) Damage is heterogeneous across regions.}
+For region $c$ and target domain $d$, let $A_c(\mathcal{D})$ be the macro-$F_1$
+of the frozen pair $(f_\theta,h_\phi)$ restricted to samples of $\mathcal{D}$
+assigned to region $c$. The region-conditional degradation is
+\begin{equation}
+\delta_c^{(d)} \;=\; A_c(\mathcal{D}_0)\;-\;A_c(\mathcal{D}_d).
+\end{equation}
+Were shift global, $\{\delta_c^{(d)}\}_c$ would be near-constant in $c$. It is
+not. Its coefficient of variation across regions is large, and a nontrivial
+fraction of regions satisfy $\delta_c^{(d)}\approx 0$.
+
+\paragraph{(b) One affine map cannot fit the shift, several can.}
+Fit the best single affine correction on the calibration set by minimizing the
+frozen-head risk,
+\begin{equation}
+\mathcal{R}_{\mathrm{glob}}(d)
+=
+\min_{W,b}\;
+\frac{1}{|\mathcal{C}_d|}\!\!\sum_{(x,y)\in\mathcal{C}_d}\!\!
+\ell_{\mathrm{CE}}\big(h_\phi(Wz+b),\,y\big),
+\end{equation}
+and compare it against a piecewise-affine correction with one map per region,
+\begin{equation}
+\mathcal{R}_{\mathrm{atlas}}(d;K)
+=
+\min_{\{W_c,b_c\}}\;
+\frac{1}{|\mathcal{C}_d|}\!\!\sum_{(x,y)\in\mathcal{C}_d}\!\!
+\ell_{\mathrm{CE}}\big(h_\phi(W_{\kappa(z)}z+b_{\kappa(z)}),\,y\big).
+\end{equation}
+The gap $\mathcal{R}_{\mathrm{glob}}(d)-\mathcal{R}_{\mathrm{atlas}}(d;K)$ is
+large at small $K$ and saturates by $K\!\approx\!16$. The shift is well
+approximated by a piecewise map and poorly approximated by a single one.
+
+\paragraph{(c) Global correction damages regions it never needed to touch.}
+Let $\Psi_d^{\mathrm{glob}}(z)=W^{\star}z+b^{\star}$ be the fitted global map. Its
+collateral displacement on the source, restricted to region $c$, is
+\begin{equation}
+\mathrm{CD}_c(d)
+=
+\mathop{\mathbb{E}}_{z\in Z_0,\;\kappa(z)=c}
+\big\lVert \Psi_d^{\mathrm{glob}}(z)-z \big\rVert_2 .
+\end{equation}
+If a global map allocated its capacity sensibly, $\mathrm{CD}_c(d)$ would
+correlate with the need $\delta_c^{(d)}$. It does not. The rank correlation is
+near zero. Regions that were already correct are displaced as much as regions
+that were wrong, and displacing a correct region across the frozen head's
+decision boundary is a forgetting event.
+
+\paragraph{Consequences.}
+Three design commitments follow directly, and we adopt no others.
+\textbf{(i)} Corrections must be \emph{local}, defined on regions rather than on
+the whole space. \textbf{(ii)} Each correction must be \emph{anchored at the
+identity}, so that a region needing no change receives none. \textbf{(iii)} A
+correction learned for one domain must be \emph{frozen}, so that later domains
+cannot reach back and displace it.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_locality.pdf}
+\caption{\textbf{Distribution shift acts locally.}
+(a)~Per-region margin drop is highly heterogeneous: some regions lose all
+accuracy while others remain intact.
+(b)~Piecewise-affine correction residual drops sharply from $K{=}1$ (global)
+to $K{=}16$ and saturates, confirming the shift is piecewise rather than global.
+(c)~A global correction displaces regions indiscriminately, damaging regions
+that needed no correction---the mechanism of forgetting.}
+\label{fig:locality}
+\end{figure*}
+
+%---------------------------------------------------------------------
+\subsection{An Atlas of Frozen Transports}
+\label{sec:atlas}
+
+The frozen head $h_\phi$ partitions $\mathbb{R}^{d}$ into fixed decision regions.
+The encoder places source embeddings inside the correct ones. A shifted domain
+places them elsewhere. Adaptation, under (C4), therefore cannot mean moving the
+decision regions. It can only mean \emph{transporting shifted embeddings back
+into a geometry that never moves}. This is the operation \textsc{PACT} learns,
+and it learns it one region at a time.
+
+\paragraph{Charts.}
+We compute $\{\mu_c\}_{c=1}^{K}$ once on $Z_0$ by $k$-means and never update
+them. We call these regions \emph{charts}, following the standard sense of a
+local coordinate patch, and we use a \emph{partition of unity} rather than the
+hard assignment $\kappa$ used for diagnosis in \S\ref{sec:locality},
+\begin{equation}
+w_c(z)
+=
+\frac{\exp\!\big(-\lVert z-\mu_c\rVert_2^{2}\,/\,2\sigma^{2}\big)}
+     {\sum_{c'=1}^{K}\exp\!\big(-\lVert z-\mu_{c'}\rVert_2^{2}\,/\,2\sigma^{2}\big)},
+\qquad
+\sum_{c=1}^{K} w_c(z)=1 .
+\label{eq:pou}
+\end{equation}
+The bandwidth $\sigma$ is set to the mean intra-chart radius on $Z_0$ and is not
+tuned. Soft membership is not a cosmetic choice. A shifted embedding may fall
+nearer a different centroid than its source counterpart, so a hard lookup
+$\kappa(z)$ would retrieve the wrong correction for exactly the samples that
+most need the right one. Eq.~\eqref{eq:pou} removes that failure mode and makes
+the model differentiable across chart boundaries.
+
+\paragraph{Transports.}
+For each domain $d\ge 1$ we learn one residual transport per chart,
+\begin{equation}
+\Delta^{d}_{c}:\mathbb{R}^{d}\to\mathbb{R}^{d},
+\qquad
+c=1,\dots,K,
+\end{equation}
+realized as a two-layer bottleneck MLP whose final layer is zero-initialized, so
+that the transport is exactly the identity at initialization. The source domain
+is represented by the null transport $\Delta^{0}_{c}\equiv 0$ for all $c$, which
+is not learned and costs no parameters. A low-rank variant
+$\Delta^{d}_{c}(z)=B^{d}_{c}A^{d}_{c}z$ with $A^{d}_{c}\in\mathbb{R}^{r\times d}$
+and $B^{d}_{c}\in\mathbb{R}^{d\times r}$, $r\ll d$, is analyzed in
+\S\ref{sec:experiments}.
+
+Given a domain $d$ and an embedding $z$, the transported embedding is the
+partition-weighted sum of that domain's chart transports,
+\begin{equation}
+T^{d}(z) \;=\; z \;+\; \sum_{c=1}^{K} w_c(z)\,\Delta^{d}_{c}(z),
+\qquad
+T^{0}(z)=z .
+\label{eq:transport}
+\end{equation}
+
+\paragraph{Training a transport bank.}
+Domain identity is known during calibration, so transports are fit without any
+routing. We minimize the frozen-head risk with an identity anchor,
+\begin{equation}
+\mathcal{L}_{\mathrm{tr}}\big(\Delta^{d}\big)
+=
+\!\!\sum_{(x,y)\in\mathcal{C}_d}\!\!
+\ell_{\mathrm{CE}}\Big(h_\phi\big(T^{d}(z)\big),\,y\Big)
+\;+\;
+\lambda \sum_{c=1}^{K}
+\mathop{\mathbb{E}}_{z\sim Z_d}
+\big\lVert \Delta^{d}_{c}(z)\big\rVert_2^{2},
+\qquad z=f_\theta(x).
+\label{eq:transport-loss}
+\end{equation}
+The anchor is an output-space penalty rather than a weight-space one. It
+penalizes the displacement the transport actually produces, which is the
+quantity that matters for both overfitting on a $5\%$ slice and for the
+guarantee of \S\ref{sec:guarantee}. We set $\lambda=10^{-3}$. After training we
+project each transport onto a norm ball of radius $B$,
+\begin{equation}
+\Delta^{d}_{c}(z)
+\;\leftarrow\;
+\Delta^{d}_{c}(z)\cdot
+\min\!\Big(1,\;B\,/\,\lVert \Delta^{d}_{c}(z)\rVert_2\Big),
+\label{eq:clip}
+\end{equation}
+which makes $B$ a hard constant of the deployed model rather than an empirical
+maximum. We take $B$ as the $99$th percentile of transport norms observed on
+$\mathcal{C}_d$, so Eq.~\eqref{eq:clip} is inactive on almost all inputs.
+
+Gradients reach only $\Delta^{d}$. The encoder, the head, and every transport
+bank $\{\Delta^{j}\}_{j<d}$ receive no updates at any point. Once
+$\mathcal{L}_{\mathrm{tr}}$ has converged, $\Delta^{d}$ is frozen and appended to
+the atlas. The model therefore \emph{accumulates} domains. It does not overwrite
+them.
+
+%---------------------------------------------------------------------
+\subsection{Routing Without Domain Identity}
+\label{sec:routing}
+
+At test time the domain is unknown, so the model must decide which transports to
+apply from the embedding alone. We do this with a parameter-free gate defined
+per chart, which requires no rehearsal buffer, no re-fitting when a domain
+arrives, and no gradient step.
+
+\paragraph{Chart-conditional prototypes.}
+When domain $d$ is calibrated, we record for every chart $c$ a prototype and a
+scale, computed as partition-weighted statistics of that domain's calibration
+embeddings,
+\begin{equation}
+m_{c,d}
+=
+\frac{\sum_{z\in Z_d} w_c(z)\, z}{\sum_{z\in Z_d} w_c(z)},
+\qquad
+\sigma^{2}_{c,d}
+=
+\frac{\sum_{z\in Z_d} w_c(z)\,\lVert z-m_{c,d}\rVert_2^{2}}
+     {d \cdot \sum_{z\in Z_d} w_c(z)} .
+\label{eq:prototypes}
+\end{equation}
+The source prototypes $\{m_{c,0},\sigma_{c,0}\}$ are computed identically from
+$Z_0$. Storage is $K(T{+}1)(d{+}1)$ floats in total. No embedding is retained.
+
+\paragraph{Gate.}
+The routing distribution over domains, conditioned on chart $c$, is an
+isotropic-Gaussian responsibility at temperature $\tau$,
+\begin{equation}
+\pi_{c,d}(z)
+=
+\frac{
+\exp\!\Big(-\lVert z-m_{c,d}\rVert_2^{2}\,/\,\big(2\tau\,\sigma^{2}_{c,d}\big)\Big)
+}{
+\sum_{d'=0}^{T}
+\exp\!\Big(-\lVert z-m_{c,d'}\rVert_2^{2}\,/\,\big(2\tau\,\sigma^{2}_{c,d'}\big)\Big)
+},
+\qquad \tau=0.5 .
+\label{eq:gate}
+\end{equation}
+The source index $d'=0$ is always present in the denominator, so an identity path
+is always available in the mixture and receives all the mass whenever $z$ is
+closer to a source prototype than to any adapted one.
+
+\paragraph{Prediction.}
+Combining Eqs.~\eqref{eq:pou}, \eqref{eq:transport} and \eqref{eq:gate}, and
+using $\Delta^{0}_{c}\equiv 0$ to drop the source term from the inner sum,
+\begin{equation}
+\boxed{\;
+\hat z
+\;=\;
+z
+\;+\;
+\sum_{c=1}^{K} w_c(z)
+\sum_{d=1}^{T} \pi_{c,d}(z)\, \Delta^{d}_{c}(z),
+\qquad
+\hat y = \arg\max_{y}\,\big[h_\phi(\hat z)\big]_y .
+\;}
+\label{eq:inference}
+\end{equation}
+Routing is soft in both indices. A sample near a chart boundary blends charts. A
+sample of ambiguous domain blends transports. Neither produces a discrete
+failure. This is the structural reason the degradation analyzed in
+\S\ref{sec:guarantee} is continuous in the routing error rather than
+catastrophic in it.
+
+\paragraph{Cost.}
+The encoder is evaluated once. Eqs.~\eqref{eq:pou} and \eqref{eq:gate} cost
+$\mathcal{O}\!\big(K(T{+}1)d\big)$ arithmetic on a $d$-dimensional vector, which is
+negligible beside a forward pass of $f_\theta$. In practice $w_c(z)$ is sparse,
+and truncating Eq.~\eqref{eq:inference} to the top-$2$ charts changes macro-$F_1$
+by less than $0.002$ while reducing transport evaluations by $K/2$.
+
+%---------------------------------------------------------------------
+\subsection{Sequential Algorithm}
+\label{sec:algorithm}
+
+\begin{algorithm}[t]
+\caption{\textsc{PACT}: piecewise adaptation via chart transport}
+\label{alg:pact}
+\textbf{Input}: Frozen encoder $f_\theta$, frozen head $h_\phi$, source $\mathcal{D}_0$,
+stream $\mathcal{D}_1,\dots,\mathcal{D}_T$, charts $K$, calibration rate $\rho$,
+temperature $\tau$, anchor $\lambda$, radius $B$
+\begin{algorithmic}[1]
+\STATE $Z_0 \gets f_\theta(\mathcal{D}_0)$
+\STATE $\{\mu_c\}_{c=1}^{K} \gets k\text{-means}(Z_0, K)$
+  \COMMENT{charts, computed once, never updated}
+\STATE $\sigma \gets$ mean intra-chart radius of $Z_0$
+\STATE $\{m_{c,0},\sigma_{c,0}\}_{c=1}^{K} \gets$ Eq.~\eqref{eq:prototypes} on $Z_0$
+\STATE $\Delta^{0}_{c}\gets \mathbf{0}$ for all $c$
+  \COMMENT{identity path}
+\FOR{$d=1,\dots,T$}
+  \STATE $\mathcal{C}_d \gets$ class-stratified $\rho$-sample of $\mathcal{D}_d$;\;\; $Z_d \gets f_\theta(\mathcal{C}_d)$
+  \STATE $\Delta^{d} \gets \arg\min\, \mathcal{L}_{\mathrm{tr}}$
+    \COMMENT{Eq.~\eqref{eq:transport-loss}; only $\Delta^{d}$ receives gradient}
+  \STATE Clip $\Delta^{d}$ to radius $B$
+    \COMMENT{Eq.~\eqref{eq:clip}}
+  \STATE Freeze $\Delta^{d}$ and append to the atlas
+  \STATE $\{m_{c,d},\sigma_{c,d}\}_{c=1}^{K} \gets$ Eq.~\eqref{eq:prototypes} on $Z_d$
+    \COMMENT{gate extended in closed form}
+  \STATE Discard $Z_d$
+  \STATE Evaluate $A_{d,j}$ for all $j\le d$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+Algorithm~\ref{alg:pact} has no rehearsal buffer, no replay, and no re-fitting
+loop. Absorbing a new domain touches exactly two objects, a fresh transport bank
+and a fresh column of prototypes, and neither can modify anything that already
+exists. Wall-clock cost per domain is the cost of one pass over a $5\%$ slice.
+
+%---------------------------------------------------------------------
+\subsection{What Cannot Be Forgotten}
+\label{sec:guarantee}
+
+Freezing the encoder, the head, and all past transports removes every channel by
+which a new domain could damage an old one, with a single exception. The gate may
+route an old-domain embedding to a new domain's transport. We now show that even
+this residual channel is bounded, and that the bound is controlled by two
+quantities the model already regulates.
+
+Let $h_\phi$ be $L$-Lipschitz coordinatewise with respect to $\lVert\cdot\rVert_2$,
+which for a linear head gives $L=\max_y \lVert \phi_y\rVert_2$. Define the margin
+of an embedding $z$ with true label $y^{\star}$,
+\begin{equation}
+m(z)
+=
+\big[h_\phi(z)\big]_{y^{\star}}
+-
+\max_{y\neq y^{\star}}\big[h_\phi(z)\big]_{y},
+\end{equation}
+and define the \emph{effective identity mass} that Eq.~\eqref{eq:inference}
+assigns to $z$,
+\begin{equation}
+\pi_0(z) \;=\; \sum_{c=1}^{K} w_c(z)\,\pi_{c,0}(z) \;\in\; [0,1].
+\end{equation}
+
+\begin{proposition}[Margin-bounded non-degradation]
+\label{prop:margin}
+Let $z$ be any embedding that the frozen model classifies correctly, so
+$m(z)>0$. Then
+\begin{equation}
+\big\lVert \hat z - z \big\rVert_2 \;\le\; \big(1-\pi_0(z)\big)\,B ,
+\end{equation}
+and \textsc{PACT} classifies $z$ correctly whenever
+\begin{equation}
+\big(1-\pi_0(z)\big)\,B \;<\; \frac{m(z)}{2L}.
+\label{eq:margin-condition}
+\end{equation}
+In particular, if $\pi_0(z)=1$ then $\hat z = z$ exactly and the prediction is
+identical to that of the original frozen model.
+\end{proposition}
+
+\begin{proof}
+Write $u=\hat z-z$. By Eq.~\eqref{eq:inference}, the triangle inequality, the
+clip $\lVert\Delta^{d}_{c}(z)\rVert_2\le B$ of Eq.~\eqref{eq:clip}, and
+$\sum_{d=1}^{T}\pi_{c,d}(z)=1-\pi_{c,0}(z)$,
+\begin{equation}
+\lVert u\rVert_2
+\le
+\sum_{c} w_c(z)\sum_{d=1}^{T}\pi_{c,d}(z)\,\big\lVert \Delta^{d}_{c}(z)\big\rVert_2
+\le
+B\sum_{c} w_c(z)\big(1-\pi_{c,0}(z)\big)
+=
+B\big(1-\pi_0(z)\big),
+\end{equation}
+using $\sum_c w_c(z)=1$. Since every logit is $L$-Lipschitz, each changes by at
+most $L\lVert u\rVert_2$, so the margin obeys $m(\hat z)\ge m(z)-2L\lVert u\rVert_2$.
+Condition~\eqref{eq:margin-condition} gives $m(\hat z)>0$, which is the claim.
+Setting $\pi_0(z)=1$ forces $\pi_{c,0}(z)=1$ for every chart with $w_c(z)>0$,
+hence $u=0$.
+\end{proof}
+
+Proposition~\ref{prop:margin} is the design specification of the method stated
+backwards. Forgetting requires \emph{two} simultaneous failures: a misroute
+($\pi_0(z)$ small) \emph{and} a large transport ($B$ large). The identity anchor
+$\lambda$ in Eq.~\eqref{eq:transport-loss} suppresses the second. The always-present
+source prototype in Eq.~\eqref{eq:gate} suppresses the first. Neither needs to
+be perfect. High-margin samples, which are the bulk of any well-fit source
+domain, tolerate substantial misrouting without changing prediction. We verify
+this directly in \S\ref{sec:experiments} by plotting the empirical joint
+distribution of $\big(1-\pi_0(z)\big)B$ against $m(z)/2L$ on source test data and
+reporting the mass that violates Eq.~\eqref{eq:margin-condition}.
+
+The second guarantee concerns the stream itself. Adding a domain perturbs
+predictions on all earlier domains only through the softmax denominator of
+Eq.~\eqref{eq:gate}, and that perturbation is proportional to how much mass the
+new domain claims.
+
+\begin{lemma}[Streaming stability]
+\label{lem:streaming}
+Let $\hat z^{(T)}$ and $\hat z^{(T+1)}$ denote the outputs of
+Eq.~\eqref{eq:inference} before and after domain $T{+}1$ is absorbed. Then
+\begin{equation}
+\big\lVert \hat z^{(T+1)} - \hat z^{(T)}\big\rVert_2
+\;\le\;
+2B \sum_{c=1}^{K} w_c(z)\, \pi_{c,T+1}(z) .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Extending a softmax by one logit rescales the existing responsibilities exactly,
+$\pi'_{c,d}=(1-\pi'_{c,T+1})\,\pi_{c,d}$ for $d\le T$. Substituting into
+Eq.~\eqref{eq:inference} and subtracting,
+\begin{equation}
+\hat z^{(T+1)}-\hat z^{(T)}
+=
+\sum_{c} w_c(z)\,\pi'_{c,T+1}(z)
+\Big(
+\Delta^{T+1}_{c}(z)
+-
+\textstyle\sum_{d=1}^{T}\pi_{c,d}(z)\,\Delta^{d}_{c}(z)
+\Big).
+\end{equation}
+Each of the two terms in the parenthesis has norm at most $B$, since the second
+is a convex combination of vectors of norm at most $B$.
+\end{proof}
+
+An old-domain embedding is, by construction, far from the new domain's
+prototypes, so $\pi_{c,T+1}(z)$ is exponentially small in
+$\lVert z-m_{c,T+1}\rVert_2^{2}$ and the bound is tight. Non-interference is thus a
+structural property of \textsc{PACT}, not an empirical finding that happens to
+hold on the benchmarks we chose.
+
+\paragraph{The gap that measures forgetting.}
+Because misrouting is the sole degradation channel, it can be isolated. Let
+$A^{\mathrm{orc}}_{T,j}$ be the score obtained when the true domain label is used
+in place of Eq.~\eqref{eq:gate}, and $A_{T,j}$ the score under the deployed gate.
+The \emph{oracle-routing gap}
+\begin{equation}
+\mathrm{ORG}_{j} \;=\; A^{\mathrm{orc}}_{T,j} - A_{T,j}
+\end{equation}
+is an exact, interpretable decomposition of forgetting into its one cause. We
+report it alongside the standard metrics. No method that adapts the backbone can
+report an analogous quantity, because in that case forgetting has no single
+cause to isolate.
+
+%---------------------------------------------------------------------
+\subsection{Memory and Parameter Cost}
+\label{sec:cost}
+
+\textsc{PACT} stores two objects and never stores a raw signal.
+
+\emph{Transports.} $K$ bottleneck MLPs per domain. With a bottleneck width $b$,
+this is $2Kbd$ parameters per domain, a few percent of $|\theta|$. The low-rank
+variant reduces this to $2Krd$.
+
+\emph{Prototypes.} $K(T{+}1)(d{+}1)$ floats in total, by
+Eq.~\eqref{eq:prototypes}. At $K=16$ and $d=128$ this is under $0.01$\,MB for the
+entire stream.
+
+There is no embedding buffer, no exemplar set, and no access to $\mathcal{D}_0$
+after the head is fit. The comparison to replay is therefore not a matter of
+buffer size. Replay is absent by construction, which also means no raw
+measurement leaves the domain in which it was collected, a property that matters
+when domains correspond to individual subjects or to separate industrial sites.
+
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{Setup}
+\label{sec:setup}
+
+\paragraph{Benchmarks.}
+We evaluate on three time-series classification benchmarks spanning
+distinct shift types: \textbf{FD} (bearing fault diagnosis; 4 operating
+conditions, 3 classes, length 5120), \textbf{HHAR} (human activity recognition;
+9 device/subject domains, 6 classes, length 128), and \textbf{Sleep-EDF}
+(sleep-stage classification; 17 subject domains, 5 classes, length 3000).
+
+\paragraph{Protocols.}
+We use two protocols. The \emph{pairwise} protocol follows
+AdaTime: a model is adapted from a single source to a single target
+operating condition, averaged over 10 source$\rightarrow$target shifts per
+dataset; this is the native setting of UDA/TTA baselines. The
+\emph{domain-incremental chain} protocol---the setting PACT
+targets---presents all domains of a dataset sequentially, so that
+forgetting on earlier domains is measured directly after the full stream.
+
+\paragraph{Backbones.}
+We instantiate PACT on two specialist encoders (TSLANet, PatchTST) and
+five \emph{frozen} time-series foundation models (MOMENT-1-large,
+Chronos-Bolt, Sundial, Time-MoE, Moirai).
+
+\paragraph{Baselines.}
+Baselines fall into four families: unsupervised
+domain adaptation (DANN, Deep~CORAL, MMDA, and the semi-supervised
+DANN\textsuperscript{\dag}/CDAN\textsuperscript{\dag}/CoTMix\textsuperscript{\dag}),
+test-time adaptation (TENT), fine-tuning references (full and head-only),
+and continual learning (EWC, MAS, LwF, source-distillation, ORTCL). Every
+adapting method receives the same 5\% labeled calibration budget per
+domain as PACT.
+
+\paragraph{Metrics.}
+Let $A_{t,j}$ be the macro-$F_1$ on domain $j$ after adapting through domain $t$. After the full stream ($t=T$) we report
+\emph{Average Accuracy}
+$\mathrm{AA}=\frac{1}{T+1}\sum_{j=0}^{T}A_{T,j}$\;($\uparrow$);
+\emph{Forgetting}
+$F=\frac{1}{T}\sum_{j=0}^{T-1}(\max_{j\le l<T}A_{l,j}-A_{T,j})$\;($\downarrow$, 0 = none);
+and \emph{Relative Forgetting} RF, which normalizes $F$ by each domain's peak.
+Full per-method numbers for every figure
+below are given in Appendix~\ref{app:full-tables}.
+
+%---------------------------------------------------------------------
+\subsection{PACT Retains the Source and Recovers the Drift}
+\label{sec:main-results}
+Figure~\ref{fig:tradeoff} places every method on the accuracy--forgetting
+plane for the domain-incremental chain (TSLANet backbone). The desirable
+region is the top-left: high average accuracy with near-zero forgetting.
+PACT is the only method that occupies it on all three benchmarks.
+Host-modifying baselines are pushed down-and-right along a visible
+trade-off: full fine-tuning and LwF recover some accuracy but forget
+heavily ($F\!\ge\!0.25$ on FD), whereas the least-forgetting baselines
+(EWC, head-tuning) avoid forgetting largely by staying close to the
+non-adapted model and never recover the drift.
+
+On FD, PACT reaches AA $= 0.978$ with $F = 0.002$, while the
+next-best baseline (MAS) achieves only $0.601$. On HHAR with 9 domains,
+PACT attains $0.886$ while all baselines remain below $0.723$. On
+Sleep-EDF, PACT leads at $0.663$ against a best baseline of $0.622$.
+On the pairwise AdaTime benchmark
+(Appendix Table~\ref{tab:main-pairwise}), the same pattern holds
+against UDA and TTA: PACT attains the best AA on FD ($0.981$) and HHAR
+($0.963$) while holding $F\!\approx\!0$, matching or exceeding the
+strongest semi-supervised baselines that additionally consume target labels.
+
+We note one honest exception: on HHAR with frozen MOMENT
+(Appendix Table~\ref{tab:chain-moment}), LwF restricted to the head reaches
+marginally higher accuracy than PACT ($0.646$ vs.\ $0.627$) but at roughly
+$3\times$ the forgetting ($F$: $0.050$ vs.\ $0.017$)---the one setting in the
+paper where a baseline is not strictly dominated on both axes.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_tradeoff.pdf}
+\caption{\textbf{Accuracy--forgetting trade-off on the domain-incremental
+chain (TSLANet backbone).} Top-left is best. PACT ($\star$) is the only
+method that simultaneously retains source/earlier-domain accuracy and
+avoids forgetting; every host-modifying baseline trades one for the other.
+Per-method values in Appendix Table~\ref{tab:chain-tslanet}.}
+\label{fig:tradeoff}
+\end{figure*}
+
+%---------------------------------------------------------------------
+\subsection{PACT Is Backbone-Agnostic, Including Frozen TSFMs}
+\label{sec:backbones}
+Because PACT only requires an embedding and a frozen head, it applies
+unchanged to specialist encoders and to forecasting-pretrained TSFMs used
+purely as frozen feature extractors. Figure~\ref{fig:backbones} shows that
+near-zero forgetting is preserved across all seven backbones
+($F\!\le\!0.022$ everywhere). The two backbone families are complementary:
+the frozen TSFMs (MOMENT, Chronos-Bolt, Sundial, Moirai) cluster at the top
+on FD (up to $0.984$), while the lighter specialist TSLANet is strongest on
+HHAR ($0.886$) and Sleep-EDF ($0.663$); Time-MoE trails the other TSFMs on FD ($0.943$) but is
+still comfortably above the specialist PatchTST. This confirms that PACT's
+guarantee is a property of the architecture, not of any single encoder, and
+that a frozen TSFM---which cannot be fine-tuned at all---becomes a
+competitive continual classifier under PACT.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_backbones.pdf}
+\caption{\textbf{PACT across seven backbones on the chain.} Top: average
+accuracy (AA). Bottom: forgetting $F$, which stays negligible for every
+backbone and dataset. Full numbers in Appendix Table~\ref{tab:backbones}.}
+\label{fig:backbones}
+\end{figure*}
+
+%---------------------------------------------------------------------
+\subsection{Ablation: The Gate Is a Necessity, Not a Refinement}
+\label{sec:ablation}
+Figure~\ref{fig:ablation}(a) isolates each component on the FD chain.
+Accuracy rises monotonically from the frozen head ($0.574$/$0.535$ for
+TSLANet/MOMENT), to full fine-tuning ($0.640$), to
+ungated adapters ($0.748$/$0.879$), to full PACT ($0.978$/$0.984$)---but only PACT keeps forgetting near zero;
+full fine-tuning and ungated adapters recover accuracy at the cost of
+large $F$ (up to $0.283$ and $0.113$ respectively). Adapters supply plasticity; the gate is what converts that
+plasticity into forgetting-free accumulation.
+
+Figure~\ref{fig:ablation}(b)
+explains why. Soft-mixture routing matches or beats hard $\arg\max$
+routing and sits just below the oracle (perfect-routing) ceiling. By
+Proposition~\ref{prop:margin}, the gap between soft and oracle is the
+\emph{sole} channel through which PACT can forget; that gap is
+$\le\!0.003$ on FD and Sleep-EDF and widens to $0.033$ only on HHAR, precisely where
+routing is hardest---localizing the residual forgetting to a single,
+interpretable cause rather than to backbone drift.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_ablation.pdf}
+\caption{\textbf{Ablations.} (a)~Component ablation on the FD chain:
+accuracy climbs across variants, but only PACT holds $F$ near zero
+(annotated). (b)~Gate routing: soft mixture tracks the oracle ceiling; the
+residual soft--oracle gap is the only source of forgetting, and is largest
+on HHAR. Full numbers in Appendix Tables~\ref{tab:components}
+and~\ref{tab:gate}.}
+\label{fig:ablation}
+\end{figure*}
+
+%---------------------------------------------------------------------
+\subsection{Robustness and Label Efficiency}
+\label{sec:robustness}
+Figure~\ref{fig:robustness} sweeps PACT's main design choices on the FD
+chain. Accuracy increases with the calibration budget on every dataset
+(a)---monotonically on FD (from $0.955$ at 1\% to $0.993$ at 20\%) and HHAR, and on Sleep-EDF as well apart from a
+small $0.630\!\to\!0.610$ dip from 1\% to 2\%---and is stable across
+concept count $K$ (b: $0.968$--$0.978$ for $K \in \{4,\dots,64\}$) and
+gate temperature $\tau$ (c: $0.971$--$0.979$ for $\tau \in [0.1, 2.0]$);
+identity vs.\ LoRA adapters ($0.978$ vs.\ $0.971$) and four
+domain orderings move AA by at most $0.011$ (Appendix
+Table~\ref{tab:hparams}). Forgetting remains $F\!\le\!0.004$ throughout every
+sweep. PACT therefore reaches its reported operating point without
+careful tuning, and improves predictably when more calibration labels are
+available.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_robustness.pdf}
+\caption{\textbf{Robustness and label efficiency (FD chain).}
+(a)~Accuracy grows with the calibration budget across datasets and
+backbones. (b,c)~Accuracy is flat across concept count $K$ and gate
+temperature $\tau$. Forgetting stays $\le\!0.004$ in all runs. Full
+numbers in Appendix Tables~\ref{tab:hparams} and~\ref{tab:budget-moment}.}
+\label{fig:robustness}
+\end{figure*}
+
+%---------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+We introduced PACT, a frozen-host method for sequential operating-condition
+adaptation of time-series classifiers. The key observation is that
+distribution shift is locally concentrated in the embedding space: some
+regions move substantially while others remain stable. PACT exploits this
+by learning lightweight, identity-initialized transports on local charts
+and softly routing test samples through the accumulated atlas, with the
+source identity path always retained. The encoder, classifier head, and
+all previously learned transports remain frozen, so forgetting can arise
+only through gate misrouting---a single, bounded, and interpretable
+channel.
+
+Across bearing-fault diagnosis, human-activity recognition, and sleep-staging
+streams with seven backbones spanning task-specialist encoders and frozen
+time-series foundation models, PACT is the only evaluated method that
+simultaneously recovers accuracy on new operating conditions and retains
+accuracy on all previously observed ones. On the FD benchmark, it maintains
+$0.984$ average accuracy after four sequential conditions with just 5\%
+calibration labels per step and no condition identity at test time, while
+every baseline that modifies shared parameters loses between 12 and 45
+percentage points.
+
+The method has clear limits. When the number of domains is very large and
+calibration per domain is extremely sparse, the prototype gate may not
+separate overlapping distributions; the HHAR results ($0.886$ with TSLANet
+but $0.627$ with frozen MOMENT) show that gate quality depends on the
+separability of the underlying embeddings. Future work could address this
+by learning the chart geometry jointly with the prototypes or by using
+richer routing signals.
+
+\bibliography{aaai2027}
+
+\end{document}
