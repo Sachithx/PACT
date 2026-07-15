@@ -3,44 +3,47 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: aaai2027.bst
 Database file #1: aaai2027.bib
-You've used 24 entries,
+Warning--empty booktitle in goswami_moment_2024
+Warning--empty booktitle in nie_time_2022
+You've used 35 entries,
             2840 wiz_defined-function locations,
-            978 strings with 15230 characters,
-and the built_in function-call counts, 20814 in all, are:
-= -- 1627
-> -- 1286
-< -- 1
-+ -- 473
-- -- 448
-* -- 1552
-:= -- 3288
-add.period$ -- 100
-call.type$ -- 24
-change.case$ -- 260
-chr.to.int$ -- 25
-cite$ -- 24
-duplicate$ -- 1328
-empty$ -- 1312
-format.name$ -- 519
-if$ -- 4099
+            1030 strings with 17861 characters,
+and the built_in function-call counts, 29561 in all, are:
+= -- 2273
+> -- 1858
+< -- 2
++ -- 685
+- -- 647
+* -- 2206
+:= -- 4704
+add.period$ -- 143
+call.type$ -- 35
+change.case$ -- 377
+chr.to.int$ -- 36
+cite$ -- 37
+duplicate$ -- 1903
+empty$ -- 1861
+format.name$ -- 751
+if$ -- 5785
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 299
-newline$ -- 124
-num.names$ -- 96
-pop$ -- 674
+missing$ -- 433
+newline$ -- 177
+num.names$ -- 140
+pop$ -- 998
 preamble$ -- 1
-purify$ -- 228
+purify$ -- 331
 quote$ -- 0
-skip$ -- 672
+skip$ -- 946
 stack$ -- 0
-substring$ -- 933
-swap$ -- 746
-text.length$ -- 1
+substring$ -- 1215
+swap$ -- 1048
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 216
-warning$ -- 0
-while$ -- 142
+type$ -- 315
+warning$ -- 2
+while$ -- 199
 width$ -- 0
-write$ -- 314
+write$ -- 449
+(There were 2 warnings)
