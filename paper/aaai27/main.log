@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  16 JUL 2026 01:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  16 JUL 2026 02:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -472,6 +472,16 @@ Package pdftex.def Info: figures/fig_intro_chain_moment.pdf  used on input line
  200.
 (pdftex.def)             Requested size: 215.45348pt x 166.34402pt.
 
+Underfull \hbox (badness 10000) in paragraph at lines 207--215
+\T1/ntxtlf/m/n/10 Pretrained time-series foun-da-tion mod-els (TSFMs)
+ []
+
+
+Underfull \hbox (badness 1048) in paragraph at lines 207--215
+\T1/ntxtlf/m/n/10 down-stream tasks. A com-mon de-ploy-ment strat-egy is
+ []
+
+
 Overfull \vbox (35.77646pt too high) has occurred while \output is active []
 
 
@@ -484,93 +494,76 @@ local/texlive/2025/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}
 
  <./figures/fig_intro_chain_moment.pdf>]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 10.0pt on input line 266.
+(Font)              scaled to size 10.0pt on input line 270.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/it' will be
-(Font)              scaled to size 10.0pt on input line 266.
+(Font)              scaled to size 10.0pt on input line 270.
 LaTeX Font Info:    Trying to load font information for TS1+ntxtlf on input lin
-e 309.
+e 313.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd
 File: ts1ntxtlf.fd 2015/01/18 v1.0 fd file for TS1/ntxtlf
 )
 LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.0pt on input line 309.
+(Font)              scaled to size 10.0pt on input line 313.
 
-Underfull \hbox (badness 1946) in paragraph at lines 324--329
+Underfull \hbox (badness 1946) in paragraph at lines 328--333
 []\T1/ntxtlf/m/n/10 We eval-u-ate PACT across bearing-fault di-ag-no-sis,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--355
+Underfull \hbox (badness 10000) in paragraph at lines 347--360
  \T1/ntxtlf/b/n/10 Con-tin-ual and frozen-backbone learn-ing.
  []
 
 
-Underfull \hbox (badness 1831) in paragraph at lines 345--355
+Underfull \hbox (badness 1831) in paragraph at lines 347--360
 \T1/ntxtlf/m/n/10 Regularization-based con-tin-ual learn-ing con-strains pa-
  []
 
 [2{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/tex-gyre/q-ts1.enc}]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.95pt on input line 359.
+(Font)              scaled to size 10.95pt on input line 372.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.95pt on input line 359.
+(Font)              scaled to size 10.95pt on input line 372.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/sc' will be
-(Font)              scaled to size 10.0pt on input line 442.
+(Font)              scaled to size 10.0pt on input line 455.
 
 [3{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf-pc.enc}]
-<figures/fig_locality.pdf, id=67, 492.75845pt x 197.24182pt>
+<figures/fig_locality.pdf, id=66, 492.75845pt x 197.24182pt>
 File: figures/fig_locality.pdf Graphic file (type pdf)
 <use figures/fig_locality.pdf>
-Package pdftex.def Info: figures/fig_locality.pdf  used on input line 521.
+Package pdftex.def Info: figures/fig_locality.pdf  used on input line 534.
 (pdftex.def)             Requested size: 465.41786pt x 186.29817pt.
 [4]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/scit' will be
-(Font)              scaled to size 10.0pt on input line 685.
-<figures/fig_tradeoff.pdf, id=71, 543.76588pt x 236.82753pt>
+(Font)              scaled to size 10.0pt on input line 698.
+ [5 <./figures/fig_locality.pdf>]
+<figures/fig_tradeoff.pdf, id=99, 543.76588pt x 236.82753pt>
 File: figures/fig_tradeoff.pdf Graphic file (type pdf)
 <use figures/fig_tradeoff.pdf>
-Package pdftex.def Info: figures/fig_tradeoff.pdf  used on input line 729.
+Package pdftex.def Info: figures/fig_tradeoff.pdf  used on input line 742.
 (pdftex.def)             Requested size: 465.41786pt x 202.70645pt.
- [5 <./figures/fig_locality.pdf>]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 7.0pt on input line 772.
+(Font)              scaled to size 7.0pt on input line 786.
 LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 7.0pt on input line 772.
+(Font)              scaled to size 7.0pt on input line 786.
 
-Underfull \hbox (badness 2452) in paragraph at lines 783--800
- \T1/ntxtlf/b/n/10 Met-rics. \T1/ntxtlf/m/n/10 Let $\OML/cmm/m/it/10 A[]$ \T1/n
-txtlf/m/n/10 be the macro-$\OML/cmm/m/it/10 F[]$ \T1/ntxtlf/m/n/10 on do-main $
-\OML/cmm/m/it/10 j$
- []
-
-
-Underfull \hbox (badness 5954) in paragraph at lines 783--800
-\T1/ntxtlf/m/n/10 af-ter adapt-ing through do-main $\OML/cmm/m/it/10 t$\T1/ntxt
-lf/m/n/10 . Af-ter the full
- []
-
-
-Underfull \hbox (badness 6526) in paragraph at lines 783--800
-\T1/ntxtlf/m/n/10 stream ($\OML/cmm/m/it/10 t \OT1/cmr/m/n/10 = \OML/cmm/m/it/1
-0 T$\T1/ntxtlf/m/n/10 ) we re-port \T1/ntxtlf/m/it/10 Av-er-age macro-$\OML/cmm
-/m/it/10 F[]$
- []
-
-
-Underfull \hbox (badness 1014) in paragraph at lines 783--800
+Underfull \hbox (badness 1014) in paragraph at lines 797--814
 \OML/cmm/m/it/10 A[]\OT1/cmr/m/n/10 )$\T1/ntxtlf/m/n/10 ($\OMS/cmsy/m/n/10 #$\T
 1/ntxtlf/m/n/10 , 0 = none); and \T1/ntxtlf/m/it/10 Rel-a-tive For-get-ting $[]
  \OT1/cmr/m/n/10 =
  []
 
-[6 <./figures/fig_tradeoff.pdf>]
-Underfull \hbox (badness 1874) in paragraph at lines 849--857
+[6]
+Underfull \hbox (badness 1874) in paragraph at lines 863--871
 \T1/ntxtlf/m/n/10 Macro-$\OML/cmm/m/it/10 F[]$ \T1/ntxtlf/m/n/10 rises mono-ton
 -i-cally from the frozen head
  []
 
-(./main.bbl [7] [8]) [9
+(./main.bbl
+Underfull \vbox (badness 6125) has occurred while \output is active []
+
+ [7 <./figures/fig_tradeoff.pdf>] [8]) [9
 
 ] (./main.aux)
  ***********
@@ -579,10 +572,10 @@ L3 programming layer <2020/03/25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 9186 strings out of 467538
- 144699 string characters out of 5419553
- 573779 words of memory out of 5000000
- 37937 multiletter control sequences out of 15000+600000
+ 9189 strings out of 467538
+ 144735 string characters out of 5419553
+ 573945 words of memory out of 5000000
+ 37940 multiletter control sequences out of 15000+600000
  683236 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  89i,12n,117p,351b,393s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -604,7 +597,7 @@ e/2025/texmf-dist/fonts/type1/public/tex-gyre/qtmr.pfb></usr/local/texlive/2025
 st/fonts/type1/public/newtx/ztmbi.pfb></usr/local/texlive/2025/texmf-dist/fonts
 /type1/public/newtx/ztmr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
 blic/newtx/ztmri.pfb>
-Output written on main.pdf (9 pages, 543930 bytes).
+Output written on main.pdf (9 pages, 546300 bytes).
 PDF statistics:
  226 PDF objects out of 1000 (max. 8388607)
  130 compressed objects within 2 object streams

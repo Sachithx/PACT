@@ -205,7 +205,7 @@ recognition and sleep-staging streams across multiple backbones.
 \end{figure}
 
 Pretrained time-series foundation models (TSFMs)
-\citep{moirai,ansari_chronos_2024,pmlr-v267-liu25be,shi_time-moe_2025}
+\citep{goswami_moment_2024,moirai,ansari_chronos_2024,pmlr-v267-liu25be,shi_time-moe_2025}
 provide general-purpose representations that transfer across temporal
 domains and downstream tasks. A common deployment strategy is therefore
 to freeze the pretrained encoder and train only a lightweight
@@ -245,6 +245,10 @@ conditions. Freezing the host prevents adaptation from overwriting its
 representation or decision geometry. It also isolates any remaining
 degradation to the newly introduced correction and its routing
 mechanism, rather than distributing it across shared model parameters.
+Recent work has begun to study domain-incremental time-series classification
+directly \citep{dualcd}; PACT addresses the complementary frozen-host regime,
+where the pretrained encoder and head cannot be modified, only 5\% calibration
+labels are available, and an exact identity path must be retained.
 
 \paragraph{Operating-condition shift is locally concentrated.}
 We investigate how the embedding space of a frozen TSFM changes across
@@ -333,25 +337,34 @@ Our contributions are as follows:
 \label{sec:related}
 
 \paragraph{Domain and test-time adaptation.}
-Cross-domain fault-diagnosis methods align source and target representations
-with adversarial losses, discrepancy matching, or multi-source adaptation
-\citep{dann,mmda,msda}, while test-time adaptation updates a deployed model
-from unlabeled samples using entropy or normalization objectives
-\citep{tent,cotta,ecotta,eata}. These methods adapt shared components toward
-the current distribution. PACT instead assumes test samples may come from any
-previously seen condition and therefore leaves the encoder and head unchanged.
+Domain adaptation aligns source and target representations, while test-time
+adaptation updates a deployed model from unlabeled target samples
+\citep{dann,mmda,msda,tent,cotta,ecotta,eata}. Both optimize shared components
+for the current distribution. PACT instead leaves the encoder and head
+unchanged because test samples may come from any previously seen condition.
 
 \paragraph{Continual and frozen-backbone learning.}
 Regularization-based continual learning constrains parameter drift
-\citep{ewc,mas,si,lwf}, and expandable methods allocate routed capacity through
-prompts or adapters \citep{sprompts,moeadapters,sema}. Frozen-backbone methods
-such as RanPAC, ADAM, and EASE construct classifiers or subspaces on top of
-fixed representations \citep{ranpac,adam,ease}, mostly for class-incremental
-learning. Time-series adaptation has focused on forecasting or anomaly
-detection via normalization, online updates, or unlabeled test-time objectives
-\citep{fsnet,revin,adtta}. PACT differs by addressing fixed-label
-operating-condition streams with few labels, no condition identity at
-inference, no raw-series replay, and an explicit identity route.
+\citep{ewc,mas,si,lwf}; rehearsal-free methods use prompts, prototypes, or
+temporal distillation \citep{dualprompt,sprompts,dualcp,dt2w}. DualCD directly
+studies domain-incremental time-series classification by updating a model
+sequentially \citep{dualcd}, whereas PACT keeps the pretrained host and head
+immutable. S-Prompts uses KNN to select one domain-specific input prompt per
+sample and offers no exact original-prediction path. PACT instead soft-mixes
+identity and condition transports, retains such a path, and corrects local
+charts rather than the whole representation. Frozen-backbone methods such as
+RanPAC, ADAM, and EASE construct classifiers or subspaces on fixed
+representations, mostly for class-incremental learning
+\citep{ranpac,adam,ease}. PACT addresses fixed-label operating-condition
+streams with few labels, no condition identity, and no raw-series replay.
+
+\paragraph{Source-free and few-label adaptation.}
+SHOT and the time-series-specific MAPU adapt a source encoder using unlabeled
+target data, with MAPU enforcing temporal consistency through imputation
+\citep{shot,mapu}. They target a single source-to-target shift, violate (C4) by
+modifying the encoder, and provide no retention mechanism over a stream. PACT
+instead uses a small labeled calibration set while retaining the frozen host
+and all earlier corrections.
 
 \section{Method}
 \label{sec:method}
@@ -730,7 +743,8 @@ $p(|Z_0|+\sum_d|Z_d|)$ floats; no raw time series are retained.
 \caption{\textbf{Macro-$F_1$--forgetting trade-off on the domain-incremental
 chain (TSLANet backbone).} Top-left is best. PACT ($\star$) combines high
 average macro-$F_1$ with low measured forgetting on all three streams. The
-frozen baseline has zero forgetting by construction but weak adaptation.}
+frozen baseline has zero forgetting by construction but weak adaptation.
+ORTCL results are reported in Supplementary Table~2.}
 \label{fig:tradeoff}
 \end{figure*}
 
@@ -786,7 +800,7 @@ $\mathrm{AA}=\frac{1}{T+1}\sum_{j=0}^{T}A_{T,j}$\;($\uparrow$);
 \emph{Backward Transfer}
 $\mathrm{BWT}=\frac{1}{T}\sum_{j=0}^{T-1}(A_{T,j}-A_{j,j})$
 ($\uparrow$; negative values indicate net degradation);
-\emph{Forgetting}
+\emph{Forgetting relative to peak performance}
 $F=\frac{1}{T}\sum_{j=0}^{T-1}
 \max(0,\max_{j\le l<T}A_{l,j}-A_{T,j})$\;($\downarrow$, 0 = none);
 and \emph{Relative Forgetting}
@@ -873,7 +887,7 @@ $K\in\{4,\dots,64\}$ and in $0.971$--$0.979$ for
 $\tau\in[0.1,2.0]$; full-affine and rank-8 residual transports differ by
 $0.007$ AA.
 With frozen MOMENT, average macro-$F_1$ generally increases with the calibration budget
-(FD rises from $0.955$ at 1\% to $0.993$ at 20\%), and forgetting remains
+(FD rises from $0.954$ at 1\% to $0.993$ at 20\%), and forgetting remains
 below $0.025$ throughout the sweeps. Full curves and order-sensitivity
 tables are in the supplementary material.
 
@@ -889,7 +903,7 @@ by learning lightweight, identity-initialized transports on local charts
 and softly routing test samples through the accumulated atlas, with the
 source identity path always retained. The encoder, classifier head, and
 all previously learned transports remain frozen, so changes on earlier domains
-are isolated to the refitted routing gate and its mixture weights.
+can arise only from the refitted gate and its mixture weights.
 
 Across bearing-fault diagnosis, human-activity recognition, and sleep-staging
 streams with seven backbones spanning task-specialist encoders and frozen
@@ -906,10 +920,9 @@ calibration per domain is extremely sparse, the learned gate may not
 separate overlapping distributions; the HHAR results ($0.886$ with TSLANet
 but $0.627$ with frozen MOMENT) show that gate quality depends on the
 separability of the underlying embeddings.
-Hard nearest-centroid chart assignment can also misroute a shifted embedding
-that crosses a chart boundary; soft top-$k$ chart assignment is an important
-ablation and extension. Future work will additionally study multi-layer chart
-discovery inside foundation models and session-level domain routing.
+Hard nearest-centroid assignment can misroute embeddings across chart
+boundaries; soft top-$k$ assignment, multi-layer chart discovery, and
+session-level routing remain important extensions.
 
 \bibliography{aaai2027}
 

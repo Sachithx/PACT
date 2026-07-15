@@ -1,125 +1,193 @@
-\begin{thebibliography}{35}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 
-\bibitem[{Aljundi et~al.(2018)Aljundi, Babiloni, Elhoseiny, Rohrbach, and Tuytelaars}]{mas}
-Aljundi, R.; Babiloni, F.; Elhoseiny, M.; Rohrbach, M.; and Tuytelaars, T. 2018.
+\bibitem[{Aljundi et~al.(2018)Aljundi, Babiloni, Elhoseiny, Rohrbach, and
+  Tuytelaars}]{mas}
+Aljundi, R.; Babiloni, F.; Elhoseiny, M.; Rohrbach, M.; and Tuytelaars, T.
+  2018.
 \newblock Memory aware synapses: Learning what (not) to forget.
-\newblock In \emph{Proceedings of the European conference on computer vision (ECCV)}, 139--154.
+\newblock In \emph{Proceedings of the European conference on computer vision
+  (ECCV)}, 139--154.
 
-\bibitem[{Ansari et~al.(2024)Ansari, Stella, Turkmen, Zhang, Mercado, Shen, Shchur, Rangapuram, Arango, Kapoor et~al.}]{ansari_chronos_2024}
-Ansari, A.~F.; Stella, L.; Turkmen, A.~C.; Zhang, X.; Mercado, P.; Shen, H.; Shchur, O.; Rangapuram, S.~S.; Arango, S.~P.; Kapoor, S.; et~al. 2024.
+\bibitem[{Ansari et~al.(2024)Ansari, Stella, Turkmen, Zhang, Mercado, Shen,
+  Shchur, Rangapuram, Arango, Kapoor et~al.}]{ansari_chronos_2024}
+Ansari, A.~F.; Stella, L.; Turkmen, A.~C.; Zhang, X.; Mercado, P.; Shen, H.;
+  Shchur, O.; Rangapuram, S.~S.; Arango, S.~P.; Kapoor, S.; et~al. 2024.
 \newblock Chronos: Learning the Language of Time Series.
 \newblock \emph{Transactions on Machine Learning Research}.
 
-\bibitem[{Eldele et~al.(2024)Eldele, Ragab, Chen, Wu, and Li}]{eldele_tslanet_2024}
+\bibitem[{Eldele et~al.(2024)Eldele, Ragab, Chen, Wu, and
+  Li}]{eldele_tslanet_2024}
 Eldele, E.; Ragab, M.; Chen, Z.; Wu, M.; and Li, X. 2024.
-\newblock {TSLANet}: {Rethinking} {Transformers} for {Time} {Series} {Representation} {Learning}.
+\newblock {TSLANet}: {Rethinking} {Transformers} for {Time} {Series}
+  {Representation} {Learning}.
 \newblock In \emph{{ICML}}, 12409--12428.
 
-\bibitem[{Ganin et~al.(2016)Ganin, Ustinova, Ajakan, Germain, Larochelle, Laviolette, March, and Lempitsky}]{dann}
-Ganin, Y.; Ustinova, E.; Ajakan, H.; Germain, P.; Larochelle, H.; Laviolette, F.; March, M.; and Lempitsky, V. 2016.
+\bibitem[{Ganin et~al.(2016)Ganin, Ustinova, Ajakan, Germain, Larochelle,
+  Laviolette, March, and Lempitsky}]{dann}
+Ganin, Y.; Ustinova, E.; Ajakan, H.; Germain, P.; Larochelle, H.; Laviolette,
+  F.; March, M.; and Lempitsky, V. 2016.
 \newblock Domain-adversarial training of neural networks.
 \newblock \emph{Journal of machine learning research}, 17(59): 1--35.
 
-\bibitem[{Goswami et~al.(2024)Goswami, Szafer, Choudhry, Cai, Li, and Dubrawski}]{goswami_moment_2024}
+\bibitem[{Goswami et~al.(2024)Goswami, Szafer, Choudhry, Cai, Li, and
+  Dubrawski}]{goswami_moment_2024}
 Goswami, M.; Szafer, K.; Choudhry, A.; Cai, Y.; Li, S.; and Dubrawski, A. 2024.
 \newblock {MOMENT}: {A} {Family} of {Open} {Time}-series {Foundation} {Models}.
 \newblock In \emph{{ICML}}, 16115--16152.
 
-\bibitem[{Hu et~al.(2022)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and Chen}]{lora}
-Hu, E.~J.; Shen, Y.; Wallis, P.; Allen-Zhu, Z.; Li, Y.; Wang, S.; Wang, L.; and Chen, W. 2022.
+\bibitem[{Hu et~al.(2022)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and
+  Chen}]{lora}
+Hu, E.~J.; Shen, Y.; Wallis, P.; Allen-Zhu, Z.; Li, Y.; Wang, S.; Wang, L.; and
+  Chen, W. 2022.
 \newblock {LoRA}: Low-Rank Adaptation of Large Language Models.
 \newblock In \emph{International Conference on Learning Representations}.
 
-\bibitem[{Kemp et~al.(2000)Kemp, Zwinderman, Tuk, Kamphuisen, and Oberye}]{kemp_sleep_2000}
-Kemp, B.; Zwinderman, A.~H.; Tuk, B.; Kamphuisen, H. A.~C.; and Oberye, J. J.~L. 2000.
-\newblock Analysis of a Sleep-Dependent Neuronal Feedback Loop: The Slow-Wave Microcontinuity of the EEG.
-\newblock \emph{IEEE Transactions on Biomedical Engineering}, 47(9): 1185--1194.
+\bibitem[{Kemp et~al.(2000)Kemp, Zwinderman, Tuk, Kamphuisen, and
+  Oberye}]{kemp_sleep_2000}
+Kemp, B.; Zwinderman, A.~H.; Tuk, B.; Kamphuisen, H. A.~C.; and Oberye, J.
+  J.~L. 2000.
+\newblock Analysis of a Sleep-Dependent Neuronal Feedback Loop: The Slow-Wave
+  Microcontinuity of the EEG.
+\newblock \emph{IEEE Transactions on Biomedical Engineering}, 47(9):
+  1185--1194.
 
-\bibitem[{Kim, Park, and Choo(2024)}]{adtta}
-Kim, D.; Park, S.; and Choo, J. 2024.
-\newblock When model meets new normals: Test-time adaptation for unsupervised time-series anomaly detection.
-\newblock In \emph{Proceedings of the AAAI conference on artificial intelligence}, volume~38, 13113--13121.
-
-\bibitem[{Kim et~al.(2022)Kim, Kim, Tae, Park, Choi, and Choo}]{revin}
-Kim, T.; Kim, J.; Tae, Y.; Park, C.; Choi, J.-H.; and Choo, J. 2022.
-\newblock Reversible instance normalization for accurate time-series forecasting against distribution shift.
-\newblock In \emph{International conference on learning representations}.
-
-\bibitem[{Kirkpatrick et~al.(2017)Kirkpatrick, Pascanu, Rabinowitz, Veness, Desjardins, Rusu, Milan, Quan, Ramalho, Grabska-Barwinska et~al.}]{ewc}
-Kirkpatrick, J.; Pascanu, R.; Rabinowitz, N.; Veness, J.; Desjardins, G.; Rusu, A.~A.; Milan, K.; Quan, J.; Ramalho, T.; Grabska-Barwinska, A.; et~al. 2017.
+\bibitem[{Kirkpatrick et~al.(2017)Kirkpatrick, Pascanu, Rabinowitz, Veness,
+  Desjardins, Rusu, Milan, Quan, Ramalho, Grabska-Barwinska et~al.}]{ewc}
+Kirkpatrick, J.; Pascanu, R.; Rabinowitz, N.; Veness, J.; Desjardins, G.; Rusu,
+  A.~A.; Milan, K.; Quan, J.; Ramalho, T.; Grabska-Barwinska, A.; et~al. 2017.
 \newblock Overcoming catastrophic forgetting in neural networks.
-\newblock \emph{Proceedings of the national academy of sciences}, 114(13): 3521--3526.
+\newblock \emph{Proceedings of the national academy of sciences}, 114(13):
+  3521--3526.
 
-\bibitem[{Lessmeier et~al.(2016)Lessmeier, Kimotho, Zimmer, and Sextro}]{paderborn}
+\bibitem[{Lessmeier et~al.(2016)Lessmeier, Kimotho, Zimmer, and
+  Sextro}]{paderborn}
 Lessmeier, C.; Kimotho, J.~K.; Zimmer, D.; and Sextro, W. 2016.
-\newblock Condition Monitoring of Bearing Damage in Electromechanical Drive Systems by Using Motor Current Signals of Electric Motors: A Benchmark Data Set for Data-Driven Classification.
-\newblock In \emph{European Conference of the Prognostics and Health Management Society}.
+\newblock Condition Monitoring of Bearing Damage in Electromechanical Drive
+  Systems by Using Motor Current Signals of Electric Motors: A Benchmark Data
+  Set for Data-Driven Classification.
+\newblock In \emph{European Conference of the Prognostics and Health Management
+  Society}.
 
 \bibitem[{Li and Hoiem(2017)}]{lwf}
 Li, Z.; and Hoiem, D. 2017.
 \newblock Learning without forgetting.
-\newblock \emph{IEEE transactions on pattern analysis and machine intelligence}, 40(12): 2935--2947.
+\newblock \emph{IEEE transactions on pattern analysis and machine
+  intelligence}, 40(12): 2935--2947.
+
+\bibitem[{Liang, Hu, and Feng(2020)}]{shot}
+Liang, J.; Hu, D.; and Feng, J. 2020.
+\newblock Do We Really Need to Access the Source Data? Source Hypothesis
+  Transfer for Unsupervised Domain Adaptation.
+\newblock In \emph{Proceedings of the 37th International Conference on Machine
+  Learning}, volume 119 of \emph{Proceedings of Machine Learning Research},
+  6028--6039.
 
 \bibitem[{Lin et~al.(2026)Lin, Zhang, Zhang, Wang, and Xia}]{ortcl}
 Lin, L.; Zhang, X.; Zhang, Q.; Wang, S.; and Xia, K. 2026.
-\newblock {ORTCL}: Towards Continual Learning of Time Series Foundation Models on Streaming Data via Orthogonal Rotation.
-\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}.
+\newblock {ORTCL}: Towards Continual Learning of Time Series Foundation Models
+  on Streaming Data via Orthogonal Rotation.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}.
 
-\bibitem[{Liu et~al.(2025)Liu, Qin, Shi, Chen, Yang, Huang, Wang, and Long}]{pmlr-v267-liu25be}
-Liu, Y.; Qin, G.; Shi, Z.; Chen, Z.; Yang, C.; Huang, X.; Wang, J.; and Long, M. 2025.
+\bibitem[{Liu et~al.(2025)Liu, Qin, Shi, Chen, Yang, Huang, Wang, and
+  Long}]{pmlr-v267-liu25be}
+Liu, Y.; Qin, G.; Shi, Z.; Chen, Z.; Yang, C.; Huang, X.; Wang, J.; and Long,
+  M. 2025.
 \newblock Sundial: A Family of Highly Capable Time Series Foundation Models.
-\newblock In \emph{International Conference on Machine Learning}, 39295--39317. PMLR.
+\newblock In \emph{International Conference on Machine Learning}, 39295--39317.
+  PMLR.
+
+\bibitem[{Liu et~al.(2026)Liu, Duan, Tang, Jing, Geng, Huang, Xu, Zhang, and
+  Wang}]{dualcd}
+Liu, Z.; Duan, P.; Tang, X.; Jing, H.; Geng, M.; Huang, Y.; Xu, J.; Zhang, B.;
+  and Wang, B. 2026.
+\newblock We Need a More Robust Classifier: Dual Causal Learning Empowers
+  Domain-Incremental Time Series Classification.
+\newblock \emph{arXiv preprint arXiv:2601.10312}.
 
 \bibitem[{Long et~al.(2018)Long, Cao, Wang, and Jordan}]{cdan}
 Long, M.; Cao, Z.; Wang, J.; and Jordan, M.~I. 2018.
 \newblock Conditional Adversarial Domain Adaptation.
-\newblock In \emph{Advances in Neural Information Processing Systems}, volume~31.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~31.
 
-\bibitem[{McDonnell et~al.(2023)McDonnell, Gong, Parvaneh, Abbasnejad, and Van~den Hengel}]{ranpac}
-McDonnell, M.~D.; Gong, D.; Parvaneh, A.; Abbasnejad, E.; and Van~den Hengel, A. 2023.
-\newblock Ranpac: Random projections and pre-trained models for continual learning.
-\newblock \emph{Advances in Neural Information Processing Systems}, 36: 12022--12053.
+\bibitem[{McDonnell et~al.(2023)McDonnell, Gong, Parvaneh, Abbasnejad, and
+  Van~den Hengel}]{ranpac}
+McDonnell, M.~D.; Gong, D.; Parvaneh, A.; Abbasnejad, E.; and Van~den Hengel,
+  A. 2023.
+\newblock Ranpac: Random projections and pre-trained models for continual
+  learning.
+\newblock \emph{Advances in Neural Information Processing Systems}, 36:
+  12022--12053.
 
-\bibitem[{Nie et~al.(2023)Nie, Nguyen, Sinthong, and Kalagnanam}]{nie_time_2022}
+\bibitem[{Nie et~al.(2023)Nie, Nguyen, Sinthong, and
+  Kalagnanam}]{nie_time_2022}
 Nie, Y.; Nguyen, N.~H.; Sinthong, P.; and Kalagnanam, J. 2023.
-\newblock A {Time} {Series} is {Worth} 64 {Words}: {Long}-term {Forecasting} with {Transformers}.
+\newblock A {Time} {Series} is {Worth} 64 {Words}: {Long}-term {Forecasting}
+  with {Transformers}.
 \newblock In \emph{{ICLR}}.
 
 \bibitem[{Niu et~al.(2022)Niu, Wu, Zhang, Chen, Zheng, Zhao, and Tan}]{eata}
 Niu, S.; Wu, J.; Zhang, Y.; Chen, Y.; Zheng, S.; Zhao, P.; and Tan, M. 2022.
 \newblock Efficient test-time model adaptation without forgetting.
-\newblock In \emph{International conference on machine learning}, 16888--16905. PMLR.
+\newblock In \emph{International conference on machine learning}, 16888--16905.
+  PMLR.
 
-\bibitem[{Pham et~al.(2023)Pham, Liu, Sahoo, and Hoi}]{fsnet}
-Pham, Q.; Liu, C.; Sahoo, D.; and Hoi, S. 2023.
-\newblock Learning Fast and Slow for Online Time Series Forecasting.
-\newblock In \emph{The Eleventh International Conference on Learning Representations}.
+\bibitem[{Qiao et~al.(2023)Qiao, Hu, Jiang, Suganthan, and Savitha}]{dt2w}
+Qiao, Z.; Hu, M.; Jiang, X.; Suganthan, P.~N.; and Savitha, R. 2023.
+\newblock Class-Incremental Learning on Multivariate Time Series via
+  Shape-Aligned Temporal Distillation.
+\newblock In \emph{IEEE International Conference on Acoustics, Speech and
+  Signal Processing}, 1--5.
 
-\bibitem[{Ragab et~al.(2023)Ragab, Eldele, Tan, Foo, Chen, Wu, Kwoh, and Li}]{adatime}
-Ragab, M.; Eldele, E.; Tan, W.~L.; Foo, C.-S.; Chen, Z.; Wu, M.; Kwoh, C.-K.; and Li, X. 2023.
-\newblock {AdaTime}: A Benchmarking Suite for Domain Adaptation on Time Series Data.
-\newblock \emph{ACM Transactions on Knowledge Discovery from Data}, 17(8): 1--18.
+\bibitem[{Ragab et~al.(2023{\natexlab{a}})Ragab, Eldele, Tan, Foo, Chen, Wu,
+  Kwoh, and Li}]{adatime}
+Ragab, M.; Eldele, E.; Tan, W.~L.; Foo, C.-S.; Chen, Z.; Wu, M.; Kwoh, C.-K.;
+  and Li, X. 2023{\natexlab{a}}.
+\newblock {AdaTime}: A Benchmarking Suite for Domain Adaptation on Time Series
+  Data.
+\newblock \emph{ACM Transactions on Knowledge Discovery from Data}, 17(8):
+  1--18.
 
-\bibitem[{Rahman et~al.(2020)Rahman, Fookes, Baktashmotlagh, and Sridharan}]{mmda}
+\bibitem[{Ragab et~al.(2023{\natexlab{b}})Ragab, Eldele, Wu, Foo, Li, and
+  Chen}]{mapu}
+Ragab, M.; Eldele, E.; Wu, M.; Foo, C.-S.; Li, X.; and Chen, Z.
+  2023{\natexlab{b}}.
+\newblock Source-Free Domain Adaptation with Temporal Imputation for Time
+  Series Data.
+\newblock In \emph{Proceedings of the 29th ACM SIGKDD Conference on Knowledge
+  Discovery and Data Mining}, 1989--1998.
+
+\bibitem[{Rahman et~al.(2020)Rahman, Fookes, Baktashmotlagh, and
+  Sridharan}]{mmda}
 Rahman, M.~M.; Fookes, C.; Baktashmotlagh, M.; and Sridharan, S. 2020.
 \newblock On minimum discrepancy estimation for deep domain adaptation.
-\newblock In \emph{Domain adaptation for visual understanding}, 81--94. Springer.
+\newblock In \emph{Domain adaptation for visual understanding}, 81--94.
+  Springer.
 
-\bibitem[{Shi et~al.(2025)Shi, Wang, Nie, Li, Ye, Wen, and Jin}]{shi_time-moe_2025}
+\bibitem[{Shi et~al.(2025)Shi, Wang, Nie, Li, Ye, Wen, and
+  Jin}]{shi_time-moe_2025}
 Shi, X.; Wang, S.; Nie, Y.; Li, D.; Ye, Z.; Wen, Q.; and Jin, M. 2025.
-\newblock Time-moe: Billion-scale time series foundation models with mixture of experts.
+\newblock Time-moe: Billion-scale time series foundation models with mixture of
+  experts.
 \newblock In \emph{International Conference on Learning Representations}.
 
 \bibitem[{Song et~al.(2023)Song, Lee, Kweon, and Choi}]{ecotta}
 Song, J.; Lee, J.; Kweon, I.~S.; and Choi, S. 2023.
-\newblock Ecotta: Memory-efficient continual test-time adaptation via self-distilled regularization.
-\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, 11920--11929.
+\newblock Ecotta: Memory-efficient continual test-time adaptation via
+  self-distilled regularization.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, 11920--11929.
 
-\bibitem[{Stisen et~al.(2015)Stisen, Blunck, Bhattacharya, Prentow, Kjaergaard, Dey, Sonne, and Jensen}]{stisen_hhar_2015}
-Stisen, A.; Blunck, H.; Bhattacharya, S.; Prentow, T.~S.; Kjaergaard, M.~B.; Dey, A.~K.; Sonne, T.; and Jensen, M.~M. 2015.
-\newblock Smart Devices Are Different: Assessing and Mitigating Mobile Sensing Heterogeneities for Activity Recognition.
-\newblock In \emph{Proceedings of the 13th ACM Conference on Embedded Networked Sensor Systems}, 127--140.
+\bibitem[{Stisen et~al.(2015)Stisen, Blunck, Bhattacharya, Prentow, Kjaergaard,
+  Dey, Sonne, and Jensen}]{stisen_hhar_2015}
+Stisen, A.; Blunck, H.; Bhattacharya, S.; Prentow, T.~S.; Kjaergaard, M.~B.;
+  Dey, A.~K.; Sonne, T.; and Jensen, M.~M. 2015.
+\newblock Smart Devices Are Different: Assessing and Mitigating Mobile Sensing
+  Heterogeneities for Activity Recognition.
+\newblock In \emph{Proceedings of the 13th ACM Conference on Embedded Networked
+  Sensor Systems}, 127--140.
 
 \bibitem[{Sun and Saenko(2016)}]{deepcoral}
 Sun, B.; and Saenko, K. 2016.
@@ -131,49 +199,62 @@ Wang, D.; Shelhamer, E.; Liu, S.; Olshausen, B.; and Darrell, T. 2021.
 \newblock Tent: Fully Test-Time Adaptation by Entropy Minimization.
 \newblock In \emph{International Conference on Learning Representations}.
 
-\bibitem[{Wang et~al.(2025)Wang, Lu, Yao, and Gong}]{sema}
-Wang, H.; Lu, H.; Yao, L.; and Gong, D. 2025.
-\newblock Self-expansion of pre-trained models with mixture of adapters for continual learning.
-\newblock In \emph{Proceedings of the Computer Vision and Pattern Recognition Conference}, 10087--10098.
-
-\bibitem[{Wang et~al.(2022)Wang, Fink, Van~Gool, and Dai}]{cotta}
-Wang, Q.; Fink, O.; Van~Gool, L.; and Dai, D. 2022.
+\bibitem[{Wang et~al.(2022{\natexlab{a}})Wang, Fink, Van~Gool, and Dai}]{cotta}
+Wang, Q.; Fink, O.; Van~Gool, L.; and Dai, D. 2022{\natexlab{a}}.
 \newblock Continual test-time domain adaptation.
-\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, 7201--7211.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision
+  and pattern recognition}, 7201--7211.
+
+\bibitem[{Wang et~al.(2025)Wang, He, Dong, Song, Han, Luo, and Gong}]{dualcp}
+Wang, Q.; He, Y.; Dong, S.; Song, X.; Han, J.; Luo, H.; and Gong, Y. 2025.
+\newblock {DualCP}: Rehearsal-Free Domain-Incremental Learning via Dual-Level
+  Concept Prototype.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~39, 21198--21206.
 
 \bibitem[{Wang, Huang, and Hong(2022)}]{sprompts}
 Wang, Y.; Huang, Z.; and Hong, X. 2022.
-\newblock S-prompts learning with pre-trained transformers: An occam’s razor for domain incremental learning.
-\newblock \emph{Advances in Neural Information Processing Systems}, 35: 5682--5695.
+\newblock S-prompts learning with pre-trained transformers: An occam’s razor
+  for domain incremental learning.
+\newblock \emph{Advances in Neural Information Processing Systems}, 35:
+  5682--5695.
+
+\bibitem[{Wang et~al.(2022{\natexlab{b}})Wang, Zhang, Ebrahimi, Sun, Zhang,
+  Lee, Ren, Su, Perot, Dy, and Pfister}]{dualprompt}
+Wang, Z.; Zhang, Z.; Ebrahimi, S.; Sun, R.; Zhang, H.; Lee, C.-Y.; Ren, X.; Su,
+  G.; Perot, V.; Dy, J.; and Pfister, T. 2022{\natexlab{b}}.
+\newblock {DualPrompt}: Complementary Prompting for Rehearsal-Free Continual
+  Learning.
+\newblock In \emph{European Conference on Computer Vision}, 631--648. Springer.
 
 \bibitem[{Woo et~al.(2024)Woo, Liu, Kumar, Xiong, Savarese, and Sahoo}]{moirai}
 Woo, G.; Liu, C.; Kumar, A.; Xiong, C.; Savarese, S.; and Sahoo, D. 2024.
 \newblock Unified training of universal time series forecasting transformers.
 \newblock In \emph{Forty-first International Conference on Machine Learning}.
 
-\bibitem[{Yu et~al.(2024)Yu, Zhuge, Zhang, Hu, Wang, Lu, and He}]{moeadapters}
-Yu, J.; Zhuge, Y.; Zhang, L.; Hu, P.; Wang, D.; Lu, H.; and He, Y. 2024.
-\newblock Boosting continual learning of vision-language models via mixture-of-experts adapters.
-\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, 23219--23230.
-
 \bibitem[{Zenke, Poole, and Ganguli(2017)}]{si}
 Zenke, F.; Poole, B.; and Ganguli, S. 2017.
 \newblock Continual learning through synaptic intelligence.
-\newblock In \emph{International conference on machine learning}, 3987--3995. Pmlr.
+\newblock In \emph{International conference on machine learning}, 3987--3995.
+  Pmlr.
 
 \bibitem[{Zheng et~al.(2024)Zheng, He, Nie, Li, Dong, and Gao}]{msda}
 Zheng, X.; He, Z.; Nie, J.; Li, P.; Dong, Z.; and Gao, M. 2024.
-\newblock A progressive multi-source domain adaptation method for bearing fault diagnosis.
+\newblock A progressive multi-source domain adaptation method for bearing fault
+  diagnosis.
 \newblock \emph{Applied Acoustics}, 216: 109797.
 
 \bibitem[{Zhou et~al.(2025)Zhou, Cai, Ye, Zhan, and Liu}]{adam}
 Zhou, D.-W.; Cai, Z.-W.; Ye, H.-J.; Zhan, D.-C.; and Liu, Z. 2025.
-\newblock Revisiting class-incremental learning with pre-trained models: Generalizability and adaptivity are all you need.
+\newblock Revisiting class-incremental learning with pre-trained models:
+  Generalizability and adaptivity are all you need.
 \newblock \emph{International Journal of Computer Vision}, 133(3): 1012--1032.
 
 \bibitem[{Zhou et~al.(2024)Zhou, Sun, Ye, and Zhan}]{ease}
 Zhou, D.-W.; Sun, H.-L.; Ye, H.-J.; and Zhan, D.-C. 2024.
-\newblock Expandable subspace ensemble for pre-trained model-based class-incremental learning.
-\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, 23554--23564.
+\newblock Expandable subspace ensemble for pre-trained model-based
+  class-incremental learning.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, 23554--23564.
 
 \end{thebibliography}

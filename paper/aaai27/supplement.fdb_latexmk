@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1784136584.89218 "supplement.tex" "supplement.pdf" "supplement" 1784136585.33049 0
+["pdflatex"] 1784138525.85804 "supplement.tex" "supplement.pdf" "supplement" 1784138526.28269 0
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc" 1698694482 2914 fdbc4a54b9bc76f4551b5303f2737d33 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/tex-gyre/q-ts1.enc" 1529098226 3124 3813fd4c981d99822890a2861b0d274c ""
@@ -108,9 +108,9 @@
   "figures/fig_backbones.pdf" 1784136486.13943 41372 8adbd8c760da00dc5c8bd277094fff79 ""
   "figures/fig_retention_matrices.pdf" 1784130857.55004 51192 c0c242708bb1c444ba04726e3142d8d0 ""
   "figures/fig_robustness.pdf" 1784136486.13988 67847 d388ab6388e0f18714831d2f21c7e025 ""
-  "supplement.aux" 1784136585.25041 738 401ffd1ed090e0b109d65d051009583c "pdflatex"
+  "supplement.aux" 1784138526.21032 738 401ffd1ed090e0b109d65d051009583c "pdflatex"
   "supplement.tex" 1784135740.03084 9231 b38d72e2158a5fe0bac228fd4199b16c ""
-  "tables/appendix_tables.tex" 1784136063.66372 14601 7b1037551d28b299a23bad60e49c7813 ""
+  "tables/appendix_tables.tex" 1784138472.63409 14601 004052e11369bb0913340f5c53941d1e ""
   (generated)
   "supplement.aux"
   "supplement.log"
