@@ -45,7 +45,7 @@ STEP_LABELS = ["FD-A", "+ FD-B", "+ FD-C", "+ FD-D"]
 METHODS = [
     ("No adapt (frozen)", "controls/fd_moment_adatime_K16_c5", "noadapt_f1_matrix.csv",
      C["gray"], "o", ":", 2),
-    ("EWC", "cl_baselines_tsfm/fd_moment_adatime_ewc_c5", "f1_matrix.csv",
+    ("EWC (head)", "cl_baselines_tsfm/fd_moment_adatime_ewc_c5", "f1_matrix.csv",
      C["orange"], "v", "--", 2),
     ("Source-distill", "cl_baselines_tsfm/fd_moment_adatime_srcdistill_c5", "f1_matrix.csv",
      C["verm"], "P", "--", 2),
@@ -53,7 +53,7 @@ METHODS = [
      C["blue"], "^", "--", 2),
     ("Head fine-tune", "cl_baselines_tsfm/fd_moment_adatime_head-ft_c5", "f1_matrix.csv",
      C["sky"], "s", "--", 2),
-    ("MAS", "cl_baselines_tsfm/fd_moment_adatime_mas_c5", "f1_matrix.csv",
+    ("MAS (head)", "cl_baselines_tsfm/fd_moment_adatime_mas_c5", "f1_matrix.csv",
      C["purple"], "D", "--", 2),
     ("PACT (ours)", "sequential_tsfm/fd_moment_adatime_K16_c5", "soft_f1_matrix.csv",
      C["teal"], "*", "-", 5),
@@ -98,7 +98,7 @@ def main():
     ax.set_xlim(-0.25, 3.55)
     ax.set_ylim(0.30, 1.05)
     ax.set_xlabel("Domains added sequentially (5% calibration labels/step)")
-    ax.set_ylabel(r"Average accuracy $AA_t$  ($\uparrow$)")
+    ax.set_ylabel(r"Average macro-$F_1$, $AA_t$  ($\uparrow$)")
     ax.set_title("PACT (ours) vs. existing methods (frozen MOMENT-1-large)\n"
                   "Fault Diagnosis, operating-condition shift",
                   fontsize=9.3)

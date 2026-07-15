@@ -32,7 +32,7 @@ plt.rcParams.update({
 # Okabe-Ito colour-blind-safe palette (matches fig_motivation.py). PACT stays
 # teal and Full fine-tune stays vermillion everywhere in the paper; TSLANet
 # and MOMENT stay blue/purple everywhere they recur (Figs 2, 3a, 4b-c).
-C = dict(gray="#8c8c8c", blue="#0072B2", sky="#56B4E9", teal="#009E73",
+C = dict(black="#2b2b2b", gray="#8c8c8c", blue="#0072B2", sky="#56B4E9", teal="#009E73",
           verm="#D55E00", orange="#E69F00", purple="#CC79A7")
 DATASETS = ["FD", "HHAR", "Sleep-EDF"]
 FIGSIZE_W = 7.6  # matches fig_motivation.py -> same on-page scale at \textwidth
@@ -71,6 +71,7 @@ def _grouped_bars(ax, groups, series, colors, ylim=None, ylabel=""):
 def fig_tradeoff():
     # name -> (color, marker, {dataset: (F, AA)})
     M = {
+        "Frozen / no adaptation": (C["black"], "X", {"FD": (0.000, 0.574), "HHAR": (0.000, 0.349), "Sleep-EDF": (0.000, 0.622)}),
         "Full fine-tune": (C["verm"], "o", {"FD": (0.283, 0.640), "HHAR": (0.345, 0.654), "Sleep-EDF": (0.116, 0.584)}),
         "Head fine-tune": (C["sky"], "s", {"FD": (0.012, 0.586), "HHAR": (0.133, 0.576), "Sleep-EDF": (0.056, 0.605)}),
         "EWC":            (C["orange"], "^", {"FD": (0.001, 0.590), "HHAR": (0.093, 0.526), "Sleep-EDF": (0.004, 0.620)}),
@@ -94,10 +95,10 @@ def fig_tradeoff():
         ax.set_title(ds, fontsize=9.5)
         ax.set_xlabel(r"Forgetting $F$  ($\rightarrow$ lower is better)", fontsize=8)
         ax.set_xlim(-0.015, 0.37)
-        ax.set_ylim(0.45, 1.02)
+        ax.set_ylim(0.30, 1.02)
         ax.grid(True, linewidth=0.5, color="#e1e0d9", zorder=0)
         _spines_off(ax)
-    axes[0].set_ylabel(r"Average accuracy $AA$  ($\uparrow$)")
+    axes[0].set_ylabel(r"Average macro-$F_1$, $AA$  ($\uparrow$)")
     axes[0].annotate("better", xy=(0.02, 0.965), xytext=(0.16, 0.78),
                       arrowprops=dict(arrowstyle="->", lw=0.9, color="black"),
                       fontsize=7.5, ha="center")
@@ -107,10 +108,10 @@ def fig_tradeoff():
                        markeredgewidth=0.7 if n == "PACT (ours)" else 0.5,
                        markersize=11 if n == "PACT (ours)" else 6.5, label=n)
                for n, (col, mk, _) in M.items()]
-    fig.legend(handles=handles, loc="lower center", ncol=7, frameon=False,
-               bbox_to_anchor=(0.5, -0.06), columnspacing=1.1, handletextpad=0.35,
+    fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False,
+               bbox_to_anchor=(0.5, -0.11), columnspacing=1.1, handletextpad=0.35,
                fontsize=7.6)
-    fig.tight_layout(rect=(0, 0.09, 1, 1))
+    fig.tight_layout(rect=(0, 0.15, 1, 1))
     _save(fig, "fig_tradeoff")
 
 

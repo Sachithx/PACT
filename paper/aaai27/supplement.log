@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  15 JUL 2026 23:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  15 JUL 2026 23:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -383,19 +383,19 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: figures/fig_backbones.pdf Graphic file (type pdf)
 <use figures/fig_backbones.pdf>
 Package pdftex.def Info: figures/fig_backbones.pdf  used on input line 56.
-(pdftex.def)             Requested size: 505.89pt x 248.9256pt.
+(pdftex.def)             Requested size: 465.41786pt x 229.01237pt.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
 (Font)              scaled to size 10.0pt on input line 59.
 <figures/fig_ablation.pdf, id=2, 543.76588pt x 227.6265pt>
 File: figures/fig_ablation.pdf Graphic file (type pdf)
 <use figures/fig_ablation.pdf>
 Package pdftex.def Info: figures/fig_ablation.pdf  used on input line 65.
-(pdftex.def)             Requested size: 505.89pt x 211.7738pt.
+(pdftex.def)             Requested size: 465.41786pt x 194.83105pt.
 <figures/fig_robustness.pdf, id=3, 543.60524pt x 198.90688pt>
 File: figures/fig_robustness.pdf Graphic file (type pdf)
 <use figures/fig_robustness.pdf>
 Package pdftex.def Info: figures/fig_robustness.pdf  used on input line 75.
-(pdftex.def)             Requested size: 505.89pt x 185.10893pt.
+(pdftex.def)             Requested size: 465.41786pt x 170.30083pt.
 
 (./tables/appendix_tables.tex
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
@@ -460,7 +460,7 @@ live/2025/texmf-dist/fonts/type1/public/tex-gyre/qtmr.pfb></usr/local/texlive/2
 025/texmf-dist/fonts/type1/public/newtx/ztmb.pfb></usr/local/texlive/2025/texmf
 -dist/fonts/type1/public/newtx/ztmr.pfb></usr/local/texlive/2025/texmf-dist/fon
 ts/type1/public/newtx/ztmri.pfb>
-Output written on supplement.pdf (6 pages, 398690 bytes).
+Output written on supplement.pdf (6 pages, 398699 bytes).
 PDF statistics:
  167 PDF objects out of 1000 (max. 8388607)
  95 compressed objects within 1 object stream

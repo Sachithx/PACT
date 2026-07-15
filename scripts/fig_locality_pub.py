@@ -58,7 +58,7 @@ def _spines_off(ax):
 
 def fig_locality():
     root = RESULTS_ROOT / "shift_locality"
-    panel_a = pd.read_csv(root / "panel_a_margin_drop.csv")
+    panel_a = pd.read_csv(root / "panel_a_per_cluster_drop.csv")
     panel_b = pd.read_csv(root / "panel_b_residual_vs_k.csv")
     panel_c = pd.read_csv(root / "panel_c_collateral_on_source.csv")
 
@@ -67,14 +67,14 @@ def fig_locality():
 
     # (a) Heterogeneous local damage.
     drop = (
-        panel_a.groupby("cluster", as_index=False)["margin_drop"]
+        panel_a.groupby("cluster", as_index=False)["drop"]
         .mean()
         .dropna()
-        .sort_values("margin_drop", ascending=True)
+        .sort_values("drop", ascending=True)
     )
     ax_a.barh(
         np.arange(len(drop)),
-        drop["margin_drop"],
+        drop["drop"],
         color=C["blue"],
         edgecolor="black",
         linewidth=0.35,
@@ -83,11 +83,11 @@ def fig_locality():
     ax_a.axvline(0, color="#333333", linewidth=0.7)
     ax_a.set_yticks(np.arange(len(drop)))
     ax_a.set_yticklabels([f"c{int(c)}" for c in drop["cluster"]])
-    ax_a.set_xlabel("Mean margin drop")
+    ax_a.set_xlabel(r"Chart-wise macro-$F_1$ drop")
     ax_a.set_ylabel("Chart")
     ax_a.set_title("(a) Shift is local")
     ax_a.grid(True, axis="x", color=C["grid"], linewidth=0.45, zorder=0)
-    cv = np.nanstd(drop["margin_drop"]) / max(np.nanmean(drop["margin_drop"]), 1e-9)
+    cv = np.nanstd(drop["drop"]) / max(np.nanmean(drop["drop"]), 1e-9)
     ax_a.text(
         0.98,
         0.05,
@@ -133,12 +133,12 @@ def fig_locality():
     ax_b.set_xticks(panel_b["K"])
     ax_b.set_xticklabels([str(int(k)) for k in panel_b["K"]])
     ax_b.set_xlabel("Local charts $K$")
-    ax_b.set_ylabel(r"Held-out residual $1-F_1$")
+    ax_b.set_ylabel(r"Held-out test residual $1-F_1$")
     ax_b.set_title("(b) Local maps fit")
     ax_b.grid(True, color=C["grid"], linewidth=0.45, zorder=0)
     _spines_off(ax_b)
 
-    # (c) The global correction that helps the target can damage the source.
+    # (c) The global correction changes target and source margins differently.
     c = panel_c.dropna(subset=["delta_margin_t", "delta_margin_src"]).copy()
     c = c.sort_values("delta_margin_t", ascending=False)
     labels = [f"c{int(v)}" for v in c["cluster"]]
@@ -169,7 +169,7 @@ def fig_locality():
     ax_c.set_xticklabels(labels, rotation=35, ha="right")
     ax_c.set_xlabel("Chart, sorted by target gain")
     ax_c.set_ylabel(r"$\Delta$ margin")
-    ax_c.set_title("(c) Global fix damages source")
+    ax_c.set_title("(c) Global map changes margins")
     ax_c.legend(frameon=False, loc="upper right", handlelength=1.2)
     ax_c.grid(True, axis="y", color=C["grid"], linewidth=0.45, zorder=0)
     ax_c.text(

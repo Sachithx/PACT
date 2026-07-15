@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  15 JUL 2026 23:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  15 JUL 2026 23:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -523,7 +523,7 @@ LaTeX Font Info:    Font shape `T1/ntxtlf/m/sc' will be
 File: figures/fig_locality.pdf Graphic file (type pdf)
 <use figures/fig_locality.pdf>
 Package pdftex.def Info: figures/fig_locality.pdf  used on input line 518.
-(pdftex.def)             Requested size: 505.89pt x 220.93192pt.
+(pdftex.def)             Requested size: 465.41786pt x 203.25438pt.
 [4]
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/scit' will be
 (Font)              scaled to size 10.0pt on input line 739.
@@ -540,21 +540,25 @@ cmm/m/it/10 p[]\OT1/cmr/m/n/10 1)$ \T1/ntxtlf/m/n/10 pro-to-type/scale floats.
 With bot-tle-neck
  []
 
-<figures/fig_tradeoff.pdf, id=105, 543.76588pt x 226.16771pt>
+<figures/fig_tradeoff.pdf, id=106, 543.76588pt x 226.16771pt>
 File: figures/fig_tradeoff.pdf Graphic file (type pdf)
 <use figures/fig_tradeoff.pdf>
 Package pdftex.def Info: figures/fig_tradeoff.pdf  used on input line 781.
-(pdftex.def)             Requested size: 505.89pt x 210.41661pt.
+(pdftex.def)             Requested size: 465.41786pt x 193.58244pt.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
 (Font)              scaled to size 7.0pt on input line 816.
 LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
 (Font)              scaled to size 7.0pt on input line 816.
-[6]
+
 Underfull \hbox (badness 1874) in paragraph at lines 879--886
 \T1/ntxtlf/m/n/10 Macro-$\OML/cmm/m/it/10 F[]$ \T1/ntxtlf/m/n/10 rises mono-ton
 -i-cally from the frozen head
  []
 
+
+Underfull \vbox (badness 1297) has occurred while \output is active []
+
+ [6]
 (./main.bbl [7 <./figures/fig_tradeoff.pdf>]) [8] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
@@ -587,7 +591,7 @@ e/2025/texmf-dist/fonts/type1/public/tex-gyre/qtmr.pfb></usr/local/texlive/2025
 st/fonts/type1/public/newtx/ztmbi.pfb></usr/local/texlive/2025/texmf-dist/fonts
 /type1/public/newtx/ztmr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
 blic/newtx/ztmri.pfb>
-Output written on main.pdf (8 pages, 565189 bytes).
+Output written on main.pdf (8 pages, 565200 bytes).
 PDF statistics:
  229 PDF objects out of 1000 (max. 8388607)
  132 compressed objects within 2 object streams
