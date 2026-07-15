@@ -1,0 +1,506 @@
+"""
+exp_overnight.py — Unified overnight sweep: FD + HHAR, 5% labels, learned gate
+
+Runs the full PACT evaluation on both datasets with consistent settings:
+  - 10 AdaTime FD scenarios  (0=FD-A, 1=FD-B, 2=FD-C, 3=FD-D)
+  - 10 AdaTime HHAR scenarios (0=User-a … 8=User-i)
+  - Label budget : 5% stratified target train
+  - Gate         : learned binary MLP (src embs = neg, 5% calib = pos), per concept
+
+Conditions (same for both datasets):
+  no_corr  — frozen source, zero adaptation
+  full_ft  — full model fine-tune on 5% calib
+  pact_ng  — frozen host + k=16 adapters, no gate
+  pact_lg  — frozen host + k=16 adapters + learned gate  [main PACT result]
+
+All FD and HHAR checkpoints already exist — no backbone retraining needed.
+Outputs → results/overnight/
+
+Run:
+  CUDA_VISIBLE_DEVICES=0 \\
+  LD_PRELOAD=/home/AD/sachith/.conda/envs/entrope/lib/libstdc++.so.6 \\
+  /home/AD/sachith/.conda/envs/entrope/bin/python -u exp_overnight.py
+"""
+
+import sys, copy
+import torch
+import torch.nn as nn
+import numpy as np
+from pathlib import Path
+from sklearn.metrics import f1_score
+from sklearn.model_selection import StratifiedShuffleSplit
+
+REPO = Path(__file__).parent
+
+# ── Path setup ─────────────────────────────────────────────────────────────────
+sys.path.insert(0, str(REPO / "TSLANet" / "Classification"))
+
+import importlib.util
+
+def _load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod  = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+tft = _load("tft", REPO / "transfer_fd_tslanet.py")
+tht = _load("tht", REPO / "transfer_hhar_tslanet.py")
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+# ── Config ─────────────────────────────────────────────────────────────────────
+
+DATA_ROOT  = REPO / "dataset"
+CKPT_DIR   = REPO / "TSLANet" / "Classification" / "output" / "tslanet"
+OUT_DIR    = REPO / "results" / "overnight"
+OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+CALIB_FRAC  = 0.05
+SEED        = 42
+K           = 16
+PENALTY     = 1e-3
+ADAPTER_EP  = 200
+ADAPTER_LR  = 1e-3
+GATE_EP     = 200
+GATE_LR     = 1e-3
+FINETUNE_EP = 80
+FINETUNE_LR = 1e-4
+BATCH       = 256
+EMB_DIM     = 128
+
+# AdaTime scenarios
+FD_MAP       = {0: "FD-A", 1: "FD-B", 2: "FD-C", 3: "FD-D"}
+FD_SCENARIOS = [(0,1),(0,3),(1,0),(1,2),(1,3),(2,1),(2,3),(3,0),(3,1),(3,2)]
+HHAR_SCENARIOS = [(0,6),(1,6),(2,7),(3,8),(4,5),(5,0),(6,1),(7,4),(8,3),(0,2)]
+HHAR_NAMES   = {i: f"User-{chr(ord('a')+i)}" for i in range(9)}
+
+CONDITIONS  = ["no_corr", "full_ft", "pact_ng", "pact_lg"]
+COND_LABELS = {"no_corr": "No correction", "full_ft": "Full FT (5%)",
+               "pact_ng": "PACT (no gate)", "pact_lg": "PACT"}
+PLOT_COLORS = ["#888888", "#ff6b6b", "#2196F3", "#1b7a2e"]
+
+
+class Args:
+    emb_dim=128; depth=2; patch_size=8; dropout_rate=0.15; masking_ratio=0.4
+    ICB=True; ASB=True; adaptive_filter=True
+    data_root=str(DATA_ROOT); ckpt_dir=str(CKPT_DIR)
+    batch_size=256; pretrain=True; pretrain_epochs=40; pretrain_lr=1e-4
+    cls_epochs=80; cls_lr=1e-4; retrain=False
+
+
+# ── Shared modules ─────────────────────────────────────────────────────────────
+
+class IdentityAdapter(nn.Module):
+    def __init__(self, dim=EMB_DIM):
+        super().__init__()
+        self.linear = nn.Linear(dim, dim)
+        nn.init.eye_(self.linear.weight); nn.init.zeros_(self.linear.bias)
+    def forward(self, x): return self.linear(x)
+
+
+class GateMLP(nn.Module):
+    def __init__(self, in_dim=EMB_DIM, hidden=64):
+        super().__init__()
+        self.net = nn.Sequential(nn.Linear(in_dim, hidden), nn.ReLU(),
+                                 nn.Dropout(0.2), nn.Linear(hidden, 2))
+    def forward(self, x): return self.net(x)
+
+
+# ── k-means ────────────────────────────────────────────────────────────────────
+
+def kmeans_numpy(embs, k, seed=SEED, n_iter=100):
+    rng = np.random.default_rng(seed)
+    centroids = embs[rng.choice(len(embs), k, replace=False)].copy()
+    asgn = np.zeros(len(embs), dtype=int)
+    for _ in range(n_iter):
+        d = np.linalg.norm(embs[:,None] - centroids[None], axis=2)
+        new = d.argmin(1)
+        if np.all(new == asgn): break
+        asgn = new
+        for c in range(k):
+            m = embs[asgn == c]
+            if len(m): centroids[c] = m.mean(0)
+    return centroids, asgn
+
+
+def assign_concepts(embs, centroids):
+    return np.linalg.norm(embs[:,None] - centroids[None], axis=2).argmin(1)
+
+
+# ── Eval helpers ───────────────────────────────────────────────────────────────
+
+@torch.no_grad()
+def eval_f1(model, loader, device):
+    model.eval()
+    preds, tgts = [], []
+    for xb, yb in loader:
+        preds.extend(model(xb.to(device)).argmax(1).cpu().numpy())
+        tgts.extend(yb.numpy())
+    return f1_score(tgts, preds, average="macro", zero_division=0)
+
+
+@torch.no_grad()
+def extract_embs(model, loader, device):
+    model.eval()
+    embs, lbls = [], []
+    for xb, yb in loader:
+        embs.append(model.extract(xb.to(device)).cpu().numpy())
+        lbls.append(yb.numpy())
+    return np.concatenate(embs).astype(np.float32), np.concatenate(lbls)
+
+
+# ── Adapter training ───────────────────────────────────────────────────────────
+
+def train_adapters(calib_embs, calib_lbls, centroids, frozen_head, device):
+    adapters = nn.ModuleList([IdentityAdapter() for _ in range(K)]).to(device)
+    opt  = torch.optim.AdamW(adapters.parameters(), lr=ADAPTER_LR)
+    crit = nn.CrossEntropyLoss()
+    asgn = assign_concepts(calib_embs, centroids)
+    et   = torch.from_numpy(calib_embs).to(device)
+    lt   = torch.from_numpy(calib_lbls).to(device)
+    at   = torch.from_numpy(asgn.astype(np.int64))
+    ld   = torch.utils.data.DataLoader(
+        torch.utils.data.TensorDataset(et, lt, at),
+        batch_size=BATCH, shuffle=True)
+    eye  = torch.eye(EMB_DIM, device=device)
+    for _ in range(ADAPTER_EP):
+        for eb, yb, cb in ld:
+            adapters.train(); opt.zero_grad()
+            corr = eb.clone()
+            for c in range(K):
+                m = (cb == c)
+                if m.any(): corr[m] = adapters[c](eb[m])
+            loss = crit(frozen_head(corr), yb)
+            for a in adapters:
+                loss = loss + PENALTY * (torch.sum((a.linear.weight - eye)**2)
+                                          + torch.sum(a.linear.bias**2))
+            loss.backward(); opt.step()
+    return adapters
+
+
+# ── Learned gate training ──────────────────────────────────────────────────────
+
+def train_learned_gates(src_embs, src_asgn, calib_embs, calib_asgn, device):
+    gates = []; n_empty = 0
+    for c in range(K):
+        neg = src_embs[src_asgn == c]
+        pos = calib_embs[calib_asgn == c]
+        if len(pos) == 0:
+            gates.append(None); n_empty += 1; continue
+        rng = np.random.default_rng(SEED + c)
+        if len(neg) > len(pos):
+            pos = pos[rng.choice(len(pos), len(neg), replace=True)]
+        elif len(pos) > len(neg):
+            neg = neg[rng.choice(len(neg), len(pos), replace=True)]
+        X = np.concatenate([neg, pos])
+        y = np.concatenate([np.zeros(len(neg), dtype=np.int64),
+                            np.ones(len(pos),  dtype=np.int64)])
+        perm = np.random.default_rng(SEED + c + 100).permutation(len(X))
+        X, y = X[perm], y[perm]
+        Xt = torch.from_numpy(X).to(device)
+        yt = torch.from_numpy(y).to(device)
+        ld = torch.utils.data.DataLoader(
+            torch.utils.data.TensorDataset(Xt, yt),
+            batch_size=min(BATCH, len(X)), shuffle=True)
+        gate = GateMLP().to(device)
+        opt  = torch.optim.AdamW(gate.parameters(), lr=GATE_LR, weight_decay=1e-4)
+        crit = nn.CrossEntropyLoss()
+        for _ in range(GATE_EP):
+            gate.train()
+            for xb, yb_g in ld:
+                opt.zero_grad(); crit(gate(xb), yb_g).backward(); opt.step()
+        gates.append(gate)
+    print(f"    Gates: {K-n_empty}/{K} concepts covered", flush=True)
+    return gates
+
+
+def make_learned_gate(gates, device):
+    @torch.no_grad()
+    def fn(embs_np, asgn):
+        result = np.zeros(len(embs_np), dtype=bool)
+        for c in range(K):
+            mask = (asgn == c)
+            if not mask.any(): continue
+            gate = gates[c]
+            if gate is None: result[mask] = False; continue
+            gate.eval()
+            p = gate(torch.from_numpy(embs_np[mask]).to(device)).argmax(1).cpu().numpy()
+            result[mask] = (p == 1)
+        return result
+    return fn
+
+
+def always_apply(embs_np, asgn):
+    return np.ones(len(embs_np), dtype=bool)
+
+
+@torch.no_grad()
+def eval_with_gate(embs_np, labels_np, centroids, adapters, frozen_head, device, gate_fn):
+    asgn  = assign_concepts(embs_np, centroids)
+    embs  = torch.from_numpy(embs_np).to(device)
+    corr  = embs.clone()
+    apply = gate_fn(embs_np, asgn)
+    for c in range(K):
+        mask = (asgn == c) & apply
+        if mask.any():
+            adapters[c].eval()
+            corr[torch.from_numpy(mask).to(device)] = adapters[c](embs[torch.from_numpy(mask).to(device)])
+    return f1_score(labels_np,
+                    frozen_head(corr).argmax(1).cpu().numpy(),
+                    average="macro", zero_division=0)
+
+
+def run_fullft(src_model, calib_ds, src_ld, tgt_ld, device):
+    model = copy.deepcopy(src_model)
+    for p in model.parameters(): p.requires_grad_(True)
+    opt  = torch.optim.AdamW(model.parameters(), lr=FINETUNE_LR, weight_decay=1e-4)
+    crit = nn.CrossEntropyLoss()
+    ld   = torch.utils.data.DataLoader(calib_ds, batch_size=BATCH, shuffle=True)
+    for _ in range(FINETUNE_EP):
+        model.train()
+        for xb, yb in ld:
+            xb, yb = xb.to(device), yb.to(device)
+            opt.zero_grad(); crit(model(xb), yb).backward(); opt.step()
+    model.eval()
+    return eval_f1(model, src_ld, device), eval_f1(model, tgt_ld, device)
+
+
+# ── Core scenario runner (dataset-agnostic) ────────────────────────────────────
+
+def run_scenario(src_model, src_tr_ds, src_te_ld, tgt_tr_ds, tgt_te_ld,
+                 scen_key, device):
+    src_model.eval()
+    for p in src_model.parameters(): p.requires_grad_(False)
+    frozen_head = src_model.head
+
+    # 5% stratified calib from target train
+    y_all = tgt_tr_ds.y.numpy()
+    sss   = StratifiedShuffleSplit(n_splits=1, test_size=1-CALIB_FRAC, random_state=SEED)
+    calib_idx, _ = next(sss.split(np.zeros(len(y_all)), y_all))
+    calib_ds  = torch.utils.data.Subset(tgt_tr_ds, calib_idx)
+    calib_ld  = torch.utils.data.DataLoader(calib_ds, batch_size=BATCH, shuffle=False)
+    print(f"  Calib: {len(calib_idx)} samples (5% of {len(y_all)})", flush=True)
+
+    src_tr_ld = torch.utils.data.DataLoader(src_tr_ds, batch_size=BATCH, shuffle=False)
+
+    # Source embeddings + concepts
+    src_embs, _         = extract_embs(src_model, src_tr_ld, device)
+    centroids, src_asgn = kmeans_numpy(src_embs, K)
+
+    # Calib embeddings
+    calib_embs, calib_lbls = extract_embs(src_model, calib_ld, device)
+    calib_asgn = assign_concepts(calib_embs, centroids)
+
+    # Train adapters + learned gate
+    print("  Training adapters …", flush=True)
+    adapters = train_adapters(calib_embs, calib_lbls, centroids, frozen_head, device)
+    print("  Training learned gates …", flush=True)
+    gates    = train_learned_gates(src_embs, src_asgn, calib_embs, calib_asgn, device)
+    lg_fn    = make_learned_gate(gates, device)
+
+    # Baselines + PACT
+    f1_src_before = eval_f1(src_model, src_te_ld, device)
+    f1_tgt_before = eval_f1(src_model, tgt_te_ld, device)
+    print(f"  no_corr  : src={f1_src_before:.4f}  tgt={f1_tgt_before:.4f}", flush=True)
+
+    results = {"no_corr": (f1_src_before, f1_tgt_before, 0.0)}
+
+    def _rec(key, src_f1, tgt_f1):
+        forget = f1_src_before - src_f1
+        results[key] = (src_f1, tgt_f1, forget)
+        print(f"  {key:<9}: src={src_f1:.4f}  tgt={tgt_f1:.4f}  forget={forget:+.4f}",
+              flush=True)
+
+    print("  full_ft  : running …", flush=True)
+    _rec("full_ft", *run_fullft(src_model, calib_ds, src_te_ld, tgt_te_ld, device))
+
+    src_te_embs, src_te_lbls = extract_embs(src_model, src_te_ld, device)
+    tgt_te_embs, tgt_te_lbls = extract_embs(src_model, tgt_te_ld, device)
+
+    _rec("pact_ng",
+         eval_with_gate(src_te_embs, src_te_lbls, centroids, adapters, frozen_head,
+                        device, always_apply),
+         eval_with_gate(tgt_te_embs, tgt_te_lbls, centroids, adapters, frozen_head,
+                        device, always_apply))
+
+    _rec("pact_lg",
+         eval_with_gate(src_te_embs, src_te_lbls, centroids, adapters, frozen_head,
+                        device, lg_fn),
+         eval_with_gate(tgt_te_embs, tgt_te_lbls, centroids, adapters, frozen_head,
+                        device, lg_fn))
+
+    return results
+
+
+# ── Dataset sweeps ─────────────────────────────────────────────────────────────
+
+def sweep_fd(device):
+    print(f"\n{'#'*70}")
+    print("## FD SWEEP  (10 AdaTime scenarios, TSLANet backbone)")
+    print(f"{'#'*70}")
+    pop = {c: {"src": [], "tgt": [], "forget": []} for c in CONDITIONS}
+    records = []
+
+    for src_id, tgt_id in FD_SCENARIOS:
+        src_name = FD_MAP[src_id]; tgt_name = FD_MAP[tgt_id]
+        scen_key = f"{src_name}→{tgt_name}"
+        print(f"\n{'='*60}\n  {scen_key}  [FD, 5%]\n{'='*60}")
+
+        src_model = tft.train_source(src_name, Args(), device)
+        src_tr_ds = tft.FDDataset(src_name, "train", DATA_ROOT)
+        src_te_ld = torch.utils.data.DataLoader(
+            tft.FDDataset(src_name, "test", DATA_ROOT), batch_size=BATCH)
+        tgt_tr_ds = tft.FDDataset(tgt_name, "train", DATA_ROOT)
+        tgt_te_ld = torch.utils.data.DataLoader(
+            tft.FDDataset(tgt_name, "test", DATA_ROOT), batch_size=BATCH)
+
+        res = run_scenario(src_model, src_tr_ds, src_te_ld,
+                           tgt_tr_ds, tgt_te_ld, scen_key, device)
+        records.append((scen_key, res))
+        for c in CONDITIONS:
+            s, t, f = res[c]; pop[c]["src"].append(s); pop[c]["tgt"].append(t); pop[c]["forget"].append(f)
+
+    return records, pop
+
+
+def sweep_hhar(device):
+    print(f"\n{'#'*70}")
+    print("## HHAR SWEEP  (10 AdaTime scenarios, TSLANet backbone)")
+    print(f"{'#'*70}")
+    pop = {c: {"src": [], "tgt": [], "forget": []} for c in CONDITIONS}
+    records = []
+
+    for src_id, tgt_id in HHAR_SCENARIOS:
+        src_name = HHAR_NAMES[src_id]; tgt_name = HHAR_NAMES[tgt_id]
+        scen_key = f"{src_name}→{tgt_name}"
+        print(f"\n{'='*60}\n  {scen_key}  [HHAR, 5%]\n{'='*60}")
+
+        src_model = tht.train_source(src_id, Args(), device)
+        src_tr_ds = tht.HHARDataset(src_id, "train", DATA_ROOT)
+        src_te_ld = torch.utils.data.DataLoader(
+            tht.HHARDataset(src_id, "test", DATA_ROOT), batch_size=BATCH)
+        tgt_tr_ds = tht.HHARDataset(tgt_id, "train", DATA_ROOT)
+        tgt_te_ld = torch.utils.data.DataLoader(
+            tht.HHARDataset(tgt_id, "test", DATA_ROOT), batch_size=BATCH)
+
+        res = run_scenario(src_model, src_tr_ds, src_te_ld,
+                           tgt_tr_ds, tgt_te_ld, scen_key, device)
+        records.append((scen_key, res))
+        for c in CONDITIONS:
+            s, t, f = res[c]; pop[c]["src"].append(s); pop[c]["tgt"].append(t); pop[c]["forget"].append(f)
+
+    return records, pop
+
+
+# ── Reporting ──────────────────────────────────────────────────────────────────
+
+def print_pop_summary(pop, dataset_name, n_scenarios):
+    print(f"\n{'='*72}")
+    print(f"POPULATION SUMMARY — {dataset_name}  ({n_scenarios} scenarios, 5% labels)")
+    print(f"{'='*72}")
+    hdr = f"  {'Method':<20} {'Src F1':>14}  {'Tgt F1':>14}  {'Forgetting':>14}"
+    sep = "  " + "-"*68
+    print(hdr); print(sep)
+    lines = [f"POPULATION SUMMARY — {dataset_name}\n", hdr, sep]
+    for c in CONDITIONS:
+        sm = np.mean(pop[c]["src"]);    ss = np.std(pop[c]["src"])
+        tm = np.mean(pop[c]["tgt"]);    ts = np.std(pop[c]["tgt"])
+        fm = np.mean(pop[c]["forget"]); fs = np.std(pop[c]["forget"])
+        row = (f"  {COND_LABELS[c]:<20} {sm:.4f}±{ss:.4f}  "
+               f"{tm:.4f}±{ts:.4f}  {fm:+.4f}±{fs:.4f}")
+        print(row); lines.append(row)
+    return lines
+
+
+def save_per_scenario(records, path):
+    lines = []
+    for scen_key, res in records:
+        lines.append(f"\nScenario: {scen_key}")
+        lines.append(f"  {'Method':<20} {'Src F1':>8}  {'Tgt F1':>8}  {'Forget':>8}")
+        for c in CONDITIONS:
+            s, t, f = res[c]
+            lines.append(f"  {COND_LABELS[c]:<20} {s:>8.4f}  {t:>8.4f}  {f:>+8.4f}")
+    Path(path).write_text("\n".join(lines))
+
+
+def save_figure(pop, dataset_name, path_stem):
+    fig, axes = plt.subplots(1, 3, figsize=(13, 5))
+    x = np.arange(len(CONDITIONS))
+    for ax, metric, title in zip(
+            axes,
+            ["src", "tgt", "forget"],
+            ["Source F1 (retention)", "Target F1 (drift recovery)", "Forgetting"]):
+        means = [np.mean(pop[c][metric]) for c in CONDITIONS]
+        stds  = [np.std(pop[c][metric])  for c in CONDITIONS]
+        bars  = ax.bar(x, means, yerr=stds, capsize=5, color=PLOT_COLORS,
+                       edgecolor="black", linewidth=0.6)
+        if metric == "forget": ax.axhline(0, color="black", lw=0.8)
+        else: ax.axhline(0.9, color="gray", ls="--", lw=0.8, alpha=0.6)
+        ax.set_xticks(x)
+        ax.set_xticklabels([COND_LABELS[c] for c in CONDITIONS],
+                           rotation=20, ha="right", fontsize=10)
+        ax.set_ylim((-0.05 if metric == "forget" else 0), 1.05)
+        ax.set_ylabel("Macro F1" if metric != "forget" else "F1 drop")
+        ax.set_title(title, fontsize=10, fontweight="bold")
+        ax.grid(axis="y", ls="--", alpha=0.4)
+        for bar, m in zip(bars, means):
+            ypos = bar.get_height() + (0.01 if m >= 0 else -0.05)
+            ax.text(bar.get_x()+bar.get_width()/2, ypos,
+                    f"{m:.3f}", ha="center", fontsize=9)
+    fig.suptitle(f"PACT vs Baselines — {dataset_name}  (5% labels, learned gate)\n"
+                 "(10 AdaTime scenarios, TSLANet backbone, mean ± std)",
+                 fontsize=11, fontweight="bold")
+    plt.tight_layout()
+    fig.savefig(f"{path_stem}.png", dpi=150, bbox_inches="tight")
+    fig.savefig(f"{path_stem}.pdf", bbox_inches="tight")
+    plt.close()
+
+
+# ── Main ───────────────────────────────────────────────────────────────────────
+
+def main():
+    torch.manual_seed(SEED); np.random.seed(SEED)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Device: {device}")
+    print(f"Label budget: 5%  |  Gate: learned MLP  |  Adapters: k={K} identity-init")
+    print(f"Datasets: FD (10 scenarios) + HHAR (10 scenarios) = 20 total\n")
+
+    # ── FD ────────────────────────────────────────────────────────────────────
+    fd_records, fd_pop = sweep_fd(device)
+    fd_lines = print_pop_summary(fd_pop, "FD (fault diagnosis)", 10)
+    save_per_scenario(fd_records, OUT_DIR / "fd_per_scenario.txt")
+    (OUT_DIR / "fd_population_summary.txt").write_text("\n".join(fd_lines))
+    save_figure(fd_pop, "FD Cross-Domain", str(OUT_DIR / "fd_figure"))
+
+    # ── HHAR ─────────────────────────────────────────────────────────────────
+    hhar_records, hhar_pop = sweep_hhar(device)
+    hhar_lines = print_pop_summary(hhar_pop, "HHAR (cross-user HAR)", 10)
+    save_per_scenario(hhar_records, OUT_DIR / "hhar_per_scenario.txt")
+    (OUT_DIR / "hhar_population_summary.txt").write_text("\n".join(hhar_lines))
+    save_figure(hhar_pop, "HHAR Cross-User", str(OUT_DIR / "hhar_figure"))
+
+    # ── Combined summary ──────────────────────────────────────────────────────
+    print(f"\n{'#'*72}")
+    print("## COMBINED SUMMARY — FD + HHAR  (5% labels, learned gate)")
+    print(f"{'#'*72}")
+    combined = []
+    for c in CONDITIONS:
+        all_src = fd_pop[c]["src"] + hhar_pop[c]["src"]
+        all_tgt = fd_pop[c]["tgt"] + hhar_pop[c]["tgt"]
+        all_f   = fd_pop[c]["forget"] + hhar_pop[c]["forget"]
+        row = (f"  {COND_LABELS[c]:<20} "
+               f"FD: tgt={np.mean(fd_pop[c]['tgt']):.4f} forget={np.mean(fd_pop[c]['forget']):+.4f}  |  "
+               f"HHAR: tgt={np.mean(hhar_pop[c]['tgt']):.4f} forget={np.mean(hhar_pop[c]['forget']):+.4f}")
+        print(row); combined.append(row)
+    (OUT_DIR / "combined_summary.txt").write_text("\n".join(combined))
+
+    print(f"\nAll outputs → {OUT_DIR}")
+    print("  fd_population_summary.txt  fd_per_scenario.txt  fd_figure.{png,pdf}")
+    print("  hhar_population_summary.txt  hhar_per_scenario.txt  hhar_figure.{png,pdf}")
+    print("  combined_summary.txt")
+
+
+if __name__ == "__main__":
+    main()
