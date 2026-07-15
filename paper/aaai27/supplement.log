@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  15 JUL 2026 23:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.1.1)  16 JUL 2026 00:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -365,70 +365,118 @@ LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
 \actualheight=\skip59
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
 (Font)              scaled to size 9.0pt on input line 26.
-LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 10.0pt on input line 30.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 31.
+LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
+(Font)              scaled to size 10.0pt on input line 31.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 32.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 31.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 32.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<figures/fig_backbones.pdf, id=1, 543.81985pt x 267.59007pt>
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 67
+.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 66--81
+[]\T1/ntxtlf/m/n/10 The frozen foundation-model check-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--81
+\T1/ntxtlf/m/n/10 points are \T1/pcr/m/n/10 AutonLab/MOMENT-1-large\T1/ntxtlf/m
+/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--81
+\T1/pcr/m/n/10 amazon/chronos-bolt-base\T1/ntxtlf/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--81
+\T1/pcr/m/n/10 thuml/sundial-base-128m\T1/ntxtlf/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--81
+\T1/pcr/m/n/10 Maple728/TimeMoE-200M\T1/ntxtlf/m/n/10 , and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 66--81
+\T1/pcr/m/n/10 Salesforce/moirai-1.1-R-large\T1/ntxtlf/m/n/10 . MO-MENT
+ []
+
+
+Underfull \hbox (badness 1314) in paragraph at lines 66--81
+\T1/ntxtlf/m/n/10 uses 512-sample win-dows and its em-bed-ding out-put;
+ []
+
+[1{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/l
+ocal/texlive/2025/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}
+
+
+
+{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
+(Font)              scaled to size 10.0pt on input line 122.
+<figures/fig_backbones.pdf, id=14, 543.81985pt x 267.59007pt>
 File: figures/fig_backbones.pdf Graphic file (type pdf)
 <use figures/fig_backbones.pdf>
-Package pdftex.def Info: figures/fig_backbones.pdf  used on input line 56.
+Package pdftex.def Info: figures/fig_backbones.pdf  used on input line 148.
 (pdftex.def)             Requested size: 465.41786pt x 229.01237pt.
-LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.0pt on input line 59.
-<figures/fig_ablation.pdf, id=2, 543.76588pt x 227.6265pt>
+<figures/fig_ablation.pdf, id=15, 543.76588pt x 227.6265pt>
 File: figures/fig_ablation.pdf Graphic file (type pdf)
 <use figures/fig_ablation.pdf>
-Package pdftex.def Info: figures/fig_ablation.pdf  used on input line 65.
+Package pdftex.def Info: figures/fig_ablation.pdf  used on input line 157.
 (pdftex.def)             Requested size: 465.41786pt x 194.83105pt.
-<figures/fig_robustness.pdf, id=3, 543.60524pt x 198.90688pt>
+<figures/fig_robustness.pdf, id=16, 543.60524pt x 198.90688pt>
 File: figures/fig_robustness.pdf Graphic file (type pdf)
 <use figures/fig_robustness.pdf>
-Package pdftex.def Info: figures/fig_robustness.pdf  used on input line 75.
+Package pdftex.def Info: figures/fig_robustness.pdf  used on input line 168.
 (pdftex.def)             Requested size: 465.41786pt x 170.30083pt.
+<figures/fig_retention_matrices.pdf, id=17, 499.05104pt x 454.80577pt>
+File: figures/fig_retention_matrices.pdf Graphic file (type pdf)
+<use figures/fig_retention_matrices.pdf>
+Package pdftex.def Info: figures/fig_retention_matrices.pdf  used on input line
+ 178.
+(pdftex.def)             Requested size: 465.41786pt x 424.16557pt.
 
 (./tables/appendix_tables.tex
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 7.0pt on input line 37.
+(Font)              scaled to size 7.0pt on input line 39.
 LaTeX Font Info:    Trying to load font information for TS1+ntxtlf on input lin
-e 37.
+e 39.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/newtx/ts1ntxtlf.fd
 File: ts1ntxtlf.fd 2015/01/18 v1.0 fd file for TS1/ntxtlf
 )
 LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 7.0pt on input line 37.
+(Font)              scaled to size 7.0pt on input line 39.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
-(Font)              scaled to size 9.0pt on input line 46.
+(Font)              scaled to size 9.0pt on input line 48.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 6.0pt on input line 54.
+(Font)              scaled to size 6.0pt on input line 56.
 LaTeX Font Info:    Font shape `TS1/ntxtlf/m/n' will be
-(Font)              scaled to size 6.0pt on input line 54.
+(Font)              scaled to size 6.0pt on input line 56.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 9.0pt on input line 55.
-) [1{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr
-/local/texlive/2025/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}
+(Font)              scaled to size 9.0pt on input line 57.
+) [2
 
-
-
-
-] [2 <./figures/fig_backbones.pdf> <./figures/fig_ablation.pdf>] [3{/usr/local/
+] [3 <./figures/fig_backbones.pdf> <./figures/fig_ablation.pdf>] [4{/usr/local/
 texlive/2025/texmf-dist/fonts/enc/dvips/tex-gyre/q-ts1.enc} <./figures/fig_robu
-stness.pdf>] [4] [5
+stness.pdf>] [5 <./figures/fig_retention_matrices.pdf>] [6] [7
 
 
-]
-[6
+] [8
 
 ] (./supplement.aux)
  ***********
@@ -437,11 +485,11 @@ L3 programming layer <2020/03/25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 7214 strings out of 467538
- 114924 string characters out of 5419553
- 568505 words of memory out of 5000000
- 35998 multiletter control sequences out of 15000+600000
- 668445 words of font info for 75 fonts, out of 8000000 for 9000
+ 7258 strings out of 467538
+ 115760 string characters out of 5419553
+ 571527 words of memory out of 5000000
+ 36036 multiletter control sequences out of 15000+600000
+ 669066 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  89i,14n,117p,335b,483s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
@@ -457,13 +505,14 @@ live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texli
 ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive
 /2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/tex
 live/2025/texmf-dist/fonts/type1/public/tex-gyre/qtmr.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/public/newtx/ztmb.pfb></usr/local/texlive/2025/texmf
--dist/fonts/type1/public/newtx/ztmr.pfb></usr/local/texlive/2025/texmf-dist/fon
-ts/type1/public/newtx/ztmri.pfb>
-Output written on supplement.pdf (6 pages, 398699 bytes).
+025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2025/texm
+f-dist/fonts/type1/public/newtx/ztmb.pfb></usr/local/texlive/2025/texmf-dist/fo
+nts/type1/public/newtx/ztmr.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1
+/public/newtx/ztmri.pfb>
+Output written on supplement.pdf (8 pages, 478209 bytes).
 PDF statistics:
- 167 PDF objects out of 1000 (max. 8388607)
- 95 compressed objects within 1 object stream
+ 213 PDF objects out of 1000 (max. 8388607)
+ 122 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

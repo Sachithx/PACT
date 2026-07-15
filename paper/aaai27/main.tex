@@ -179,7 +179,7 @@ substantially while others remain stable. This motivates correcting drift
 locally rather than transforming the full representation. We introduce
 \textbf{PACT} (\emph{\textbf{P}iecewise \textbf{A}daptation via
 \textbf{C}hart \textbf{T}ransport}), a frozen-host adaptation method that
-covers the source embedding space with soft charts, learns lightweight
+covers the source embedding space with local charts, learns lightweight
 residual transports for each new condition, and routes inputs through the
 accumulated transports while retaining an explicit identity path. The
 encoder, classifier head, and previously learned transports remain frozen.
@@ -254,18 +254,18 @@ remain comparatively stable. A single global transformation can
 therefore alter embeddings that require little or no correction. If
 these embeddings already lie on the correct side of the frozen
 classifier's decision boundary, unnecessary displacement can reduce
-performance on previously well-classified conditions. Across the shifts we
-examine, regions that require little correction are also the ones most
-exposed to damage from a single global transform. This observation suggests
-that forgetting is not only a consequence of learning new conditions, but
-also of applying adaptation at an inappropriately coarse granularity.
+performance on previously well-classified conditions. Our measurements show
+that a target-fitted global transform can reduce source margins and source
+accuracy. This observation suggests that forgetting can arise not only from
+learning new conditions, but also from applying adaptation at an
+inappropriately coarse granularity.
 
 \paragraph{Piecewise adaptation with a frozen host.}
 Motivated by this observation, we introduce \textbf{PACT}
 (\emph{\textbf{P}iecewise \textbf{A}daptation via \textbf{C}hart
 \textbf{T}ransport}), a frozen-host method for sequential
-operating-condition adaptation. PACT covers the source embedding
-space with overlapping local regions, termed \emph{charts}. For each newly observed
+operating-condition adaptation. PACT partitions the source embedding
+space into local regions, termed \emph{charts}. For each newly observed
 condition, it learns a lightweight residual transport for each chart
 using only a small labeled calibration set. The transports are
 identity-initialized and optimized through the frozen classifier head,
@@ -376,9 +376,10 @@ Each domain is split into disjoint train/calibration and test subsets. When
 domain $\mathcal{D}_d$ arrives we observe a small labeled \emph{calibration
 set} $\mathcal{C}_d\subset\mathcal{D}^{\mathrm{train}}_d$ with
 $|\mathcal{C}_d|=\rho\,|\mathcal{D}^{\mathrm{train}}_d|$ and $\rho=5\%$.
-Earlier domains are never revisited. Domain identity is available during
-calibration and unavailable at test time; all reported scores use held-out
-test splits.
+Earlier raw time series are never revisited, although source and calibration
+embeddings are retained to refit the routing gate. Domain identity is available
+during calibration and unavailable at test time; all reported scores use
+held-out test splits.
 
 We require a deployed model that, after the stream has advanced to domain $t$,
 satisfies four constraints.
@@ -537,16 +538,16 @@ associated with source degradation.}
 \label{sec:atlas}
 
 The frozen head $h_\phi$ partitions $\mathbb{R}^{p}$ into fixed decision regions.
-The encoder places source embeddings inside the correct ones. A shifted domain
-places them elsewhere. Adaptation, under (C4), therefore cannot mean moving the
+The encoder places many source embeddings inside the correct ones. A shifted
+domain can place them elsewhere. Adaptation, under (C4), therefore cannot mean moving the
 decision regions. It can only mean \emph{transporting shifted embeddings back
 into a geometry that never moves}. This is the operation \textsc{PACT} learns,
 and it learns it one region at a time.
 
 \paragraph{Charts.}
 We compute $\{\mu_c\}_{c=1}^{K}$ once on $Z_0$ by $k$-means and never update
-them. We use the term \emph{chart} informally to denote an overlapping local
-region represented by a centroid, and assign an embedding to its nearest chart,
+them. We use the term \emph{chart} informally for a local Voronoi region
+represented by a centroid, and assign an embedding to its nearest chart,
 \begin{equation}
 \kappa(z)=\arg\min_{c\in\{1,\ldots,K\}}\lVert z-\mu_c\rVert_2.
 \label{eq:chart-assignment}
@@ -722,10 +723,9 @@ $p(|Z_0|+\sum_d|Z_d|)$ floats; no raw time series are retained.
 \centering
 \includegraphics[width=.92\textwidth]{figures/fig_tradeoff.pdf}
 \caption{\textbf{Macro-$F_1$--forgetting trade-off on the domain-incremental
-chain (TSLANet backbone).} Top-left is best. PACT ($\star$) is the only
-method that simultaneously retains source/earlier-domain macro-$F_1$ and
-maintains near-zero forgetting while recovering the shifted domains. The frozen
-baseline has zero forgetting but weak adaptation.}
+chain (TSLANet backbone).} Top-left is best. PACT ($\star$) combines high
+average macro-$F_1$ with low measured forgetting on all three streams. The
+frozen baseline has zero forgetting by construction but weak adaptation.}
 \label{fig:tradeoff}
 \end{figure*}
 
@@ -774,8 +774,13 @@ Let $A_{t,j}$ be the macro-$F_1$ on domain $j$ after adapting through domain $t$
 \emph{Average macro-$F_1$ (AA)}
 $\mathrm{AA}=\frac{1}{T+1}\sum_{j=0}^{T}A_{T,j}$\;($\uparrow$);
 \emph{Forgetting}
-$F=\frac{1}{T}\sum_{j=0}^{T-1}(\max_{j\le l<T}A_{l,j}-A_{T,j})$\;($\downarrow$, 0 = none);
-and \emph{Relative Forgetting} RF, which normalizes $F$ by each domain's peak.
+$F=\frac{1}{T}\sum_{j=0}^{T-1}\max(0,A_{j,j}-A_{T,j})$\;($\downarrow$, 0 = none);
+and \emph{Relative Forgetting}
+$\mathrm{RF}=\frac{1}{T}\sum_{j=0}^{T-1}
+\frac{\max(0,\max_{j\le l<T}A_{l,j}-A_{T,j})}
+{\max_{j\le l<T}A_{l,j}+\epsilon}$.
+We use $\epsilon=10^{-9}$ in RF.
+Chain results are single runs with seed 42; they are not averages over seeds.
 Full per-method numbers for every figure below are provided in the
 supplementary material.
 
@@ -785,7 +790,7 @@ supplementary material.
 Figure~\ref{fig:tradeoff} places every method on the macro-$F_1$--forgetting
 plane for the domain-incremental chain (TSLANet backbone). The desirable
 region is the top-left: high average macro-$F_1$ with near-zero forgetting.
-PACT is the only method that occupies it on all three benchmarks.
+PACT is the only evaluated adapting method that occupies it on all three benchmarks.
 Host-modifying baselines are pushed down-and-right along a visible
 trade-off: full fine-tuning and LwF recover some new-condition performance but forget
 heavily ($F\!\ge\!0.25$ on FD), whereas the least-forgetting baselines
@@ -796,10 +801,10 @@ On FD, PACT reaches AA $= 0.978$ with $F = 0.002$, while the
 next-best baseline (MAS) achieves only $0.601$. On HHAR with 9 domains,
 PACT attains $0.886$ while all baselines remain below $0.723$. On
 Sleep-EDF, PACT leads at $0.663$ against a best baseline of $0.622$.
-On the pairwise AdaTime benchmark, the same pattern holds
-against UDA and TTA: PACT attains the best AA on FD ($0.981$) and HHAR
-($0.963$) while holding $F\!\approx\!0$, matching or exceeding the strongest
-semi-supervised baselines under the same 5\% target-label budget.
+On the pairwise AdaTime benchmark, PACT attains the best AA on FD ($0.981$)
+and HHAR ($0.963$) while holding $F\!\le\!0.001$. On Sleep-EDF, PACT reaches
+$0.715$, behind source-distillation at $0.721$, under the same 5\%
+target-label budget.
 
 We note one honest exception: on HHAR with frozen MOMENT, LwF restricted to the head reaches
 marginally higher average macro-$F_1$ than PACT ($0.646$ vs.\ $0.627$) but at roughly
@@ -812,7 +817,7 @@ paper where a baseline is not strictly dominated on both axes.
 Because PACT only requires an embedding and a frozen head, it applies
 unchanged to specialist encoders and to forecasting-pretrained TSFMs used
 purely as frozen feature extractors. Across seven backbones,
-near-zero forgetting is preserved
+measured forgetting remains low
 ($F\!\le\!0.022$ everywhere). The two backbone families are complementary:
 the frozen TSFMs (MOMENT, Chronos-Bolt, Sundial, Moirai) cluster at the top
 on FD (up to $0.984$), while the lighter specialist TSLANet is strongest on
@@ -829,10 +834,11 @@ The full backbone plot and table are in the supplementary material.
 The FD component ablation isolates each component.
 Macro-$F_1$ rises monotonically from the frozen head ($0.574$/$0.535$ for
 TSLANet/MOMENT), to full fine-tuning ($0.640$), to
-ungated adapters ($0.748$/$0.879$), to full PACT ($0.978$/$0.984$)---but only PACT keeps forgetting near zero;
-full fine-tuning and ungated adapters recover performance at the cost of
-large $F$ (up to $0.283$ and $0.113$ respectively). Adapters supply plasticity;
-the gate converts that plasticity into low-forgetting accumulation.
+ungated adapters ($0.748$/$0.879$), to full PACT ($0.978$/$0.984$).
+Among the adapter variants, only gated PACT combines this recovery with
+$F\!\le\!0.002$; ungated adapters reach $F=0.032/0.113$ and full fine-tuning
+reaches $F=0.283$. Adapters supply plasticity; the gate converts that
+plasticity into lower-forgetting accumulation.
 
 Gate ablations explain why. Soft-mixture routing matches or beats hard $\arg\max$
 routing and sits just below the oracle (perfect-routing) ceiling. Because the
@@ -846,10 +852,11 @@ The full ablation figure and tables are in the supplementary material.
 %---------------------------------------------------------------------
 \subsection{Robustness and Label Efficiency}
 \label{sec:robustness}
-PACT is not sensitive to narrow hyperparameter tuning. On the FD chain,
+PACT is stable over the tested hyperparameter ranges on the FD chain:
 average macro-$F_1$ stays in $0.968$--$0.978$ for
 $K\in\{4,\dots,64\}$ and in $0.971$--$0.979$ for
-$\tau\in[0.1,2.0]$; identity and low-rank adapters differ by $0.007$ AA.
+$\tau\in[0.1,2.0]$; full-affine and rank-8 residual transports differ by
+$0.007$ AA.
 With frozen MOMENT, average macro-$F_1$ generally increases with the calibration budget
 (FD rises from $0.955$ at 1\% to $0.993$ at 20\%), and forgetting remains
 $F\!\le\!0.004$ throughout the sweeps. Full curves and order-sensitivity

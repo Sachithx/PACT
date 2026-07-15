@@ -80,8 +80,9 @@ PACT (no gate) & 0.933 & $-$0.106 & 0.106 & 0.854 & $-$0.210 & 0.210 & 0.648 & $
 \centering
 \caption{Domain-incremental chain comparison, Part~A: TSLANet backbone.
 Domains arrive sequentially (AdaTime-derived order; FD 4, HHAR 9, Sleep 17).
-All methods use the same 5\% labelled calibration budget per domain as PACT
-(ORTCL (LF) uses rotation only; ORTCL+HeadFT uses 5\% calib for head fine-tuning).
+All labeled adapting methods use the same 5\% calibration budget per domain.
+Frozen uses no target data; ORTCL (LF) uses unlabeled rotation, while
+ORTCL+HeadFT uses the 5\% split for head fine-tuning.
 AA$\uparrow$; $F$$\downarrow$. Best AA per dataset in \textbf{bold}.
 \textsuperscript{$\ddagger$}ORTCL: SVD rotation on last TSLANet ICB layer at each domain step.
 Underlies the main trade-off figure.}
@@ -116,7 +117,8 @@ ORTCL+HeadFT\textsuperscript{$\ddagger$} & 0.582 & 0.011 & 0.020 & 0.563 & 0.139
 (AutonLab/MOMENT-1-large). Encoder frozen; only the linear head is updated
 (head-FT / EWC / MAS / LwF / source-distill). Full-host methods are omitted
 because the target setting requires the TSFM host to remain frozen. Same 5\%
-calibration budget. AA$\uparrow$; $F$$\downarrow$. On HHAR, LwF (head)
+calibration budget; EWC and MAS were evaluated on FD only.
+AA$\uparrow$; $F$$\downarrow$. On HHAR, LwF (head)
 reaches marginally higher AA than PACT (0.646 vs.\ 0.627) but at roughly
 $3\times$ the forgetting ($F$: 0.050 vs.\ 0.017), the one case where a
 baseline is not strictly dominated.}
@@ -146,8 +148,9 @@ Adapters, no gate & 0.879 & 0.113 & 0.116 & 0.632 & 0.035 & 0.051 & 0.606 & 0.01
 \begin{table*}[t]
 \centering
 \caption{PACT across backbones on the domain-incremental chain (base config:
-$K{=}16$, 5\% calibration, identity adapters). Specialist classifiers and
-frozen TSFMs both achieve near-zero forgetting. AA$\uparrow$; $F$/RF$\downarrow$.
+$K{=}16$, 5\% calibration, identity-initialized full-affine transports).
+Specialist classifiers and
+frozen TSFMs both have low measured forgetting. AA$\uparrow$; $F$/RF$\downarrow$.
 Underlies the supplementary backbone figure.}
 \label{tab:backbones}
 \small
@@ -220,7 +223,7 @@ Sleep-EDF & 0.663 & 0.658 & 0.664 & 0.638 & 0.648\\
 % setting layout. Replaces the packed slash-separated version, which
 % rendered with stretched column gaps. Every AA/F cell re-derived from
 % results/tables/sweep_*.csv; each block holds all axes but one at the
-% default (K=16, tau=0.5, 5% labels, identity adapter, AdaTime order).
+% default (K=16, tau=0.5, 5% labels, full-affine transport, AdaTime order).
 % NOTE: TSLANet 2% label-budget AA corrected to 0.967 (was 0.968 in
 % ALL_TABLES.md -- a rounding slip; sweep_budget_tslanet.csv gives
 % 0.9674585..., which rounds down, not up).
@@ -229,7 +232,7 @@ Sleep-EDF & 0.663 & 0.658 & 0.664 & 0.638 & 0.648\\
 \centering
 \caption{Hyperparameter ablations on the FD chain (final-step AA / $F$).
 Each block varies one axis; all others held at the default ($K{=}16$,
-$\tau{=}0.5$, 5\% labels, identity adapter, AdaTime domain order). Best AA
+$\tau{=}0.5$, 5\% labels, full-affine transport, AdaTime domain order). Best AA
 per block in \textbf{bold}. Underlies the supplementary robustness figure.}
 \label{tab:hparams}
 \small
@@ -263,9 +266,9 @@ Axis & Setting & AA & $F$\\
  & 10\% & 0.986 & 0.001\\
  & 20\% & \textbf{0.990} & 0.000\\
 \cmidrule(lr){1-4}
-\multirow{2}{*}{Adapter (TSLANet)}
- & Identity & \textbf{0.978} & 0.002\\
- & LoRA     & 0.971 & 0.001\\
+\multirow{2}{*}{Transport (TSLANet)}
+ & Full affine & \textbf{0.978} & 0.002\\
+ & Rank-8 residual & 0.971 & 0.001\\
 \cmidrule(lr){1-4}
 \multirow{4}{*}{Domain order (TSLANet)}
  & AdaTime-derived ($0{\to}1{\to}2{\to}3$) & \textbf{0.978} & 0.002\\

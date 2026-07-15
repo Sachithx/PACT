@@ -81,9 +81,11 @@ $10^{-6}$ before head fitting or adaptation.
 
 \paragraph{PACT optimization.}
 The default uses $K=16$ source $k$-means charts, full-rank affine transports,
-and temperature $\tau=0.5$. Each transport bank is trained for 200 epochs with
-AdamW at $10^{-3}$, an identity penalty of $10^{-3}$, and batch size 256 for
-specialist encoders or 64 for TSFMs. The low-rank ablation uses rank 8. Each
+and temperature $\tau=0.5$. We run Lloyd's algorithm once from seed-42 source
+examples as initial centroids, for at most 100 iterations. Each transport bank
+is trained for 200 epochs with AdamW at $10^{-3}$, default weight decay 0.01,
+an identity penalty of $10^{-3}$, and batch size 256 for specialist encoders or
+64 for TSFMs. The low-rank ablation uses rank 8. Each
 chart gate is a two-layer MLP with hidden width 64, ReLU, dropout 0.2, and one
 output per seen domain including the source identity branch. Gate training uses
 200 epochs of AdamW at $10^{-3}$ and weight decay $10^{-4}$. Within each chart,
@@ -111,8 +113,9 @@ domain. With TSLANet ($p=128$), the complete model-specific additions after 4,
 and 17.5 MB in float32), including the final routing gates. With MOMENT
 ($p=1024$), the four-domain FD configuration stores 51.435M parameters
 (205.7 MB). The recorded full FD/MOMENT continual run takes 749.6 seconds after
-model loading and source-head fitting; hardware metadata was not retained in
-the result artifact.
+model loading and source-head fitting. Inference evaluates every accumulated
+domain branch; no top-$k$ branch truncation was used. Per-sample latency and
+hardware metadata were not retained in the result artifact.
 
 \section{Proof of Proposition 1}
 
@@ -153,7 +156,8 @@ specialist encoders and frozen TSFMs.}
 \centering
 \includegraphics[width=.92\textwidth]{figures/fig_ablation.pdf}
 \caption{\textbf{Ablations.} (a) Component ablation on the FD chain:
-macro-$F_1$ climbs across variants, but only PACT keeps forgetting near zero.
+macro-$F_1$ climbs across variants; among adapter variants, gated PACT has the
+lowest measured forgetting.
 (b) Gate routing: soft mixture tracks the oracle ceiling; the residual
 soft--oracle gap is largest on HHAR.}
 \label{fig:ablation}
@@ -163,9 +167,22 @@ soft--oracle gap is largest on HHAR.}
 \centering
 \includegraphics[width=.92\textwidth]{figures/fig_robustness.pdf}
 \caption{\textbf{Robustness and label efficiency.} Average macro-$F_1$ is
-stable across calibration budget, chart count, and gate temperature; forgetting
-stays near zero throughout the sweeps.}
+stable across the tested calibration budgets, chart counts, and gate
+temperatures; all measured forgetting values are reported in
+Tables~\ref{tab:hparams} and~\ref{tab:budget-moment}.}
 \label{fig:robustness}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=.92\textwidth]{figures/fig_retention_matrices.pdf}
+\caption{\textbf{Per-domain retention matrices for PACT with TSLANet.}
+Cell $(t,j)$ is held-out macro-$F_1$, $A_{t,j}$, on domain $j$ after adapting
+through domain $t$; unobserved upper-triangular cells are blank. Rows make
+retention after each successive FD, HHAR, and Sleep-EDF domain visible rather
+than reducing the streams to final-step averages. Domain orders are listed in
+the reproducibility details.}
+\label{fig:retention-matrices}
 \end{figure*}
 
 \input{tables/appendix_tables.tex}
