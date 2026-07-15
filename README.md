@@ -1,120 +1,203 @@
-# EvoConcept
+# PACT: Piecewise Adaptation via Chart Transport
 
-A **gating method + adapter plugin** that lets a *frozen* state-of-the-art
-time-series classifier adapt to new domains **sequentially**, retaining
-performance on old domains (no catastrophic forgetting) while reaching strong
-performance on the new domain.
+**Forgetting-Free Domain-Incremental Adaptation of Time-Series Foundation Models**
 
-Everything operates in the frozen backbone's pre-head embedding space, so the
-host classifier is **never** modified — forgetting is zero by construction.
+> Submitted to AAAI 2027
 
-## Method in one paragraph
+## Overview
 
-Given a SOTA backbone (TSLANet / PatchTST / TimesNet) trained once on a source
-domain and then frozen, we (1) cluster the source embeddings into `K` **concepts**
-(K-means); (2) for each new domain, train a small **per-concept adapter bank** on a
-tiny labelled calibration slice (default 5% labels), correcting that domain's
-embeddings so the frozen head classifies them correctly — and then freeze it; and
-(3) train a per-concept **soft-mixture gate** that routes each sample by mixing all
-domains' adapter outputs:
+Pretrained Time-Series Foundation Models (TSFMs) deliver strong representations out of the box, but deployed systems often encounter **operating conditions that shift sequentially** after training. Fine-tuning shared parameters can recover accuracy on a new condition but degrades previously observed ones (catastrophic forgetting), while regularization-based methods trade plasticity for stability.
+
+PACT sidesteps this dilemma entirely. It **never modifies** the pretrained encoder, the classifier head, or any previously learned correction. Instead, it partitions the frozen encoder's embedding space into local regions called *charts*, learns lightweight residual transports for each new condition, and softly routes every test sample through the accumulated transports at inference -- retaining an explicit identity path back to the original representation.
+
+### Key idea
+
+Operating-condition shift is **locally concentrated**: some embedding regions move substantially while others stay stable. A global correction therefore damages regions that need no adaptation. PACT applies corrections only where they are needed:
 
 ```
-ê = Σ_d  α_d(e, c) · A_{d,c}(e),   α = softmax(g_c(e) / T),   A_{0,c} = identity (source)
+e_hat = sum_d  alpha_d(e, c) * A_{d,c}(e)
+
+alpha = softmax(g_c(e) / T)        (per-chart soft gate)
+A_{0,c} = identity                  (source path, always retained)
 ```
 
-The source "adapter" is the identity, so source-like samples are routed back to
-the untouched embedding (preserving old performance) while shifted samples get
-their correction. Only the gate is retrained as domains accumulate.
+Because the source "adapter" is the identity, source-like samples route back to the untouched embedding (preserving old performance) while shifted samples get their local correction. Only the gate is retrained as domains accumulate; the encoder, head, and prior transports remain frozen.
 
-## Repository layout
+### Highlights
+
+- **Zero host-level forgetting** -- encoder and classifier head are never updated
+- **Few-label calibration** -- adapts from as few as 5% labeled samples per new condition
+- **No condition identity at test time** -- soft gating handles mixed-condition streams automatically
+- **Backbone-agnostic** -- works with TSLANet, PatchTST, TimesNet, MOMENT, Sundial, Chronos, Moirai, and Time-MoE
+- **Margin-based preservation guarantee** -- a derived condition under which the original prediction is provably unchanged
+
+## Results at a Glance
+
+On a bearing-fault diagnosis benchmark with four sequential operating conditions (5% calibration labels, no condition identity at test time):
+
+| Method | Avg Accuracy after 4 conditions |
+|---|---|
+| **PACT** | **0.984** |
+| Head fine-tuning | 0.68 |
+| Full fine-tuning | 0.38 |
+| EWC / MAS / LwF | 0.54 -- 0.86 |
+
+PACT is the only evaluated method to remain above 98% average accuracy as conditions accumulate. The same retention-adaptation advantage is observed on human-activity recognition (HHAR) and sleep-staging (Sleep-EDF) datasets across multiple TSFM backbones.
+
+## Repository Structure
 
 ```
-evoconcept_clean/
-├── src/                      # clean, refactored reference implementation
-│   ├── models/               # tslanet, patchtst, timesnet, adapters, gate, concepts, factory
-│   ├── data/                 # datasets registry (FD/HHAR/Sleep) + AdaTime SCENARIOS + preprocess/
-│   ├── method/               # pact (adapters+gate+inference), sequential (CL loop+metrics), dp
-│   ├── training.py           # source-backbone training / loading
-│   └── utils/                # seeding, device, masking
-├── scripts/                  # clean entry points that use src/
-│   ├── train_backbone.py     # train/load a source backbone
-│   ├── run_sequential.py     # MAIN: sequential domain-incremental CL with PACT
-│   └── run_ablations.sh      # backbone / LoRA / K / label-budget / temperature sweeps
-├── experiments/              # faithful ORIGINAL drivers for exact paper reproduction
-│   ├── run_unified_eval.py           # PACT vs all baselines (FD + HHAR)
-│   ├── run_sleep_unified_eval.py     # PACT vs all baselines (Sleep-EDF)
-│   ├── run_semisup_only.py           # semi-supervised DA baselines (DANN†/CDAN†/CoTMix†)
-│   ├── run_ortcl_tslanet.py          # ORTCL continual-learning baseline
-│   ├── run_sequential_soft_gate*.py  # sequential CL (+ DP ablation)
-│   ├── run_sequential_pact_lora.py   # LoRA-adapter ablation
-│   ├── run_exp8_rf_seqpact.py        # rehearsal-free ablation
-│   ├── compute_cl_metrics.py         # AA/BWT/F/FWT aggregation from result files
-│   └── (transfer_*.py, exp7_soft_gate.py, dp_utils.py = shared deps)
-├── baselines/  -> ../baselines        # third-party baseline repos (AdaTime, ORTCL, DualCD, …)
-├── dataset/    -> ../dataset          # symlink to the data
-├── checkpoints/{tslanet,patchtst}     # symlinks to pre-trained backbones
+PACT/
+├── src/                          # Core library (clean, refactored)
+│   ├── models/                   # Backbones, adapters, gate, concepts, factory
+│   │   ├── tslanet.py            # TSLANet backbone
+│   │   ├── patchtst.py           # PatchTST backbone
+│   │   ├── timesnet.py           # TimesNet backbone
+│   │   ├── tsfm.py               # Foundation model wrappers (MOMENT, Sundial, etc.)
+│   │   ├── adapters.py           # Per-concept adapter banks
+│   │   ├── gate.py               # Soft-mixture gating network
+│   │   ├── concepts.py           # K-means chart partitioning
+│   │   └── factory.py            # Backbone registry and loader
+│   ├── data/                     # Dataset registry + AdaTime scenarios
+│   │   ├── datasets.py           # FD, HHAR, Sleep-EDF, UCIHAR, WISDM loaders
+│   │   └── calib.py              # Calibration set sampling
+│   ├── method/                   # PACT algorithm
+│   │   ├── pact.py               # Core: adapters + gate training + inference
+│   │   ├── sequential.py         # Domain-incremental CL loop + metrics (AA/BWT/F)
+│   │   └── dp.py                 # Differential privacy extension (DP-PACT)
+│   ├── training.py               # Source-backbone training / checkpoint loading
+│   └── utils/                    # Seeding, device selection, masking
+├── scripts/                      # Entry points
+│   ├── run_sequential.py         # MAIN: sequential domain-incremental CL with PACT
+│   ├── train_backbone.py         # Train or load a source backbone
+│   ├── run_ablations.sh          # Backbone / LoRA / K / label-budget / temperature sweeps
+│   ├── run_cl_baselines.py       # Continual learning baselines (EWC, MAS, LwF, etc.)
+│   ├── run_cl_baselines_tsfm.py  # CL baselines on foundation model backbones
+│   ├── run_sequential_tsfm.py    # PACT on foundation model backbones
+│   └── run_controls.py           # Control experiments
+├── experiments/                  # Original experiment drivers (exact paper reproduction)
+│   ├── run_unified_eval.py       # PACT vs all baselines (FD + HHAR)
+│   ├── run_sleep_unified_eval.py # PACT vs all baselines (Sleep-EDF)
+│   ├── compute_cl_metrics.py     # AA / BWT / F / FWT aggregation
+│   └── ...                       # Transfer, ablation, and sweep scripts
+├── results/                      # Pre-computed experiment results (CSVs + figures)
 ├── requirements.txt
 └── README.md
 ```
 
-`src/` is the clean library you read and extend for the paper. `experiments/`
-holds the original driver scripts (kept verbatim so the baseline/ablation
-numbers reproduce exactly); they run unchanged thanks to the symlinks above.
+## Datasets
 
-## Datasets and evaluation protocol
+| Dataset | Task | Domains | Classes | Seq Length | Channels |
+|---|---|---|---|---|---|
+| **FD** | Bearing fault diagnosis | 4 operating conditions | 3 | 5120 | 1 |
+| **HHAR** | Human activity recognition | 9 users | 6 | 128 | 3 |
+| **Sleep-EDF** | Sleep stage classification | 20 subjects | 5 | 3000 | 1 |
+| **UCIHAR** | Human activity recognition | 30 subjects | 6 | 128 | 9 |
+| **WISDM** | Human activity recognition | 36 users | 6 | 128 | 3 |
 
-| Dataset    | Domains | Classes | Seq len | Channels |
-|------------|---------|---------|---------|----------|
-| FD         | 4 (A–D) | 3       | 5120    | 1        |
-| HHAR       | 9 users | 6       | 128     | 3        |
-| Sleep-EDF  | 20 subj | 5       | 3000    | 1        |
+Datasets are not included in this repository due to size. Place them under a `datasets/` directory at the project root (or symlink `dataset` to your data location). See `src/data/datasets.py` for the expected directory layout.
 
-Two evaluation protocols, both using the **AdaTime** benchmark's selected shifts
-(`src.data.SCENARIOS`, the single source of truth — 10 src→tgt cases per dataset):
-
-1. **Baseline comparison** — the pairwise AdaTime scenarios, iterated by
-   `experiments/run_unified_eval.py` (PACT vs UDA / TTA / semi-sup DA / CL).
-2. **Continual-learning / forgetting** — a multi-domain *ordering* (e.g. FD
-   `0→1→2→3`), run by `scripts/run_sequential.py`, producing AA/BWT/F/RF/PRF.
-
-## Environment
+## Installation
 
 ```bash
-conda create -n entrope python=3.10
-conda activate entrope
+conda create -n pact python=3.10
+conda activate pact
 pip install -r requirements.txt
 ```
 
-> **Note on `libstdc++`:** this environment needs the conda `libstdc++` preloaded,
-> otherwise `torch.optim` / `optree` fail with a `GLIBCXX` error. Prefix commands with:
+> **Note:** If you encounter `GLIBCXX` errors with `torch.optim` or `optree`, preload the conda `libstdc++`:
 > ```bash
 > LD_PRELOAD=$CONDA_PREFIX/lib/libstdc++.so.6 python ...
 > ```
 
-## Quick start
+### Requirements
+
+- Python 3.10+
+- PyTorch 2.10+
+- scikit-learn, scipy, pandas, matplotlib, einops
+- opacus (for DP-PACT ablation only)
+
+## Quick Start
+
+### 1. Train or load a source backbone
 
 ```bash
-# 0. (optional) train a source backbone — FD/HHAR/Sleep TSLANet & PatchTST are pre-trained
 python scripts/train_backbone.py --backbone tslanet --dataset fd --domain 0
-
-# 1. MAIN: sequential domain-incremental continual learning with PACT
-python scripts/run_sequential.py --dataset fd                     # TSLANet, FD 0→1→2→3
-python scripts/run_sequential.py --dataset hhar --backbone patchtst
-
-# 2. Baseline comparison table (from experiments/, which uses AdaTime scenarios)
-cd experiments && python run_unified_eval.py            # FD + HHAR
-                  python run_sleep_unified_eval.py      # Sleep-EDF
-                  python compute_cl_metrics.py          # AA/BWT/F/FWT table
-
-# 3. Ablations
-bash scripts/run_ablations.sh fd                        # backbone/LoRA/K/label-budget/temperature
-cd experiments && python run_sequential_soft_gate_dp.py --dataset fd --sweep_epsilons "0.1,0.5,1,2,5,10,inf"
 ```
 
-## Backbones
+Pre-trained checkpoints for TSLANet and PatchTST are available for all datasets.
 
-`tslanet` and `patchtst` ship with pre-trained checkpoints for all three
-datasets. **TimesNet** is a self-contained, trainable scaffold conforming to the
-same backbone contract (`extract() -> [B, emb_dim]`), but **no TimesNet
-checkpoints ship yet** — train one first with `scripts/train_backbone.py
---backbone timesnet ...`.
+### 2. Run PACT (sequential domain-incremental CL)
+
+```bash
+# TSLANet on FD (default order: 0 → 1 → 2 → 3)
+python scripts/run_sequential.py --dataset fd
+
+# PatchTST on HHAR
+python scripts/run_sequential.py --dataset hhar --backbone patchtst
+
+# Custom domain order and calibration fraction
+python scripts/run_sequential.py --dataset fd --domain_order 3,2,1,0 --calib_frac 0.05
+```
+
+### 3. Run baselines for comparison
+
+```bash
+cd experiments
+python run_unified_eval.py            # FD + HHAR
+python run_sleep_unified_eval.py      # Sleep-EDF
+python compute_cl_metrics.py          # Aggregate AA / BWT / F / FWT
+```
+
+### 4. Run ablations
+
+```bash
+# Backbone, LoRA, K, label-budget, and temperature sweeps
+bash scripts/run_ablations.sh fd
+
+# Differential privacy sweep
+cd experiments
+python run_sequential_soft_gate_dp.py --dataset fd --sweep_epsilons "0.1,0.5,1,2,5,10,inf"
+```
+
+### 5. Foundation model backbones
+
+```bash
+# Run PACT with MOMENT, Sundial, Chronos, Moirai, or Time-MoE
+python scripts/run_sequential_tsfm.py --backbone moment --dataset fd
+```
+
+## Method Details
+
+PACT operates in three stages for each new operating condition:
+
+1. **Chart partitioning** -- K-means clusters the source embeddings into K local regions (charts), computed once
+2. **Adapter training** -- For each chart, a lightweight residual adapter is trained on the new condition's calibration set (default 5% labels), optimized through the frozen classifier head
+3. **Gate calibration** -- A per-chart soft-mixture gate learns to route test samples across all accumulated adapters, retaining an identity path to the source representation
+
+Key hyperparameters (defaults in `PactConfig`):
+
+| Parameter | Default | Description |
+|---|---|---|
+| `k` | 16 | Number of charts (K-means clusters) |
+| `calib_frac` | 0.05 | Fraction of labeled data for calibration |
+| `adapter_ep` | 200 | Adapter training epochs |
+| `gate_ep` | 200 | Gate training epochs |
+| `temperature` | 0.5 | Softmax temperature for gating |
+
+## Citation
+
+If you use PACT in your research, please cite:
+
+```bibtex
+@inproceedings{pact2027,
+  title={Forgetting-Free Domain Incremental Adaptation of Time-Series Foundation Models via Piecewise Chart Transport},
+  author={Anonymous},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  year={2027}
+}
+```
+
+## License
+
+This project is released under the MIT License.
