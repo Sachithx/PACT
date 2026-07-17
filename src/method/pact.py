@@ -36,14 +36,15 @@ class PactConfig:
     calib_n: int | None = None      # fixed label budget; overrides calib_frac when set
     adapter_ep: int = 200
     adapter_lr: float = 1e-3
-    adapter_weight_decay: float = 0.0
     gate_ep: int = 200
     gate_lr: float = 1e-3
     penalty: float = 1e-3
     batch: int = 256
     seed: int = 42
-    adapter_kind: str = "identity"   # "identity" | "lora"
+    adapter_kind: str = "lora"       # "lora" (default rank-8) | "identity" (full affine)
     lora_rank: int = 8
+    kmeans_n_init: int = 10
+    min_chart_domain_n: int = 5    # omit chart-domain gate output below this support
     gate_kind: str = "learned"       # "learned" (MLP, rehearsal) | "prototype" |
                                       # "prototype_diag" | "prototype_lowrank" |
                                       # "prototype_masked" | "prototype_mixture" |
@@ -69,11 +70,7 @@ def extract_embs(model, loader, device):
 def train_adapters(calib_embs, calib_lbls, centroids, frozen_head, device, cfg: PactConfig):
     """Train K adapters for one domain's calibration data."""
     adapters = make_adapter_bank(cfg.k, cfg.emb_dim, cfg.adapter_kind, cfg.lora_rank).to(device)
-    opt = torch.optim.AdamW(
-        adapters.parameters(),
-        lr=cfg.adapter_lr,
-        weight_decay=cfg.adapter_weight_decay,
-    )
+    opt = torch.optim.AdamW(adapters.parameters(), lr=cfg.adapter_lr)
     crit = nn.CrossEntropyLoss()
     asgn = assign_concepts(calib_embs, centroids)
 
@@ -144,17 +141,25 @@ def train_soft_gates(src_embs, src_asgn, calib_per_domain, device, cfg: PactConf
 
     calib_per_domain: list of (embs, asgn, lbls), one per PAST/CURRENT target
     domain. Each class is balanced by oversampling to the largest class.
-    Returns a list of K SoftGateMLP (None where a concept has no calibration).
+    Chart-domain pairs with fewer than cfg.min_chart_domain_n calibration samples
+    are omitted from gate training; at inference their logits are masked to
+    -inf so routing falls back to available branches.
+    Returns a list of K SoftGateMLP (None where a chart has no target support).
     """
     n_domains = 1 + len(calib_per_domain)
     soft_gates = []
     for c in range(cfg.k):
         X_by_class = {0: src_embs[src_asgn == c]}
+        active_targets = []
         for j, (embs, asgn, _) in enumerate(calib_per_domain):
-            X_by_class[j + 1] = embs[asgn == c]
+            X_cls = embs[asgn == c]
+            if len(X_cls) >= cfg.min_chart_domain_n:
+                active_targets.append(j + 1)
+                X_by_class[j + 1] = X_cls
 
-        if not any(len(v) > 0 for k_, v in X_by_class.items() if k_ > 0):
-            soft_gates.append(None); continue
+        if not active_targets:
+            soft_gates.append(None)
+            continue
 
         max_cls = max(len(v) for v in X_by_class.values() if len(v) > 0)
         rng = np.random.default_rng(cfg.seed + c + 200)
@@ -170,7 +175,8 @@ def train_soft_gates(src_embs, src_asgn, calib_per_domain, device, cfg: PactConf
 
         X = np.concatenate(X_parts).astype(np.float32)
         y = np.concatenate(y_parts)
-        perm = rng.permutation(len(X)); X, y = X[perm], y[perm]
+        perm = rng.permutation(len(X))
+        X, y = X[perm], y[perm]
 
         Xt = torch.from_numpy(X).to(device)
         yt = torch.from_numpy(y).to(device)
@@ -179,12 +185,22 @@ def train_soft_gates(src_embs, src_asgn, calib_per_domain, device, cfg: PactConf
             batch_size=min(cfg.batch, len(X)), shuffle=True)
 
         gate = SoftGateMLP(cfg.emb_dim, n_domains=n_domains).to(device)
+        if len(active_targets) < n_domains - 1:
+            gate.register_buffer(
+                "_domain_mask",
+                torch.tensor(
+                    [True] + [d in active_targets for d in range(1, n_domains)],
+                    dtype=torch.bool,
+                ),
+            )
         opt = torch.optim.AdamW(gate.parameters(), lr=cfg.gate_lr, weight_decay=1e-4)
         crit = nn.CrossEntropyLoss()
         for _ in range(cfg.gate_ep):
             gate.train()
             for xb, yb in ld:
-                opt.zero_grad(); crit(gate(xb), yb).backward(); opt.step()
+                opt.zero_grad()
+                crit(gate(xb), yb).backward()
+                opt.step()
         soft_gates.append(gate)
     return soft_gates
 

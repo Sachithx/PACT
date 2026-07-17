@@ -2,7 +2,7 @@
 
 Domains arrive one at a time. At step t:
   1. draw a calib_frac labelled slice from domain t;
-  2. train a frozen per-chart adapter bank A_t for it;
+  2. train a frozen per-concept adapter bank A_t for it;
   3. retrain the (t+1)-way soft gate on accumulated calibration (src + 1..t);
   4. evaluate on all seen domains [0..t] (soft mixture / hard gate / oracle);
   5. accumulate CL metrics.
@@ -11,14 +11,13 @@ Host-level forgetting is 0 by construction (backbone + head + past adapters
 all frozen); non-trivial BWT can only come from gate routing changes, so
 near-zero BWT is a genuine result.
 
-AA and BWT follow Lopez-Paz & Ranzato (GEM, NeurIPS 2017). F, RF, and PRF use
-the running maximum over each domain's evaluation history as their reference.
+CL metrics follow Lopez-Paz & Ranzato (GEM, NeurIPS 2017) for AA/BWT/F and the
+DualCD definitions for RF/PRF.
 """
 
 import numpy as np
 import torch
 from sklearn.metrics import accuracy_score, f1_score
-from ..cl_metrics import compute_cl_metrics
 from ..data.calib import calib_indices
 from ..models.concepts import assign_concepts, kmeans_numpy
 from ..models.gate import (build_prototype_gates, build_prototype_gates_diag,
@@ -66,6 +65,48 @@ def fit_gates(src_embs, src_asgn, accumulated_calib, device, cfg: PactConfig,
         assert adapters_list is not None and frozen_head is not None
         return build_confidence_gates(adapters_list, frozen_head, cfg.k)
     raise ValueError(f"Unknown gate_kind: {cfg.gate_kind!r}")
+
+
+# ── CL metrics ─────────────────────────────────────────────────────────────────
+
+def compute_cl_metrics(A, t, include_source=True):
+    """AA, BWT, F, RF, PRF up to step t from a NaN-padded T x T matrix A.
+
+    BWT = mean per-domain (final - first-seen), i.e. A[t,j] - A[j,j].
+    F   = standard GEM forgetting: mean_j [max_{l in j..t} A[l,j] - A[t,j]]_+.
+    RF/PRF normalize the same peak-to-final drop used by F.
+    """
+    seen = t + 1
+    AA = float(np.nanmean(A[t, :seen]))
+    start_j = 0 if include_source else 1
+
+    bwt_vals = []
+    for j in range(start_j, seen):
+        if j == t or np.isnan(A[j, j]) or np.isnan(A[t, j]):
+            continue
+        bwt_vals.append(A[t, j] - A[j, j])
+    BWT = float(np.mean(bwt_vals)) if bwt_vals else 0.0
+
+    f_vals, rf_list, prf_list = [], [], []
+    for j in range(start_j, seen):
+        if j == t:
+            continue
+        final_j = A[t, j]
+        if np.isnan(final_j):
+            continue
+        peak_vals = [A[i, j] for i in range(j, t + 1) if not np.isnan(A[i, j])]
+        if not peak_vals:
+            continue
+        peak_j = max(peak_vals)
+        drop = max(0.0, peak_j - final_j)
+        f_vals.append(drop)
+        rf_j = drop / (peak_j + 1e-9)
+        rf_list.append(rf_j)
+        prf_list.append((1.0 - final_j) * rf_j)
+    F = float(np.mean(f_vals)) if f_vals else 0.0
+    RF = float(np.mean(rf_list)) if rf_list else 0.0
+    PRF = float(np.mean(prf_list)) if prf_list else 0.0
+    return AA, BWT, F, RF, PRF
 
 
 @torch.no_grad()
@@ -164,7 +205,8 @@ def run_sequential(model, spec, domain_order, data_root, device, cfg: PactConfig
     src_ld = torch.utils.data.DataLoader(
         spec.get_dataset(domain_order[0], "train", data_root), batch_size=cfg.batch)
     src_embs, src_lbls = extract_embs(model, src_ld, device)
-    centroids, src_asgn = kmeans_numpy(src_embs, cfg.k, seed=cfg.seed)
+    centroids, src_asgn = kmeans_numpy(src_embs, cfg.k, seed=cfg.seed,
+                                       n_init=cfg.kmeans_n_init)
 
     test_embs, test_lbls = {}, {}
     for did, lbl in zip(domain_order, labels):
