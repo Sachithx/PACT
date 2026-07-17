@@ -1,0 +1,9 @@
+[02:52:38] Starting phase=remainder  seeds=42,0,1  num_gpus=2  log=results/experiment_logs/remainder_20260716_025238.log
+[02:52:38] >>> [cuda:0] scripts/run_ncm_baseline.py --dataset fd --tsfm moment --seed 42
+[02:52:38] >>> [cuda:1] scripts/run_embedding_replay.py --dataset fd --method emb-replay-head --tsfm moment --seed 42
+[02:56:12] >>> [cuda:[02:56:12] FAILED (exit -1) on cuda:1 (pid 617363)
+1] scripts/run_embedding_replay.py --dataset fd --method global-adapter --tsfm moment --seed 42
+scripts/run_experiment_matrix.sh: line 70: [02:56:12] FAILED (exit -1) on cuda:1 (pid 617363)
+1: syntax error: operand expected (error token is "[02:56:12] FAILED (exit -1) on cuda:1 (pid 617363)
+1")
+[02:56:12] Phase remainder complete. Log: results/experiment_logs/remainder_20260716_025238.log

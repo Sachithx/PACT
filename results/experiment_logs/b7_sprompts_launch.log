@@ -1,0 +1,330 @@
+[16:28:18] B7+sprompts rerun  num_gpus=2  seeds=42,0,1
+[16:28:18] >>> [cuda:0] scripts/run_sequential_tsfm.py --dataset wisdm --tsfm sundial --domain_order adatime --seed 42 --adapter_kind lora
+[16:28:18] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method head-ft --domain_order adatime --calib_frac 0.05 --seed 42
+[16:28:57] FAILED (exit -1) on cuda:1
+[16:28:57] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method lwf --domain_order adatime --calib_frac 0.05 --seed 42
+[16:28:59] FAILED (exit -1) on cuda:0
+[16:28:59] >>> [cuda:0] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method srcdistill --domain_order adatime --calib_frac 0.05 --seed 42
+[16:29:37] FAILED (exit -1) on cuda:1
+[16:29:37] >>> [cuda:1] scripts/run_sequential.py --dataset wisdm --backbone tslanet --domain_order adatime --seed 42
+[16:29:39] FAILED (exit -1) on cuda:0
+[16:29:39] >>> [cuda:0] scripts/run_sequential_tsfm.py --dataset wisdm --tsfm sundial --domain_order adatime --seed 0 --adapter_kind lora
+[16:30:07] FAILED (exit -1) on cuda:1
+[16:30:07] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method head-ft --domain_order adatime --calib_frac 0.05 --seed 0
+[16:30:19] FAILED (exit -1) on cuda:0
+[16:30:19] >>> [cuda:0] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method lwf --domain_order adatime --calib_frac 0.05 --seed 0
+[16:30:45] FAILED (exit -1) on cuda:1
+[16:30:45] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method srcdistill --domain_order adatime --calib_frac 0.05 --seed 0
+[16:30:57] FAILED (exit -1) on cuda:0
+[16:30:57] >>> [cuda:0] scripts/run_sequential.py --dataset wisdm --backbone tslanet --domain_order adatime --seed 0
+[16:31:25] FAILED (exit -1) on cuda:1
+[16:31:25] >>> [cuda:1] scripts/run_sequential_tsfm.py --dataset wisdm --tsfm sundial --domain_order adatime --seed 1 --adapter_kind lora
+[16:31:31] FAILED (exit -1) on cuda:0
+[16:31:31] >>> [cuda:0] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method head-ft --domain_order adatime --calib_frac 0.05 --seed 1
+[16:32:09] FAILED (exit -1) on cuda:0
+[16:32:09] FAILED (exit -1) on cuda:1
+[16:32:09] >>> [cuda:0] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method lwf --domain_order adatime --calib_frac 0.05 --seed 1
+[16:32:09] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method srcdistill --domain_order adatime --calib_frac 0.05 --seed 1
+[16:32:50] FAILED (exit -1) on cuda:0
+[16:32:50] FAILED (exit -1) on cuda:1
+[16:32:50] >>> [cuda:0] scripts/run_sequential.py --dataset wisdm --backbone tslanet --domain_order adatime --seed 1
+[16:32:50] skip sprompts fd_moment_adatime_sprompts_c5_s42 (done)
+[16:32:50] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 42
+[16:33:20] FAILED (exit -1) on cuda:0
+[16:33:20] >>> [cuda:0] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 42
+[16:36:06] FAILED (exit -1) on cuda:1
+[16:36:06] >>> [cuda:1] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+[16:41:02] FAILED (exit -1) on cuda:1
+[16:41:02] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+[16:44:17] FAILED (exit -1) on cuda:1
+[16:44:17] >>> [cuda:1] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+[16:59:36] FAILED (exit -1) on cuda:0
+[16:59:36] >>> [cuda:0] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+[17:04:26] FAILED (exit -1) on cuda:0
+[17:04:26] >>> [cuda:0] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+[17:07:38] FAILED (exit -1) on cuda:0
+[17:07:38] >>> [cuda:0] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+Wrote /home/AD/sachith/PACT/results/experiment_matrix/b7_summary.csv
+             root                                                                          config_base  AA_mean   AA_std       F_mean    F_std  n_seeds
+cl_baselines_tsfm                                                    fd_chronos-bolt_adatime_dualcd_c5 0.868190      NaN 1.570194e-01      NaN        1
+cl_baselines_tsfm                                                   fd_chronos-bolt_adatime_head-ft_c5 0.837889      NaN 1.819011e-01      NaN        1
+cl_baselines_tsfm                                                       fd_chronos-bolt_adatime_lwf_c5 0.871451      NaN 4.521423e-02      NaN        1
+cl_baselines_tsfm                                                fd_chronos-bolt_adatime_srcdistill_c5 0.771041      NaN 2.740344e-02      NaN        1
+cl_baselines_tsfm                                                          fd_moirai_adatime_dualcd_c5 0.866633      NaN 1.256556e-01      NaN        1
+cl_baselines_tsfm                                                         fd_moirai_adatime_head-ft_c5 0.828168      NaN 1.308995e-01      NaN        1
+cl_baselines_tsfm                                                             fd_moirai_adatime_lwf_c5 0.848004      NaN 4.074355e-02      NaN        1
+cl_baselines_tsfm                                                      fd_moirai_adatime_srcdistill_c5 0.747072      NaN 2.643785e-02      NaN        1
+cl_baselines_tsfm                                                          fd_moment_adatime_dualcd_c5 0.920481      NaN 8.619003e-02      NaN        1
+cl_baselines_tsfm                                                             fd_moment_adatime_ewc_c5 0.631829      NaN 6.071851e-03      NaN        1
+cl_baselines_tsfm                                                         fd_moment_adatime_head-ft_c5 0.811315 0.033859 1.686298e-01 0.033718        4
+cl_baselines_tsfm                                                             fd_moment_adatime_lwf_c5 0.824326 0.031829 4.051754e-02 0.010293        4
+cl_baselines_tsfm                                                             fd_moment_adatime_mas_c5 0.874178      NaN 6.477379e-02      NaN        1
+cl_baselines_tsfm                                                      fd_moment_adatime_srcdistill_c5 0.759219 0.028566 2.727552e-02 0.007365        4
+cl_baselines_tsfm                                                         fd_sundial_adatime_dualcd_c5 0.873910      NaN 1.417916e-01      NaN        1
+cl_baselines_tsfm                                                        fd_sundial_adatime_head-ft_c5 0.854609      NaN 1.510915e-01      NaN        1
+cl_baselines_tsfm                                                            fd_sundial_adatime_lwf_c5 0.814006      NaN 1.118569e-01      NaN        1
+cl_baselines_tsfm                                                     fd_sundial_adatime_srcdistill_c5 0.707237      NaN 8.717498e-02      NaN        1
+cl_baselines_tsfm                                                        fd_time-moe_adatime_dualcd_c5 0.825073      NaN 1.279071e-01      NaN        1
+cl_baselines_tsfm                                                       fd_time-moe_adatime_head-ft_c5 0.821734      NaN 1.459633e-01      NaN        1
+cl_baselines_tsfm                                                           fd_time-moe_adatime_lwf_c5 0.803400      NaN 7.238322e-02      NaN        1
+cl_baselines_tsfm                                                    fd_time-moe_adatime_srcdistill_c5 0.624206      NaN 7.192086e-02      NaN        1
+cl_baselines_tsfm                                                  hhar_chronos-bolt_adatime_dualcd_c5 0.681121      NaN 1.538995e-01      NaN        1
+cl_baselines_tsfm                                                 hhar_chronos-bolt_adatime_head-ft_c5 0.602937      NaN 1.586105e-01      NaN        1
+cl_baselines_tsfm                                                     hhar_chronos-bolt_adatime_lwf_c5 0.649727      NaN 4.992471e-02      NaN        1
+cl_baselines_tsfm                                              hhar_chronos-bolt_adatime_srcdistill_c5 0.592399      NaN 8.346639e-02      NaN        1
+cl_baselines_tsfm                                                        hhar_moirai_adatime_dualcd_c5 0.694311      NaN 1.494654e-01      NaN        1
+cl_baselines_tsfm                                                       hhar_moirai_adatime_head-ft_c5 0.645041      NaN 1.335777e-01      NaN        1
+cl_baselines_tsfm                                                           hhar_moirai_adatime_lwf_c5 0.686729      NaN 4.045569e-02      NaN        1
+cl_baselines_tsfm                                                    hhar_moirai_adatime_srcdistill_c5 0.629242      NaN 7.014669e-02      NaN        1
+cl_baselines_tsfm                                                        hhar_moment_adatime_dualcd_c5 0.698310      NaN 1.502718e-01      NaN        1
+cl_baselines_tsfm                                                           hhar_moment_adatime_ewc_c5 0.557447 0.002089 9.550446e-04 0.000907        3
+cl_baselines_tsfm                                                       hhar_moment_adatime_head-ft_c5 0.658805 0.043747 1.548326e-01 0.014782        4
+cl_baselines_tsfm                                                           hhar_moment_adatime_lwf_c5 0.700579 0.038285 4.199162e-02 0.017893        4
+cl_baselines_tsfm                                                           hhar_moment_adatime_mas_c5 0.657275 0.009038 1.103809e-01 0.008791        3
+cl_baselines_tsfm                                                    hhar_moment_adatime_srcdistill_c5 0.633404 0.025058 5.575785e-02 0.018522        4
+cl_baselines_tsfm                                                       hhar_sundial_adatime_dualcd_c5 0.810994      NaN 1.150060e-01      NaN        1
+cl_baselines_tsfm                                                      hhar_sundial_adatime_head-ft_c5 0.618467      NaN 3.014475e-01      NaN        1
+cl_baselines_tsfm                                                          hhar_sundial_adatime_lwf_c5 0.695119      NaN 9.831028e-02      NaN        1
+cl_baselines_tsfm                                                   hhar_sundial_adatime_srcdistill_c5 0.525243      NaN 6.061810e-02      NaN        1
+cl_baselines_tsfm                                                      hhar_time-moe_adatime_dualcd_c5 0.783950      NaN 7.295192e-02      NaN        1
+cl_baselines_tsfm                                                     hhar_time-moe_adatime_head-ft_c5 0.613210      NaN 2.730821e-01      NaN        1
+cl_baselines_tsfm                                                         hhar_time-moe_adatime_lwf_c5 0.671354      NaN 1.274389e-01      NaN        1
+cl_baselines_tsfm                                                  hhar_time-moe_adatime_srcdistill_c5 0.521013      NaN 6.095766e-02      NaN        1
+cl_baselines_tsfm                                                 sleep_chronos-bolt_adatime_dualcd_c5 0.613923      NaN 8.728474e-02      NaN        1
+cl_baselines_tsfm                                                sleep_chronos-bolt_adatime_head-ft_c5 0.634034      NaN 5.694773e-02      NaN        1
+cl_baselines_tsfm                                                    sleep_chronos-bolt_adatime_lwf_c5 0.627897      NaN 5.277630e-02      NaN        1
+cl_baselines_tsfm                                             sleep_chronos-bolt_adatime_srcdistill_c5 0.628191      NaN 4.647679e-02      NaN        1
+cl_baselines_tsfm                                                       sleep_moirai_adatime_dualcd_c5 0.668612      NaN 8.333077e-02      NaN        1
+cl_baselines_tsfm                                                      sleep_moirai_adatime_head-ft_c5 0.668944      NaN 6.398344e-02      NaN        1
+cl_baselines_tsfm                                                          sleep_moirai_adatime_lwf_c5 0.687406      NaN 2.660148e-02      NaN        1
+cl_baselines_tsfm                                                   sleep_moirai_adatime_srcdistill_c5 0.648545      NaN 4.202821e-02      NaN        1
+cl_baselines_tsfm                                                       sleep_moment_adatime_dualcd_c5 0.621501      NaN 1.045202e-01      NaN        1
+cl_baselines_tsfm                                                          sleep_moment_adatime_ewc_c5 0.638214 0.002357 1.087548e-03 0.000313        3
+cl_baselines_tsfm                                                      sleep_moment_adatime_head-ft_c5 0.581607 0.035783 1.295482e-01 0.037723        4
+cl_baselines_tsfm                                                          sleep_moment_adatime_lwf_c5 0.632448 0.016954 5.234295e-02 0.008262        4
+cl_baselines_tsfm                                                          sleep_moment_adatime_mas_c5 0.673647 0.004524 4.246721e-02 0.007164        3
+cl_baselines_tsfm                                                   sleep_moment_adatime_srcdistill_c5 0.630914 0.005961 5.172414e-02 0.004643        4
+cl_baselines_tsfm                                                      sleep_sundial_adatime_dualcd_c5 0.577816      NaN 9.250990e-02      NaN        1
+cl_baselines_tsfm                                                     sleep_sundial_adatime_head-ft_c5 0.554925      NaN 1.120853e-01      NaN        1
+cl_baselines_tsfm                                                         sleep_sundial_adatime_lwf_c5 0.585793      NaN 5.242966e-02      NaN        1
+cl_baselines_tsfm                                                  sleep_sundial_adatime_srcdistill_c5 0.610522      NaN 4.090554e-02      NaN        1
+cl_baselines_tsfm                                                     sleep_time-moe_adatime_dualcd_c5 0.447664      NaN 1.399942e-01      NaN        1
+cl_baselines_tsfm                                                    sleep_time-moe_adatime_head-ft_c5 0.461178      NaN 1.192769e-01      NaN        1
+cl_baselines_tsfm                                                        sleep_time-moe_adatime_lwf_c5 0.518131      NaN 5.637639e-02      NaN        1
+cl_baselines_tsfm                                                 sleep_time-moe_adatime_srcdistill_c5 0.500207      NaN 6.507583e-02      NaN        1
+cl_baselines_tsfm                                               ucihar_chronos-bolt_adatime_head-ft_c5 0.569008      NaN 7.914824e-02      NaN        1
+cl_baselines_tsfm                                             ucihar_chronos-bolt_adatime_head-ft_n450 0.638786      NaN 1.798758e-01      NaN        1
+cl_baselines_tsfm                                                   ucihar_chronos-bolt_adatime_lwf_c5 0.636541      NaN 8.444313e-03      NaN        1
+cl_baselines_tsfm                                                 ucihar_chronos-bolt_adatime_lwf_n450 0.730183      NaN 3.888788e-02      NaN        1
+cl_baselines_tsfm                                            ucihar_chronos-bolt_adatime_srcdistill_c5 0.600262      NaN 3.277979e-02      NaN        1
+cl_baselines_tsfm                                          ucihar_chronos-bolt_adatime_srcdistill_n450 0.626531      NaN 8.374372e-02      NaN        1
+cl_baselines_tsfm                                                     ucihar_moirai_adatime_head-ft_c5 0.608894      NaN 6.572224e-02      NaN        1
+cl_baselines_tsfm                                                   ucihar_moirai_adatime_head-ft_n450 0.682828      NaN 1.403497e-01      NaN        1
+cl_baselines_tsfm                                                         ucihar_moirai_adatime_lwf_c5 0.632669      NaN 1.663466e-02      NaN        1
+cl_baselines_tsfm                                                       ucihar_moirai_adatime_lwf_n450 0.719214      NaN 8.462310e-02      NaN        1
+cl_baselines_tsfm                                                  ucihar_moirai_adatime_srcdistill_c5 0.602275      NaN 3.062702e-02      NaN        1
+cl_baselines_tsfm                                                ucihar_moirai_adatime_srcdistill_n450 0.629591      NaN 1.303628e-01      NaN        1
+cl_baselines_tsfm                                                     ucihar_moment_adatime_head-ft_c5 0.651856      NaN 5.920874e-02      NaN        1
+cl_baselines_tsfm                                                   ucihar_moment_adatime_head-ft_n450 0.704136      NaN 1.039082e-01      NaN        1
+cl_baselines_tsfm                                                         ucihar_moment_adatime_lwf_c5 0.678939      NaN 7.469322e-03      NaN        1
+cl_baselines_tsfm                                                       ucihar_moment_adatime_lwf_n450 0.757641      NaN 2.190421e-02      NaN        1
+cl_baselines_tsfm                                                  ucihar_moment_adatime_srcdistill_c5 0.621825      NaN 3.168752e-02      NaN        1
+cl_baselines_tsfm                                                ucihar_moment_adatime_srcdistill_n450 0.645117      NaN 9.397697e-02      NaN        1
+cl_baselines_tsfm                                                    ucihar_sundial_adatime_head-ft_c5 0.682688      NaN 6.177250e-02      NaN        1
+cl_baselines_tsfm                                                  ucihar_sundial_adatime_head-ft_n450 0.719302      NaN 1.853225e-01      NaN        1
+cl_baselines_tsfm                                                        ucihar_sundial_adatime_lwf_c5 0.678399      NaN 1.900316e-02      NaN        1
+cl_baselines_tsfm                                                      ucihar_sundial_adatime_lwf_n450 0.784934      NaN 5.107217e-02      NaN        1
+cl_baselines_tsfm                                                 ucihar_sundial_adatime_srcdistill_c5 0.660480      NaN 3.642536e-02      NaN        1
+cl_baselines_tsfm                                               ucihar_sundial_adatime_srcdistill_n450 0.706284      NaN 8.537372e-02      NaN        1
+cl_baselines_tsfm                                                   ucihar_time-moe_adatime_head-ft_c5 0.642710      NaN 5.922298e-02      NaN        1
+cl_baselines_tsfm                                                 ucihar_time-moe_adatime_head-ft_n450 0.728331      NaN 1.699317e-01      NaN        1
+cl_baselines_tsfm                                                       ucihar_time-moe_adatime_lwf_c5 0.735874      NaN 1.645981e-02      NaN        1
+cl_baselines_tsfm                                                     ucihar_time-moe_adatime_lwf_n450 0.793624      NaN 4.014187e-02      NaN        1
+cl_baselines_tsfm                                                ucihar_time-moe_adatime_srcdistill_c5 0.673736      NaN 2.048229e-02      NaN        1
+cl_baselines_tsfm                                              ucihar_time-moe_adatime_srcdistill_n450 0.720822      NaN 6.728456e-02      NaN        1
+cl_baselines_tsfm                                               wisdm_chronos-bolt_adatime_dualcd_n450 0.712083      NaN 2.263637e-01      NaN        1
+cl_baselines_tsfm                                                wisdm_chronos-bolt_adatime_head-ft_c5 0.487512      NaN 7.291451e-02      NaN        1
+cl_baselines_tsfm                                              wisdm_chronos-bolt_adatime_head-ft_n450 0.583659      NaN 3.240341e-01      NaN        1
+cl_baselines_tsfm                                                    wisdm_chronos-bolt_adatime_lwf_c5 0.531185      NaN 2.136990e-02      NaN        1
+cl_baselines_tsfm                                                  wisdm_chronos-bolt_adatime_lwf_n450 0.679766      NaN 1.058005e-01      NaN        1
+cl_baselines_tsfm                                             wisdm_chronos-bolt_adatime_srcdistill_c5 0.448221      NaN 7.249478e-02      NaN        1
+cl_baselines_tsfm                                           wisdm_chronos-bolt_adatime_srcdistill_n450 0.462948      NaN 2.109034e-01      NaN        1
+cl_baselines_tsfm                                                     wisdm_moirai_adatime_dualcd_n450 0.679824      NaN 2.572514e-01      NaN        1
+cl_baselines_tsfm                                                      wisdm_moirai_adatime_head-ft_c5 0.515124      NaN 8.140936e-02      NaN        1
+cl_baselines_tsfm                                                    wisdm_moirai_adatime_head-ft_n450 0.644446      NaN 2.622559e-01      NaN        1
+cl_baselines_tsfm                                                          wisdm_moirai_adatime_lwf_c5 0.596473      NaN 2.094214e-02      NaN        1
+cl_baselines_tsfm                                                        wisdm_moirai_adatime_lwf_n450 0.752811      NaN 1.120896e-01      NaN        1
+cl_baselines_tsfm                                                   wisdm_moirai_adatime_srcdistill_c5 0.467832      NaN 6.338624e-02      NaN        1
+cl_baselines_tsfm                                                 wisdm_moirai_adatime_srcdistill_n450 0.538356      NaN 2.932372e-01      NaN        1
+cl_baselines_tsfm                                                     wisdm_moment_adatime_dualcd_n450 0.747276      NaN 2.206228e-01      NaN        1
+cl_baselines_tsfm                                                      wisdm_moment_adatime_head-ft_c5 0.544479 0.014636 1.018054e-01 0.024582        4
+cl_baselines_tsfm                                                    wisdm_moment_adatime_head-ft_n450 0.714966      NaN 2.335837e-01      NaN        1
+cl_baselines_tsfm                                                          wisdm_moment_adatime_lwf_c5 0.582529 0.008563 2.965595e-02 0.012465        4
+cl_baselines_tsfm                                                        wisdm_moment_adatime_lwf_n450 0.792060      NaN 6.877053e-02      NaN        1
+cl_baselines_tsfm                                                   wisdm_moment_adatime_srcdistill_c5 0.430138 0.011546 1.037544e-01 0.014468        4
+cl_baselines_tsfm                                                 wisdm_moment_adatime_srcdistill_n450 0.444392      NaN 2.372685e-01      NaN        1
+cl_baselines_tsfm                                                    wisdm_sundial_adatime_dualcd_n450 0.849214      NaN 9.002939e-02      NaN        1
+cl_baselines_tsfm                                                     wisdm_sundial_adatime_head-ft_c5 0.757124 0.006247 5.958268e-02 0.031674        4
+cl_baselines_tsfm                                                   wisdm_sundial_adatime_head-ft_n450 0.839186      NaN 8.447165e-02      NaN        1
+cl_baselines_tsfm                                                         wisdm_sundial_adatime_lwf_c5 0.773169 0.000886 2.776505e-02 0.012460        4
+cl_baselines_tsfm                                                       wisdm_sundial_adatime_lwf_n450 0.834302      NaN 4.726693e-02      NaN        1
+cl_baselines_tsfm                                                  wisdm_sundial_adatime_srcdistill_c5 0.713237 0.033288 5.734293e-02 0.034976        4
+cl_baselines_tsfm                                                wisdm_sundial_adatime_srcdistill_n450 0.765196      NaN 7.029491e-02      NaN        1
+cl_baselines_tsfm                                                   wisdm_time-moe_adatime_dualcd_n450 0.813080      NaN 9.453200e-02      NaN        1
+cl_baselines_tsfm                                                    wisdm_time-moe_adatime_head-ft_c5 0.551723      NaN 6.463930e-02      NaN        1
+cl_baselines_tsfm                                                  wisdm_time-moe_adatime_head-ft_n450 0.805149      NaN 8.954051e-02      NaN        1
+cl_baselines_tsfm                                                        wisdm_time-moe_adatime_lwf_c5 0.589841      NaN 1.853846e-02      NaN        1
+cl_baselines_tsfm                                                      wisdm_time-moe_adatime_lwf_n450 0.809482      NaN 5.795972e-02      NaN        1
+cl_baselines_tsfm                                                 wisdm_time-moe_adatime_srcdistill_c5 0.608916      NaN 2.566494e-02      NaN        1
+cl_baselines_tsfm                                               wisdm_time-moe_adatime_srcdistill_n450 0.710187      NaN 8.109157e-02      NaN        1
+       sequential                                             fd_patchtst_adatime_K16_c5_t0.5_identity 0.888642      NaN 3.225338e-03      NaN        1
+       sequential                                              fd_tslanet_0_1_2_3_K16_c5_t0.5_identity 0.978466      NaN 1.732268e-03      NaN        1
+       sequential                                              fd_tslanet_0_1_2_3_K8_c10_t0.5_identity 0.946825      NaN 6.030221e-03      NaN        1
+       sequential                                              fd_tslanet_1_3_0_2_K16_c5_t0.5_identity 0.970169      NaN 8.064472e-04      NaN        1
+       sequential                                              fd_tslanet_2_0_3_1_K16_c5_t0.5_identity 0.976941      NaN 6.169787e-04      NaN        1
+       sequential                                              fd_tslanet_3_2_1_0_K16_c5_t0.5_identity 0.966999      NaN 2.587492e-03      NaN        1
+       sequential                                             fd_tslanet_adatime_K16_c10_t0.5_identity 0.986137      NaN 7.200718e-04      NaN        1
+       sequential                                              fd_tslanet_adatime_K16_c1_t0.5_identity 0.958936      NaN 0.000000e+00      NaN        1
+       sequential                                             fd_tslanet_adatime_K16_c20_t0.5_identity 0.989777      NaN 4.516335e-04      NaN        1
+       sequential                                              fd_tslanet_adatime_K16_c2_t0.5_identity 0.967459      NaN 1.667866e-04      NaN        1
+       sequential                                                   fd_tslanet_adatime_K16_c5_analytic 0.864276      NaN 1.641987e-02      NaN        1
+       sequential                                                 fd_tslanet_adatime_K16_c5_confidence 0.746295      NaN 3.141189e-02      NaN        1
+       sequential                                                    fd_tslanet_adatime_K16_c5_learned 0.978942      NaN 9.194173e-04      NaN        1
+       sequential                                                  fd_tslanet_adatime_K16_c5_prototype 0.936195      NaN 1.510338e-02      NaN        1
+       sequential                                             fd_tslanet_adatime_K16_c5_prototype_diag 0.943114      NaN 1.827110e-02      NaN        1
+       sequential                                          fd_tslanet_adatime_K16_c5_prototype_lowrank 0.934781      NaN 1.258294e-02      NaN        1
+       sequential                                           fd_tslanet_adatime_K16_c5_prototype_masked 0.936195      NaN 1.510338e-02      NaN        1
+       sequential                                          fd_tslanet_adatime_K16_c5_prototype_mixture 0.921647      NaN 8.795162e-03      NaN        1
+       sequential                                              fd_tslanet_adatime_K16_c5_t0.1_identity 0.978751      NaN 1.262051e-03      NaN        1
+       sequential                                              fd_tslanet_adatime_K16_c5_t0.3_identity 0.978813      NaN 1.353671e-03      NaN        1
+       sequential                                              fd_tslanet_adatime_K16_c5_t0.5_identity 0.978466      NaN 1.732268e-03      NaN        1
+       sequential                                      fd_tslanet_adatime_K16_c5_t0.5_identity_learned 0.978600      NaN 1.464001e-03      NaN        1
+       sequential                                    fd_tslanet_adatime_K16_c5_t0.5_identity_prototype 0.934662      NaN 1.543153e-02      NaN        1
+       sequential                                                  fd_tslanet_adatime_K16_c5_t0.5_lora 0.971153      NaN 9.983194e-04      NaN        1
+       sequential                                          fd_tslanet_adatime_K16_c5_t0.5_lora_learned 0.633290 0.109493 1.160562e-02 0.010128        3
+       sequential                                              fd_tslanet_adatime_K16_c5_t1.0_identity 0.978308      NaN 5.014170e-04      NaN        1
+       sequential                                              fd_tslanet_adatime_K16_c5_t2.0_identity 0.970953      NaN 0.000000e+00      NaN        1
+       sequential                                           fd_tslanet_adatime_K1_c5_t0.5_lora_learned 0.608348 0.022760 2.654311e-03 0.001623        3
+       sequential                                              fd_tslanet_adatime_K32_c5_t0.5_identity 0.976392      NaN 2.686020e-04      NaN        1
+       sequential                                               fd_tslanet_adatime_K4_c5_t0.5_identity 0.967658      NaN 1.174002e-03      NaN        1
+       sequential                                              fd_tslanet_adatime_K64_c5_t0.5_identity 0.974504      NaN 0.000000e+00      NaN        1
+       sequential                                               fd_tslanet_adatime_K8_c5_t0.5_identity 0.971121      NaN 1.079015e-03      NaN        1
+       sequential                                           hhar_patchtst_adatime_K16_c5_t0.5_identity 0.766927      NaN 2.244009e-02      NaN        1
+       sequential                                  hhar_tslanet_0_1_2_3_4_5_6_7_8_K16_c5_t0.5_identity 0.885471      NaN 1.525094e-02      NaN        1
+       sequential                                                 hhar_tslanet_adatime_K16_c5_analytic 0.671841      NaN 8.828986e-02      NaN        1
+       sequential                                               hhar_tslanet_adatime_K16_c5_confidence 0.530169      NaN 4.072608e-02      NaN        1
+       sequential                                                  hhar_tslanet_adatime_K16_c5_learned 0.884672      NaN 9.629834e-03      NaN        1
+       sequential                                                hhar_tslanet_adatime_K16_c5_prototype 0.679405      NaN 5.394935e-02      NaN        1
+       sequential                                           hhar_tslanet_adatime_K16_c5_prototype_diag 0.777374      NaN 3.986612e-02      NaN        1
+       sequential                                        hhar_tslanet_adatime_K16_c5_prototype_lowrank 0.678474      NaN 5.037166e-02      NaN        1
+       sequential                                         hhar_tslanet_adatime_K16_c5_prototype_masked 0.679525      NaN 5.389154e-02      NaN        1
+       sequential                                        hhar_tslanet_adatime_K16_c5_prototype_mixture 0.770028      NaN 6.535998e-02      NaN        1
+       sequential                                            hhar_tslanet_adatime_K16_c5_t0.5_identity 0.886247      NaN 7.349934e-03      NaN        1
+       sequential                                        hhar_tslanet_adatime_K16_c5_t0.5_lora_learned 0.796076 0.009808 8.730374e-03 0.002628        3
+       sequential                                         hhar_tslanet_adatime_K1_c5_t0.5_lora_learned 0.849446 0.001534 8.008136e-03 0.003182        3
+       sequential                                          sleep_patchtst_adatime_K16_c5_t0.5_identity 0.652602      NaN 9.728547e-03      NaN        1
+       sequential sleep_tslanet_0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_K16_c5_t0.5_identity 0.660628      NaN 1.431921e-02      NaN        1
+       sequential                                           sleep_tslanet_adatime_K16_c5_t0.5_identity 0.662864      NaN 1.275121e-02      NaN        1
+       sequential                                       sleep_tslanet_adatime_K16_c5_t0.5_lora_learned 0.683820 0.004663 1.830778e-02 0.001923        3
+       sequential                                        sleep_tslanet_adatime_K1_c5_t0.5_lora_learned 0.710333 0.004333 1.568198e-02 0.002545        3
+       sequential                                       wisdm_tslanet_adatime_K16_c5_t0.5_lora_learned 0.113003 0.027440 1.444539e-04 0.000250        3
+  sequential_tsfm                                                       fd_chronos-bolt_adatime_K16_c5 0.977423      NaN 1.762955e-03      NaN        1
+  sequential_tsfm                                                            fd_chronos_adatime_K16_c5 0.988033      NaN 2.245466e-07      NaN        1
+  sequential_tsfm                                                             fd_moirai_adatime_K16_c5 0.971692      NaN 6.001120e-03      NaN        1
+  sequential_tsfm                                                             fd_moment_adatime_K16_c1 0.954490      NaN 0.000000e+00      NaN        1
+  sequential_tsfm                                                            fd_moment_adatime_K16_c10 0.987426      NaN 1.165077e-03      NaN        1
+  sequential_tsfm                                                             fd_moment_adatime_K16_c2 0.970209      NaN 1.439154e-03      NaN        1
+  sequential_tsfm                                                            fd_moment_adatime_K16_c20 0.993346      NaN 9.866418e-04      NaN        1
+  sequential_tsfm                                                             fd_moment_adatime_K16_c5 0.983597      NaN 5.395866e-04      NaN        1
+  sequential_tsfm                                            fd_moment_adatime_K16_c5_identity_learned 0.904653 0.015185 1.830673e-03 0.002715        3
+  sequential_tsfm                                               fd_moment_adatime_K16_c5_lora_analytic 0.930889 0.008715 4.564757e-02 0.003645        3
+  sequential_tsfm                                                fd_moment_adatime_K16_c5_lora_learned 0.907877 0.012718 7.238785e-04 0.000566        3
+  sequential_tsfm                                              fd_moment_adatime_K16_c5_lora_prototype 0.948700 0.005656 2.279780e-02 0.004091        3
+  sequential_tsfm                                         fd_moment_adatime_K16_c5_lora_prototype_diag 0.932158 0.012447 3.706688e-03 0.006420        3
+  sequential_tsfm                                                   fd_moment_adatime_K16_c5_prototype 0.951522      NaN 3.234661e-02      NaN        1
+  sequential_tsfm                                                 fd_moment_adatime_K1_c5_lora_learned 0.912769 0.015092 5.749297e-03 0.006460        3
+  sequential_tsfm                                                             fd_moment_adatime_K32_c5 0.980345      NaN 4.421430e-03      NaN        1
+  sequential_tsfm                                                              fd_moment_adatime_K8_c5 0.982178      NaN 3.148944e-03      NaN        1
+  sequential_tsfm                                                            fd_sundial_adatime_K16_c5 0.981919      NaN 0.000000e+00      NaN        1
+  sequential_tsfm                                                   fd_sundial_adatime_K16_c5_analytic 0.947871      NaN 3.697449e-02      NaN        1
+  sequential_tsfm                                                    fd_sundial_adatime_K16_c5_learned 0.980708      NaN 0.000000e+00      NaN        1
+  sequential_tsfm                                                           fd_time-moe_adatime_K16_c5 0.942507      NaN 5.514535e-03      NaN        1
+  sequential_tsfm                                                     hhar_chronos-bolt_adatime_K16_c5 0.630130      NaN 1.292430e-02      NaN        1
+  sequential_tsfm                                                           hhar_moirai_adatime_K16_c5 0.665690      NaN 1.026703e-02      NaN        1
+  sequential_tsfm                                                           hhar_moment_adatime_K16_c1 0.563651      NaN 5.640155e-03      NaN        1
+  sequential_tsfm                                                          hhar_moment_adatime_K16_c10 0.661966      NaN 2.014811e-02      NaN        1
+  sequential_tsfm                                                           hhar_moment_adatime_K16_c2 0.596887      NaN 7.395084e-03      NaN        1
+  sequential_tsfm                                                          hhar_moment_adatime_K16_c20 0.688887      NaN 2.186054e-02      NaN        1
+  sequential_tsfm                                                           hhar_moment_adatime_K16_c5 0.627192      NaN 1.695303e-02      NaN        1
+  sequential_tsfm                                          hhar_moment_adatime_K16_c5_identity_learned 0.691900 0.010546 1.684324e-02 0.003146        3
+  sequential_tsfm                                             hhar_moment_adatime_K16_c5_lora_analytic 0.710128 0.009334 3.270646e-02 0.006000        3
+  sequential_tsfm                                              hhar_moment_adatime_K16_c5_lora_learned 0.698759 0.006420 1.672538e-02 0.000683        3
+  sequential_tsfm                                            hhar_moment_adatime_K16_c5_lora_prototype 0.693594 0.004180 3.174417e-02 0.008208        3
+  sequential_tsfm                                       hhar_moment_adatime_K16_c5_lora_prototype_diag 0.652300 0.017605 3.084598e-02 0.001091        3
+  sequential_tsfm                                                 hhar_moment_adatime_K16_c5_prototype 0.543171      NaN 6.592856e-02      NaN        1
+  sequential_tsfm                                               hhar_moment_adatime_K1_c5_lora_learned 0.721553 0.006938 2.559095e-02 0.001517        3
+  sequential_tsfm                                                           hhar_moment_adatime_K32_c5 0.617808      NaN 1.637943e-02      NaN        1
+  sequential_tsfm                                                            hhar_moment_adatime_K8_c5 0.622725      NaN 1.886422e-02      NaN        1
+  sequential_tsfm                                                          hhar_sundial_adatime_K16_c5 0.805590      NaN 1.296982e-02      NaN        1
+  sequential_tsfm                                                 hhar_sundial_adatime_K16_c5_analytic 0.683611      NaN 6.984553e-02      NaN        1
+  sequential_tsfm                                                  hhar_sundial_adatime_K16_c5_learned 0.808433      NaN 1.047913e-02      NaN        1
+  sequential_tsfm                                                         hhar_time-moe_adatime_K16_c5 0.757140      NaN 1.653715e-02      NaN        1
+  sequential_tsfm                                                    sleep_chronos-bolt_adatime_K16_c5 0.619718      NaN 7.972244e-03      NaN        1
+  sequential_tsfm                                                          sleep_moirai_adatime_K16_c5 0.657050      NaN 1.391732e-02      NaN        1
+  sequential_tsfm                                                          sleep_moment_adatime_K16_c1 0.630187      NaN 4.910366e-03      NaN        1
+  sequential_tsfm                                                         sleep_moment_adatime_K16_c10 0.657682      NaN 1.337300e-02      NaN        1
+  sequential_tsfm                                                          sleep_moment_adatime_K16_c2 0.609817      NaN 1.514936e-02      NaN        1
+  sequential_tsfm                                                         sleep_moment_adatime_K16_c20 0.679350      NaN 1.003186e-02      NaN        1
+  sequential_tsfm                                                          sleep_moment_adatime_K16_c5 0.637650      NaN 1.112097e-02      NaN        1
+  sequential_tsfm                                         sleep_moment_adatime_K16_c5_identity_learned 0.644854 0.001063 1.591072e-02 0.002777        3
+  sequential_tsfm                                            sleep_moment_adatime_K16_c5_lora_analytic 0.659180 0.004225 1.405551e-02 0.002140        3
+  sequential_tsfm                                             sleep_moment_adatime_K16_c5_lora_learned 0.652331 0.003602 1.555049e-02 0.002470        3
+  sequential_tsfm                                           sleep_moment_adatime_K16_c5_lora_prototype 0.654786 0.000933 1.808560e-02 0.000718        3
+  sequential_tsfm                                      sleep_moment_adatime_K16_c5_lora_prototype_diag 0.634056 0.004516 2.216430e-02 0.000916        3
+  sequential_tsfm                                                sleep_moment_adatime_K16_c5_prototype 0.615541      NaN 1.239776e-02      NaN        1
+  sequential_tsfm                                              sleep_moment_adatime_K1_c5_lora_learned 0.653477 0.002234 2.052252e-02 0.001564        3
+  sequential_tsfm                                                          sleep_moment_adatime_K32_c5 0.641061      NaN 1.044629e-02      NaN        1
+  sequential_tsfm                                                           sleep_moment_adatime_K8_c5 0.645239      NaN 1.341355e-02      NaN        1
+  sequential_tsfm                                                         sleep_sundial_adatime_K16_c5 0.607513      NaN 6.414133e-03      NaN        1
+  sequential_tsfm                                                sleep_sundial_adatime_K16_c5_analytic 0.588530      NaN 5.635645e-03      NaN        1
+  sequential_tsfm                                                 sleep_sundial_adatime_K16_c5_learned 0.607107      NaN 4.083847e-03      NaN        1
+  sequential_tsfm                                                        sleep_time-moe_adatime_K16_c5 0.518580      NaN 1.472429e-02      NaN        1
+  sequential_tsfm                                           ucihar_chronos-bolt_adatime_K16_c5_learned 0.546823      NaN 2.858563e-02      NaN        1
+  sequential_tsfm                                         ucihar_chronos-bolt_adatime_K16_n450_learned 0.694806      NaN 4.137046e-02      NaN        1
+  sequential_tsfm                                                 ucihar_moirai_adatime_K16_c5_learned 0.601922      NaN 1.322781e-02      NaN        1
+  sequential_tsfm                                               ucihar_moirai_adatime_K16_n450_learned 0.715526      NaN 2.253684e-02      NaN        1
+  sequential_tsfm                                                 ucihar_moment_adatime_K16_c5_learned 0.619495      NaN 2.076405e-02      NaN        1
+  sequential_tsfm                                               ucihar_moment_adatime_K16_n450_learned 0.726962      NaN 1.416496e-02      NaN        1
+  sequential_tsfm                                                ucihar_sundial_adatime_K16_c5_learned 0.650727      NaN 2.047936e-02      NaN        1
+  sequential_tsfm                                              ucihar_sundial_adatime_K16_n450_learned 0.788963      NaN 2.306477e-02      NaN        1
+  sequential_tsfm                                               ucihar_time-moe_adatime_K16_c5_learned 0.623781      NaN 3.528414e-02      NaN        1
+  sequential_tsfm                                             ucihar_time-moe_adatime_K16_n450_learned 0.784211      NaN 3.333598e-02      NaN        1
+  sequential_tsfm                                            wisdm_chronos-bolt_adatime_K16_c5_learned 0.467370      NaN 6.692059e-03      NaN        1
+  sequential_tsfm                                          wisdm_chronos-bolt_adatime_K16_n450_learned 0.817112      NaN 1.709136e-02      NaN        1
+  sequential_tsfm                                                  wisdm_moirai_adatime_K16_c5_learned 0.520053      NaN 1.490907e-02      NaN        1
+  sequential_tsfm                                                wisdm_moirai_adatime_K16_n450_learned 0.802352      NaN 2.390374e-02      NaN        1
+  sequential_tsfm                                                  wisdm_moment_adatime_K16_c5_learned 0.542207      NaN 3.577115e-02      NaN        1
+  sequential_tsfm                                             wisdm_moment_adatime_K16_c5_lora_learned 0.397661 0.030123 4.512735e-03 0.003955        3
+  sequential_tsfm                                                wisdm_moment_adatime_K16_n450_learned 0.851695      NaN 9.705922e-03      NaN        1
+  sequential_tsfm                                                wisdm_sundial_adatime_K16_c5_analytic 0.763361      NaN 8.989403e-03      NaN        1
+  sequential_tsfm                                                 wisdm_sundial_adatime_K16_c5_learned 0.753700      NaN 1.357540e-02      NaN        1
+  sequential_tsfm                                            wisdm_sundial_adatime_K16_c5_lora_learned 0.702636 0.040867 3.726346e-03 0.005106        3
+  sequential_tsfm                                               wisdm_sundial_adatime_K16_n450_learned 0.867644      NaN 2.014583e-02      NaN        1
+  sequential_tsfm                                               wisdm_sundial_adatime_K16_n500_learned 0.867644      NaN 2.014583e-02      NaN        1
+  sequential_tsfm                                                wisdm_time-moe_adatime_K16_c5_learned 0.629846      NaN 1.059155e-02      NaN        1
+  sequential_tsfm                                              wisdm_time-moe_adatime_K16_n450_learned 0.813925      NaN 1.611261e-02      NaN        1
+Wrote /home/AD/sachith/PACT/results/experiment_matrix/external_summary.csv
+           root                      config_base  AA_mean   AA_std   F_mean    F_std  n_seeds
+chain_baselines       fd_moment_adatime_cotta_c5 0.768500 0.028005 0.191848 0.044648        3
+chain_baselines        fd_moment_adatime_eata_c5 0.786828 0.017599 0.158966 0.032624        3
+chain_baselines    fd_moment_adatime_sprompts_c5 0.826210 0.051765 0.030816 0.005663        3
+chain_baselines     hhar_moment_adatime_cotta_c5 0.671118 0.027276 0.151437 0.027670        3
+chain_baselines      hhar_moment_adatime_eata_c5 0.688426 0.016197 0.129448 0.016700        3
+chain_baselines  hhar_moment_adatime_sprompts_c5 0.617288 0.004987 0.060362 0.009202        3
+chain_baselines    sleep_moment_adatime_cotta_c5 0.588384 0.041032 0.113561 0.042339        3
+chain_baselines     sleep_moment_adatime_eata_c5 0.599363 0.033656 0.098709 0.034918        3
+chain_baselines sleep_moment_adatime_sprompts_c5 0.560722 0.002973 0.058290 0.006651        3
+ mapu_baselines        fd_moment_adatime_mapu_c5 0.764924 0.025103 0.193312 0.041718        3
+ mapu_baselines      hhar_moment_adatime_mapu_c5 0.671587 0.027338 0.149502 0.027194        3
+ mapu_baselines     sleep_moment_adatime_mapu_c5 0.588102 0.041603 0.114473 0.043716        3
+[17:31:28] Done. Log: results/experiment_logs/b7_sprompts_20260716_162818.log

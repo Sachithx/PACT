@@ -1,0 +1,1079 @@
+[14:33:21] Starting external_remaining  num_gpus=2  seeds=42,0,1  log=results/experiment_logs/external_remaining_20260716_143321.log
+[14:33:21] >>> [cuda:0] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 42
+[14:33:21] >>> [cuda:1] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 42
+Chain baseline=dualprompt  tsfm=moment  dataset=fd  T=4  calib=c5  seed=42
+Chain baseline=sprompts  tsfm=moment  dataset=fd  T=4  calib=c5  seed=42
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:33:24.486721: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:33:24.494530: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:33:24.499524: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-07-16 14:33:24.507452: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212404.517196 1153628 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212404.522978 1153628 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212404.525659 1153633 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212404.531575 1153633 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212404.536473 1153628 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212404.536509 1153628 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212404.536513 1153628 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212404.536515 1153628 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:33:24.540307: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+W0000 00:00:1784212404.544690 1153633 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212404.544727 1153633 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212404.544730 1153633 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212404.544733 1153633 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:33:24.548386: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+[14:34:25] FAILED (exit -1) on cuda:1 (pid 1153633)
+[14:34:25] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 42
+Chain baseline=sprompts  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=42
+[14:34:27] FAILED (exit -1) on cuda:0 (pid 1153628)
+[14:34:27] >>> [cuda:0] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 42
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:34:28.501486: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:34:28.514025: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212468.531187 1154661 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212468.536858 1154661 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212468.550068 1154661 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212468.550105 1154661 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212468.550108 1154661 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212468.550111 1154661 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:34:28.553889: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Chain baseline=dualprompt  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=42
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:34:30.449462: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:34:30.462492: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212470.481242 1154733 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212470.487317 1154733 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212470.500892 1154733 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212470.500931 1154733 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212470.500934 1154733 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212470.500937 1154733 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:34:30.504733: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+[14:34:49] FAILED (exit -1) on cuda:1 (pid 1154661)
+[14:34:49] >>> [cuda:1] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 42
+[14:34:51] FAILED (exit -1) on cuda:0 (pid 1154733)
+[14:34:51] >>> [cuda:0] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 42
+Chain baseline=sprompts  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=42
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:34:52.617357: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:34:52.629940: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212492.646880 1155112 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212492.652471 1155112 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212492.665487 1155112 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212492.665522 1155112 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212492.665535 1155112 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212492.665538 1155112 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:34:52.669286: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Chain baseline=dualprompt  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=42
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:34:54.541095: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:34:54.553559: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212494.570511 1155193 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212494.576080 1155193 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212494.589110 1155193 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212494.589148 1155193 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212494.589153 1155193 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212494.589155 1155193 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:34:54.593340: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+[14:35:26] FAILED (exit -1) on cuda:1 (pid 1155112)
+[14:35:26] >>> [cuda:1] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+[14:35:28] FAILED (exit -1) on cuda:0 (pid 1155193)
+[14:35:28] >>> [cuda:0] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 0
+Chain baseline=sprompts  tsfm=moment  dataset=fd  T=4  calib=c5  seed=0
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:35:28.695877: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:35:28.709102: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212528.726930 1155724 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212528.732612 1155724 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212528.746344 1155724 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212528.746384 1155724 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212528.746388 1155724 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212528.746390 1155724 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:35:28.750171: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Chain baseline=dualprompt  tsfm=moment  dataset=fd  T=4  calib=c5  seed=0
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:35:30.628169: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:35:30.640630: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212530.658019 1155792 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212530.663903 1155792 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212530.677634 1155792 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212530.677670 1155792 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212530.677674 1155792 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212530.677676 1155792 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:35:30.681421: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+[14:36:28] FAILED (exit -1) on cuda:1 (pid 1155724)
+[14:36:28] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+Chain baseline=sprompts  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=0
+[14:36:30] FAILED (exit -1) on cuda:0 (pid 1155792)
+[14:36:30] >>> [cuda:0] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 0
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:36:30.795700: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:36:30.808263: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212590.825503 1156679 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212590.831058 1156679 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212590.844181 1156679 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212590.844218 1156679 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212590.844221 1156679 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212590.844223 1156679 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:36:30.847929: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Chain baseline=dualprompt  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=0
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:36:32.738175: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:36:32.750636: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212592.767672 1156757 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212592.773250 1156757 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212592.786304 1156757 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212592.786348 1156757 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212592.786352 1156757 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212592.786354 1156757 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:36:32.790060: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+[14:36:50] FAILED (exit -1) on cuda:1 (pid 1156679)
+[14:36:50] >>> [cuda:1] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+Chain baseline=sprompts  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=0
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:36:52.840063: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:36:52.852467: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212612.869367 1157107 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212612.874982 1157107 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212612.887974 1157107 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212612.888013 1157107 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212612.888016 1157107 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212612.888018 1157107 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:36:52.891738: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[14:36:54] FAILED (exit -1) on cuda:0 (pid 1156757)
+[14:36:54] >>> [cuda:0] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 0
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+Chain baseline=dualprompt  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=0
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:36:56.881129: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:36:56.893703: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212616.911092 1157202 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212616.916864 1157202 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212616.930225 1157202 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212616.930271 1157202 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212616.930275 1157202 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212616.930278 1157202 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:36:56.934105: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+[14:37:26] FAILED (exit -1) on cuda:1 (pid 1157107)
+[14:37:26] >>> [cuda:1] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method cotta --domain_order adatime --calib_frac 0.05 --seed 0
+Chain baseline=cotta  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=0
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:37:28.860600: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:37:28.873226: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212648.890350 1157713 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212648.895947 1157713 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212648.908984 1157713 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212648.909021 1157713 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212648.909037 1157713 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212648.909040 1157713 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:37:28.912792: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[14:37:30] FAILED (exit -1) on cuda:0 (pid 1157202)
+[14:37:30] >>> [cuda:0] scripts/run_mapu_baseline.py --dataset sleep --tsfm moment --domain_order adatime --calib_frac 0.05 --seed 0
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 14:37:32.946096: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 14:37:32.958785: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784212652.976415 1157800 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784212652.982122 1157800 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784212652.995340 1157800 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212652.995394 1157800 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212652.995399 1157800 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784212652.995401 1157800 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 14:37:32.999184: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[cotta] Step 0 — Subj-0     F1=0.1636
+[mapu] Step 0 — Subj-0     AA=0.6864 F=0.0000
+[cotta] Step 0 — Subj-0     AA=0.6822 BWT=+0.0000 F=0.0000 RF=0.0000
+[mapu] Step 1 — Subj-7     AA=0.6858 F=0.0241
+[cotta] Step 1 — Subj-7     AA=0.6851 BWT=-0.0223 F=0.0223 RF=0.0327
+[mapu] Step 2 — Subj-9     AA=0.6406 F=0.0836
+[cotta] Step 2 — Subj-9     AA=0.6391 BWT=-0.0633 F=0.0835 RF=0.1175
+[mapu] Step 3 — Subj-16    AA=0.6457 F=0.0602
+[cotta] Step 3 — Subj-16    AA=0.6435 BWT=-0.0480 F=0.0614 RF=0.0863
+[mapu] Step 4 — Subj-3     AA=0.6634 F=0.0323
+[cotta] Step 4 — Subj-3     AA=0.6628 BWT=-0.0148 F=0.0321 RF=0.0457
+[mapu] Step 5 — Subj-13    AA=0.6459 F=0.0623
+[cotta] Step 5 — Subj-13    AA=0.6423 BWT=-0.0467 F=0.0629 RF=0.0906
+[mapu] Step 6 — Subj-6     AA=0.6504 F=0.0630
+[cotta] Step 6 — Subj-6     AA=0.6505 BWT=-0.0458 F=0.0608 RF=0.0890
+[mapu] Step 7 — Subj-18    AA=0.6477 F=0.0654
+[cotta] Step 7 — Subj-18    AA=0.6493 BWT=-0.0494 F=0.0622 RF=0.0874
+[mapu] Step 8 — Subj-12    AA=0.5901 F=0.1260
+[cotta] Step 8 — Subj-12    AA=0.5861 BWT=-0.1181 F=0.1293 RF=0.1846
+[mapu] Step 9 — Subj-5     AA=0.6576 F=0.0531
+[cotta] Step 9 — Subj-5     AA=0.6567 BWT=-0.0430 F=0.0534 RF=0.0767
+[mapu] Step 10 — Subj-2     AA=0.5696 F=0.1532
+[cotta] Step 10 — Subj-2     AA=0.5711 BWT=-0.1413 F=0.1506 RF=0.2143
+[mapu] Step 11 — Subj-15    AA=0.6251 F=0.0898
+[cotta] Step 11 — Subj-15    AA=0.6231 BWT=-0.0825 F=0.0917 RF=0.1294
+[mapu] Step 12 — Subj-17    AA=0.6012 F=0.1072
+[cotta] Step 12 — Subj-17    AA=0.5959 BWT=-0.1032 F=0.1116 RF=0.1576
+[mapu] Step 13 — Subj-19    AA=0.5878 F=0.1165
+[cotta] Step 13 — Subj-19    AA=0.5872 BWT=-0.1077 F=0.1154 RF=0.1642
+[mapu] Step 14 — Subj-1     AA=0.6141 F=0.0859
+[cotta] Step 14 — Subj-1     AA=0.6121 BWT=-0.0793 F=0.0865 RF=0.1240
+[mapu] Step 15 — Subj-14    AA=0.5905 F=0.1111
+[cotta] Step 15 — Subj-14    AA=0.5877 BWT=-0.1057 F=0.1124 RF=0.1610
+[mapu] Step 16 — Subj-11    AA=0.5933 F=0.0992
+Final MAPU: AA=0.5933  -> /home/AD/sachith/PACT/results/mapu_baselines/sleep_moment_adatime_mapu_c5_s0
+[15:01:16] FAILED (exit -1) on cuda:0 (pid 1157800)
+[15:01:16] >>> [cuda:0] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=sprompts  tsfm=moment  dataset=fd  T=4  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:01:18.603216: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:01:18.615754: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214078.632943 1175551 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214078.638557 1175551 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214078.651717 1175551 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214078.651765 1175551 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214078.651768 1175551 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214078.651771 1175551 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:01:18.655527: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[cotta] Step 16 — Subj-11    AA=0.5932 BWT=-0.0912 F=0.0975 RF=0.1391
+Final: AA=0.5932  F=0.0975  -> /home/AD/sachith/PACT/results/chain_baselines/sleep_moment_adatime_cotta_c5_s0
+[15:01:52] FAILED (exit -1) on cuda:1 (pid 1157713)
+[15:01:52] >>> [cuda:1] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=dualprompt  tsfm=moment  dataset=fd  T=4  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:01:54.708266: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:01:54.720902: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214114.740706 1176063 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214114.746390 1176063 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214114.759541 1176063 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214114.759579 1176063 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214114.759582 1176063 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214114.759585 1176063 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:01:54.763390: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+[15:02:18] FAILED (exit -1) on cuda:0 (pid 1175551)
+[15:02:18] >>> [cuda:0] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method eata --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=eata  tsfm=moment  dataset=fd  T=4  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:02:20.767740: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:02:20.780239: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214140.797328 1176450 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214140.804654 1176450 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214140.817881 1176450 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214140.817923 1176450 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214140.817938 1176450 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214140.817940 1176450 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:02:20.821727: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+[15:02:58] FAILED (exit -1) on cuda:1 (pid 1176063)
+[15:02:58] >>> [cuda:1] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method cotta --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=cotta  tsfm=moment  dataset=fd  T=4  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:03:00.824794: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:03:00.837249: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214180.854228 1177016 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214180.859765 1177016 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214180.872617 1177016 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214180.872650 1177016 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214180.872653 1177016 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214180.872656 1177016 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:03:00.876370: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[eata] Step 0 — FD-A       F1=0.4255
+[eata] Step 0 — FD-A       AA=0.8732 BWT=+0.0000 F=0.0000 RF=0.0000
+[cotta] Step 0 — FD-A       F1=0.4255
+[cotta] Step 0 — FD-A       AA=0.8693 BWT=+0.0000 F=0.0000 RF=0.0000
+[eata] Step 1 — FD-B       AA=0.7687 BWT=-0.2157 F=0.2157 RF=0.2471
+[cotta] Step 1 — FD-B       AA=0.7705 BWT=-0.2550 F=0.2550 RF=0.2934
+[eata] Step 2 — FD-C       AA=0.7544 BWT=-0.1869 F=0.1869 RF=0.2139
+[cotta] Step 2 — FD-C       AA=0.7636 BWT=-0.2070 F=0.2070 RF=0.2356
+[eata] Step 3 — FD-D       AA=0.7783 BWT=-0.1499 F=0.1663 RF=0.1898
+Final: AA=0.7783  F=0.1663  -> /home/AD/sachith/PACT/results/chain_baselines/fd_moment_adatime_eata_c5_s1
+[15:07:30] FAILED (exit -1) on cuda:0 (pid 1176450)
+[15:07:30] >>> [cuda:0] scripts/run_mapu_baseline.py --dataset fd --tsfm moment --domain_order adatime --calib_frac 0.05 --seed 1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:07:33.210074: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:07:33.222644: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214453.239864 1180472 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214453.245466 1180472 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214453.258598 1180472 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214453.258636 1180472 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214453.258639 1180472 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214453.258642 1180472 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:07:33.262390: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[cotta] Step 3 — FD-D       AA=0.7672 BWT=-0.1902 F=0.1902 RF=0.2150
+Final: AA=0.7672  F=0.1902  -> /home/AD/sachith/PACT/results/chain_baselines/fd_moment_adatime_cotta_c5_s1
+[15:08:16] FAILED (exit -1) on cuda:1 (pid 1177016)
+[15:08:16] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=sprompts  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:08:19.239749: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:08:19.252947: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214499.270444 1181113 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214499.276184 1181113 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214499.289504 1181113 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214499.289539 1181113 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214499.289542 1181113 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214499.289545 1181113 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:08:19.293343: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+[15:08:40] FAILED (exit -1) on cuda:1 (pid 1181113)
+[15:08:40] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=dualprompt  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:08:43.361022: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:08:43.374190: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214523.391509 1181479 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214523.397095 1181479 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214523.410206 1181479 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214523.410252 1181479 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214523.410256 1181479 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214523.410258 1181479 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:08:43.414047: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[mapu] Step 0 — FD-A       AA=0.8694 F=0.0000
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+[15:09:06] FAILED (exit -1) on cuda:1 (pid 1181479)
+[15:09:06] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method eata --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=eata  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:09:09.441775: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:09:09.454624: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214549.472087 1181877 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214549.477661 1181877 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214549.490623 1181877 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214549.490660 1181877 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214549.490663 1181877 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214549.490666 1181877 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:09:09.494453: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[eata] Step 0 — User-0     F1=0.1871
+[eata] Step 0 — User-0     AA=0.7907 BWT=+0.0000 F=0.0000 RF=0.0000
+[mapu] Step 1 — FD-B       AA=0.7703 F=0.2538
+[eata] Step 1 — User-2     AA=0.7085 BWT=-0.0756 F=0.0756 RF=0.0957
+[eata] Step 2 — User-7     AA=0.6746 BWT=-0.1292 F=0.1292 RF=0.1648
+[eata] Step 3 — User-1     AA=0.7220 BWT=-0.0648 F=0.0648 RF=0.0853
+[eata] Step 4 — User-3     AA=0.6884 BWT=-0.1154 F=0.1154 RF=0.1485
+[mapu] Step 2 — FD-C       AA=0.7584 F=0.2119
+[eata] Step 5 — User-8     AA=0.6478 BWT=-0.1817 F=0.1817 RF=0.2333
+[eata] Step 6 — User-6     AA=0.6339 BWT=-0.1929 F=0.1929 RF=0.2426
+[eata] Step 7 — User-4     AA=0.6585 BWT=-0.1694 F=0.1698 RF=0.2065
+[mapu] Step 3 — FD-D       AA=0.7646 F=0.1910
+Final MAPU: AA=0.7646  -> /home/AD/sachith/PACT/results/mapu_baselines/fd_moment_adatime_mapu_c5_s1
+[15:12:23] FAILED (exit -1) on cuda:0 (pid 1180472)
+[15:12:23] >>> [cuda:0] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method cotta --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=cotta  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:12:25.806706: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:12:25.819614: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214745.837236 1184384 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214745.842959 1184384 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214745.856355 1184384 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214745.856389 1184384 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214745.856393 1184384 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214745.856395 1184384 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:12:25.860250: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[eata] Step 8 — User-5     AA=0.7053 BWT=-0.1109 F=0.1112 RF=0.1374
+Final: AA=0.7053  F=0.1112  -> /home/AD/sachith/PACT/results/chain_baselines/hhar_moment_adatime_eata_c5_s1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+[15:12:29] FAILED (exit -1) on cuda:1 (pid 1181877)
+[15:12:29] >>> [cuda:1] scripts/run_mapu_baseline.py --dataset hhar --tsfm moment --domain_order adatime --calib_frac 0.05 --seed 1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+2026-07-16 15:12:32.151517: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:12:32.168709: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214752.216575 1184525 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214752.246602 1184525 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214752.274845 1184525 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214752.274964 1184525 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214752.274986 1184525 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214752.275017 1184525 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:12:32.279767: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[cotta] Step 0 — User-0     F1=0.1871
+[cotta] Step 0 — User-0     AA=0.8123 BWT=+0.0000 F=0.0000 RF=0.0000
+[mapu] Step 0 — User-0     AA=0.8143 F=0.0000
+[cotta] Step 1 — User-2     AA=0.7062 BWT=-0.1140 F=0.1140 RF=0.1403
+[mapu] Step 1 — User-2     AA=0.7065 F=0.1086
+[cotta] Step 2 — User-7     AA=0.6637 BWT=-0.1624 F=0.1624 RF=0.2036
+[mapu] Step 2 — User-7     AA=0.6674 F=0.1565
+[cotta] Step 3 — User-1     AA=0.7151 BWT=-0.0852 F=0.0852 RF=0.1108
+[mapu] Step 3 — User-1     AA=0.7168 F=0.0829
+[cotta] Step 4 — User-3     AA=0.6781 BWT=-0.1322 F=0.1322 RF=0.1681
+[mapu] Step 4 — User-3     AA=0.6792 F=0.1321
+[cotta] Step 5 — User-8     AA=0.6320 BWT=-0.2065 F=0.2065 RF=0.2637
+[mapu] Step 5 — User-8     AA=0.6312 F=0.2073
+[cotta] Step 6 — User-6     AA=0.6314 BWT=-0.2020 F=0.2020 RF=0.2532
+[mapu] Step 6 — User-6     AA=0.6305 F=0.2032
+[cotta] Step 7 — User-4     AA=0.6423 BWT=-0.1932 F=0.1932 RF=0.2328
+[mapu] Step 7 — User-4     AA=0.6388 F=0.1976
+[cotta] Step 8 — User-5     AA=0.7012 BWT=-0.1204 F=0.1204 RF=0.1478
+Final: AA=0.7012  F=0.1204  -> /home/AD/sachith/PACT/results/chain_baselines/hhar_moment_adatime_cotta_c5_s1
+[15:15:41] FAILED (exit -1) on cuda:0 (pid 1184384)
+[15:15:41] >>> [cuda:0] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=sprompts  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:15:44.236208: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:15:44.248712: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214944.265795 1186963 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214944.271356 1186963 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214944.284447 1186963 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214944.284493 1186963 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214944.284496 1186963 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214944.284499 1186963 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:15:44.288250: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+[mapu] Step 8 — User-5     AA=0.7023 F=0.1187
+Final MAPU: AA=0.7023  -> /home/AD/sachith/PACT/results/mapu_baselines/hhar_moment_adatime_mapu_c5_s1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[15:15:51] FAILED (exit -1) on cuda:1 (pid 1184525)
+[15:15:51] >>> [cuda:1] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method dualprompt --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=dualprompt  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:15:55.601767: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:15:55.615222: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214955.633726 1187159 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214955.640101 1187159 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214955.655418 1187159 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214955.655459 1187159 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214955.655463 1187159 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214955.655465 1187159 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:15:55.659561: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 66, in forward
+    idx = self.nearest_domain(z)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 56, in nearest_domain
+    return d.argmin(dim=1)
+IndexError: argmin(): Expected reduction dim 1 to have non-zero size.
+[15:16:19] FAILED (exit -1) on cuda:0 (pid 1186963)
+[15:16:19] >>> [cuda:0] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method eata --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=eata  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:16:22.397647: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:16:22.410157: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214982.427239 1187623 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214982.432825 1187623 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214982.445808 1187623 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214982.445844 1187623 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214982.445859 1187623 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214982.445861 1187623 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:16:22.449611: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Traceback (most recent call last):
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 128, in <module>
+    main()
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 100, in main
+    A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch, args.method)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/AD/sachith/PACT/scripts/run_chain_baselines.py", line 69, in eval_f1
+    logits = forward_logits(head, z, method)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 219, in forward_logits
+    return head(z, domain_idx=domain_idx)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/AD/sachith/PACT/src/method/chain_baselines.py", line 110, in forward
+    out = z.new_zeros(z.shape[0], self.num_classes)
+  File "/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1965, in __getattr__
+    raise AttributeError(
+AttributeError: 'DualPromptHead' object has no attribute 'num_classes'
+[15:16:33] FAILED (exit -1) on cuda:1 (pid 1187159)
+[15:16:33] >>> [cuda:1] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method cotta --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=cotta  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:16:36.355005: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:16:36.367946: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784214996.385820 1187869 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784214996.391533 1187869 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784214996.405368 1187869 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214996.405404 1187869 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214996.405407 1187869 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784214996.405409 1187869 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:16:36.409197: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[eata] Step 0 — Subj-0     F1=0.1190
+[eata] Step 0 — Subj-0     AA=0.7271 BWT=+0.0000 F=0.0000 RF=0.0000
+[cotta] Step 0 — Subj-0     F1=0.1190
+[cotta] Step 0 — Subj-0     AA=0.7289 BWT=+0.0000 F=0.0000 RF=0.0000
+[eata] Step 1 — Subj-7     AA=0.7089 BWT=-0.0554 F=0.0554 RF=0.0762
+[cotta] Step 1 — Subj-7     AA=0.7013 BWT=-0.0627 F=0.0627 RF=0.0860
+[eata] Step 2 — Subj-9     AA=0.6615 BWT=-0.0838 F=0.0838 RF=0.1132
+[cotta] Step 2 — Subj-9     AA=0.6581 BWT=-0.0831 F=0.0831 RF=0.1133
+[eata] Step 3 — Subj-16    AA=0.6465 BWT=-0.0867 F=0.0867 RF=0.1177
+[cotta] Step 3 — Subj-16    AA=0.6411 BWT=-0.0913 F=0.0913 RF=0.1257
+[eata] Step 4 — Subj-3     AA=0.6874 BWT=-0.0274 F=0.0274 RF=0.0388
+[cotta] Step 4 — Subj-3     AA=0.6796 BWT=-0.0362 F=0.0362 RF=0.0515
+[eata] Step 5 — Subj-13    AA=0.6877 BWT=-0.0400 F=0.0420 RF=0.0593
+[cotta] Step 5 — Subj-13    AA=0.6765 BWT=-0.0531 F=0.0531 RF=0.0751
+[eata] Step 6 — Subj-6     AA=0.6770 BWT=-0.0525 F=0.0542 RF=0.0745
+[cotta] Step 6 — Subj-6     AA=0.6606 BWT=-0.0709 F=0.0709 RF=0.0976
+[eata] Step 7 — Subj-18    AA=0.6817 BWT=-0.0410 F=0.0425 RF=0.0576
+[cotta] Step 7 — Subj-18    AA=0.6786 BWT=-0.0459 F=0.0459 RF=0.0626
+[eata] Step 8 — Subj-12    AA=0.6445 BWT=-0.0762 F=0.0775 RF=0.1073
+[cotta] Step 8 — Subj-12    AA=0.6319 BWT=-0.0932 F=0.0937 RF=0.1295
+[eata] Step 9 — Subj-5     AA=0.6445 BWT=-0.0777 F=0.0789 RF=0.1100
+[cotta] Step 9 — Subj-5     AA=0.6382 BWT=-0.0901 F=0.0905 RF=0.1263
+[eata] Step 10 — Subj-2     AA=0.6211 BWT=-0.1021 F=0.1032 RF=0.1441
+[cotta] Step 10 — Subj-2     AA=0.5903 BWT=-0.1412 F=0.1415 RF=0.1960
+[eata] Step 11 — Subj-15    AA=0.6231 BWT=-0.1014 F=0.1023 RF=0.1425
+[cotta] Step 11 — Subj-15    AA=0.6091 BWT=-0.1219 F=0.1222 RF=0.1696
+[eata] Step 12 — Subj-17    AA=0.5825 BWT=-0.1371 F=0.1380 RF=0.1927
+[cotta] Step 12 — Subj-17    AA=0.5722 BWT=-0.1533 F=0.1536 RF=0.2131
+[eata] Step 13 — Subj-19    AA=0.6157 BWT=-0.0994 F=0.1002 RF=0.1408
+[cotta] Step 13 — Subj-19    AA=0.6088 BWT=-0.1114 F=0.1117 RF=0.1564
+[eata] Step 14 — Subj-1     AA=0.6460 BWT=-0.0649 F=0.0656 RF=0.0915
+[cotta] Step 14 — Subj-1     AA=0.6419 BWT=-0.0753 F=0.0755 RF=0.1050
+[eata] Step 15 — Subj-14    AA=0.6470 BWT=-0.0658 F=0.0665 RF=0.0940
+[cotta] Step 15 — Subj-14    AA=0.6410 BWT=-0.0773 F=0.0775 RF=0.1092
+[eata] Step 16 — Subj-11    AA=0.6352 BWT=-0.0645 F=0.0652 RF=0.0914
+Final: AA=0.6352  F=0.0652  -> /home/AD/sachith/PACT/results/chain_baselines/sleep_moment_adatime_eata_c5_s1
+[15:42:45] FAILED (exit -1) on cuda:0 (pid 1187623)
+[15:42:45] >>> [cuda:0] scripts/run_mapu_baseline.py --dataset sleep --tsfm moment --domain_order adatime --calib_frac 0.05 --seed 1
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+2026-07-16 15:42:48.138373: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 15:42:48.151480: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784216568.169399 1205478 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784216568.174992 1205478 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784216568.188220 1205478 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784216568.188258 1205478 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784216568.188261 1205478 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784216568.188264 1205478 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 15:42:48.192040: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.
+  torch.utils._pytree._register_pytree_node(
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[mapu] Step 0 — Subj-0     AA=0.7355 F=0.0000
+[cotta] Step 16 — Subj-11    AA=0.6268 BWT=-0.0814 F=0.0816 RF=0.1139
+Final: AA=0.6268  F=0.0816  -> /home/AD/sachith/PACT/results/chain_baselines/sleep_moment_adatime_cotta_c5_s1
+[mapu] Step 1 — Subj-7     AA=0.7043 F=0.0693
+[mapu] Step 2 — Subj-9     AA=0.6542 F=0.0913
+[mapu] Step 3 — Subj-16    AA=0.6429 F=0.0902
+[mapu] Step 4 — Subj-3     AA=0.6767 F=0.0375
+[mapu] Step 5 — Subj-13    AA=0.6774 F=0.0503
+[mapu] Step 6 — Subj-6     AA=0.6646 F=0.0660
+[mapu] Step 7 — Subj-18    AA=0.6772 F=0.0473
+[mapu] Step 8 — Subj-12    AA=0.6320 F=0.0928
+[mapu] Step 9 — Subj-5     AA=0.6395 F=0.0869
+[mapu] Step 10 — Subj-2     AA=0.5899 F=0.1400
+[mapu] Step 11 — Subj-15    AA=0.6084 F=0.1212
+[mapu] Step 12 — Subj-17    AA=0.5717 F=0.1528
+[mapu] Step 13 — Subj-19    AA=0.6112 F=0.1081
+[mapu] Step 14 — Subj-1     AA=0.6413 F=0.0751
+[mapu] Step 15 — Subj-14    AA=0.6391 F=0.0783
+[mapu] Step 16 — Subj-11    AA=0.6269 F=0.0804
+Final MAPU: AA=0.6269  -> /home/AD/sachith/PACT/results/mapu_baselines/sleep_moment_adatime_mapu_c5_s1
+[16:06:38] Queued 29 jobs, skipped 16 already done
+[16:06:38] External remaining complete. Log: results/experiment_logs/external_remaining_20260716_143321.log

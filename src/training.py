@@ -37,8 +37,14 @@ def _best_state(model):
 def _train_val_loaders(spec, dataset, domain_id, data_root, batch, seed=42):
     """Return (train_loader, val_loader). Sleep-EDF carves val out of train."""
     if spec.has_val:
-        tr = spec.get_dataset(domain_id, "train", data_root)
-        va = spec.get_dataset(domain_id, "val", data_root)
+        try:
+            tr = spec.get_dataset(domain_id, "train", data_root)
+            va = spec.get_dataset(domain_id, "val", data_root)
+        except FileNotFoundError:
+            full = spec.get_dataset(domain_id, "train", data_root)
+            val_n = max(1, int(0.15 * len(full)))
+            tr, va = random_split(full, [len(full) - val_n, val_n],
+                                  generator=torch.Generator().manual_seed(seed))
     else:
         full = spec.get_dataset(domain_id, "train", data_root)
         val_n = max(1, int(0.15 * len(full)))

@@ -1,0 +1,3 @@
+dataset,tsfm,adapter,gpu,calib_per_domain_s,infer_ms_per_sample,peak_mem_mb,buffer_mb,total_after_load_s
+fd,moment,lora,NVIDIA RTX 6000 Ada Generation,14.52121388943245,0.9501805622130632,1936.29296875,8.21875,101.16277331393212
+fd,moment,identity,NVIDIA RTX 6000 Ada Generation,15.149695022652546,0.8902709651738405,2189.01171875,8.21875,98.4191266875714

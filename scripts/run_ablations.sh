@@ -21,8 +21,8 @@ done
 run --dataset "$DATASET" --adapter_kind identity
 run --dataset "$DATASET" --adapter_kind lora --lora_rank 8
 
-# 3. Number of concepts K
-for K in 4 8 16 32; do
+# 3. Number of charts K (include K=1 global-transport baseline)
+for K in 1 4 8 16 32; do
   run --dataset "$DATASET" --k "$K"
 done
 

@@ -10,6 +10,11 @@ trade off plasticity vs. forgetting -- unlike PACT which freezes everything):
   lwf        : full-ft + Learning without Forgetting (distill the PRE-domain
                model on the new data)  [Li & Hoiem 2017]
   srcdistill : full-ft + distillation anchored to the frozen SOURCE model
+  dualcd     : full-ft + orthogonal causal/spurious disentanglement and a dual
+               intra-/inter-class causal-intervention loss in place of plain CE
+               [Liu et al. 2026, see baselines/DualCD and src/method/dualcd.py] --
+               matches the original paper's setting most closely since DualCD
+               there also jointly updates the encoder each domain (Algorithm 1)
 
 Same retention-matrix / AA-BWT-F-RF-PRF reporting as run_sequential.py, so the
 numbers drop straight into the chain comparison table. Baselines get the FULL
@@ -36,12 +41,13 @@ from _bootstrap import CKPT_ROOT, DATA_ROOT, RESULTS_ROOT
 from src.data import get_spec
 from src.data.datasets import adatime_chain
 from src.method import compute_cl_metrics
+from src.method.dualcd import DualCDHead
 from src.models.factory import load_backbone
 from src.training import train_or_load_source
 from src.utils import get_device, set_seed
 
-METHODS = ["full-ft", "head-ft", "ewc", "mas", "lwf", "srcdistill"]
-DEFAULT_LAMBDA = {"ewc": 1000.0, "mas": 1.0, "lwf": 1.0, "srcdistill": 1.0}
+METHODS = ["full-ft", "head-ft", "ewc", "mas", "lwf", "srcdistill", "dualcd"]
+DEFAULT_LAMBDA = {"ewc": 1000.0, "mas": 1.0, "lwf": 1.0, "srcdistill": 1.0, "dualcd": 0.5}
 
 
 def parse_args():
@@ -178,6 +184,14 @@ def finetune_domain(model, calib_ds, device, args, method, lam,
         for p in model.parameters():
             p.requires_grad_(True)
 
+    if method == "dualcd" and not isinstance(model.head, DualCDHead):
+        # First domain-incremental step: swap in the disentanglement head.
+        # The pretrained checkpoint's plain head is discarded (architecture
+        # mismatch); training on this domain re-fits a DualCDHead classifier
+        # from scratch, same as every other method's head at this same step.
+        num_classes = model.head.out_features
+        model.head = DualCDHead(model.emb_dim, num_classes).to(device)
+
     prev_model = None
     if method == "lwf":
         prev_model = copy.deepcopy(model).eval()
@@ -191,6 +205,12 @@ def finetune_domain(model, calib_ds, device, args, method, lam,
         for xb, yb in ld:
             xb, yb = xb.to(device), yb.to(device)
             opt.zero_grad()
+            if method == "dualcd":
+                out_intra, out_inter = model.head(model.extract(xb), yb)
+                loss = lam * ce(out_intra, yb) + (1 - lam) * ce(out_inter, yb)
+                loss.backward()
+                opt.step()
+                continue
             logits = model(xb)
             loss = ce(logits, yb)
             if method == "lwf" and prev_model is not None:
@@ -258,7 +278,8 @@ def main():
         print(f"[{args.method}] Step {t} — {labels[t]:<10} AA={aa:.4f} "
               f"BWT={bwt:+.4f} F={f:.4f} RF={rf:.4f} PRF={prf:.4f}")
 
-    tag = f"{args.dataset}_{args.backbone}_{args.domain_order}_{args.method}_c{int(args.calib_frac*100)}"
+    tag = (f"{args.dataset}_{args.backbone}_{args.domain_order}_{args.method}"
+           f"_c{int(args.calib_frac*100)}_s{args.seed}")
     out_dir = RESULTS_ROOT / "cl_baselines" / tag
     out_dir.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(A, index=labels, columns=labels).to_csv(out_dir / "f1_matrix.csv")

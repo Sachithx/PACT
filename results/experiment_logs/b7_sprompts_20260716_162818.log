@@ -1,0 +1,774 @@
+[16:28:18] B7+sprompts rerun  num_gpus=2  seeds=42,0,1
+[16:28:18] >>> [cuda:0] scripts/run_sequential_tsfm.py --dataset wisdm --tsfm sundial --domain_order adatime --seed 42 --adapter_kind lora
+[16:28:18] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method head-ft --domain_order adatime --calib_frac 0.05 --seed 42
+AdaTime chain: 19 domains, 10/10 pairs forward
+Device=cuda:0  tsfm=sundial(frozen)  dataset=wisdm  T=19  K=16  calib=c5
+AdaTime chain: 19 domains
+Device=cuda:1  tsfm=sundial(frozen)  method=head-ft  calib=c5  lam=0.0
+2026-07-16 16:28:23.536580: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:28:23.549114: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-07-16 16:28:23.562693: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219303.566548 1240285 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219303.572286 1240285 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-07-16 16:28:23.574989: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+W0000 00:00:1784219303.585532 1240285 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219303.585566 1240285 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219303.585569 1240285 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219303.585572 1240285 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:28:23.589363: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219303.593024 1240276 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219303.598854 1240276 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219303.612260 1240276 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219303.612294 1240276 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219303.612298 1240276 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219303.612301 1240276 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:28:23.616188: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+sundial loaded in 8.0s  (emb_dim=768)
+[head-ft] Step 0 — Subj-7     F1=0.9532
+Standardizer + linear head fitted on source: train acc=1.0000  (source=Subj-7, multi_window=True)
+[head-ft] Step 1 — Subj-20    AA=0.6575 BWT=-0.1011 F=0.1011 RF=0.1060
+[head-ft] Step 2 — Subj-35    AA=0.8321 BWT=+0.0937 F=0.0332 RF=0.0348
+[head-ft] Step 3 — Subj-17    AA=0.7337 BWT=-0.0514 F=0.1360 RF=0.1487
+[head-ft] Step 4 — Subj-6     AA=0.7191 BWT=-0.0582 F=0.1307 RF=0.1452
+[head-ft] Step 5 — Subj-2     AA=0.8333 BWT=+0.0788 F=0.0178 RF=0.0191
+Step 0 — Subj-7     F1=0.9532
+[head-ft] Step 6 — Subj-33    AA=0.8244 BWT=+0.0474 F=0.0464 RF=0.0510
+Step 1 — Subj-20    AA=0.7460 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 7 — Subj-5     AA=0.7247 BWT=-0.0472 F=0.1276 RF=0.1449
+Step 2 — Subj-35    AA=0.7888 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 8 — Subj-28    AA=0.7790 BWT=+0.0348 F=0.0356 RF=0.0401
+Step 3 — Subj-17    AA=0.7651 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 9 — Subj-23    AA=0.7290 BWT=-0.0041 F=0.0698 RF=0.0800
+Step 4 — Subj-6     AA=0.7828 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 10 — Subj-32    AA=0.7044 BWT=-0.0336 F=0.0927 RF=0.1080
+Step 5 — Subj-2     AA=0.7497 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 6 — Subj-33    AA=0.7238 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 11 — Subj-4     AA=0.6832 BWT=-0.0435 F=0.1002 RF=0.1207
+Step 7 — Subj-5     AA=0.6787 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 12 — Subj-26    AA=0.7020 BWT=-0.0054 F=0.0628 RF=0.0704
+Step 8 — Subj-28    AA=0.6688 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 13 — Subj-12    AA=0.6419 BWT=-0.0689 F=0.1226 RF=0.1576
+Step 9 — Subj-23    AA=0.6552 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 10 — Subj-32    AA=0.6609 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 14 — Subj-11    AA=0.6473 BWT=-0.0682 F=0.1191 RF=0.1537
+Step 11 — Subj-4     AA=0.6666 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 15 — Subj-19    AA=0.7080 BWT=-0.0143 F=0.0723 RF=0.0992
+Step 12 — Subj-26    AA=0.6532 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 13 — Subj-12    AA=0.6640 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 16 — Subj-31    AA=0.7100 BWT=-0.0156 F=0.0730 RF=0.0942
+Step 14 — Subj-11    AA=0.6663 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 15 — Subj-19    AA=0.6595 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 17 — Subj-30    AA=0.7508 BWT=+0.0193 F=0.0420 RF=0.0563
+Step 16 — Subj-31    AA=0.6559 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 18 — Subj-18    AA=0.7570 BWT=+0.0167 F=0.0502 RF=0.0639
+
+[head-ft] Final: AA=0.7570 F=0.0502 RF=0.0639
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_head-ft_c5_s42
+Step 17 — Subj-30    AA=0.6570 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 18 — Subj-18    AA=0.6573 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+
+Final (PACT on frozen sundial): AA=0.6573  BWT=+0.0000  F_all=0.0000  RF=0.0000  PRF=0.0000
+Results -> /home/AD/sachith/PACT/results/sequential_tsfm/wisdm_sundial_adatime_K16_c5_lora_learned_s42
+Elapsed 36s
+[16:28:57] FAILED (exit -1) on cuda:1
+[16:28:57] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method lwf --domain_order adatime --calib_frac 0.05 --seed 42
+[16:28:59] FAILED (exit -1) on cuda:0
+[16:28:59] >>> [cuda:0] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method srcdistill --domain_order adatime --calib_frac 0.05 --seed 42
+AdaTime chain: 19 domains
+Device=cuda:1  tsfm=sundial(frozen)  method=lwf  calib=c5  lam=1.0
+AdaTime chain: 19 domains
+Device=cuda:0  tsfm=sundial(frozen)  method=srcdistill  calib=c5  lam=1.0
+2026-07-16 16:29:01.644604: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:29:01.656454: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219341.673578 1241029 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219341.679143 1241029 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219341.692185 1241029 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219341.692237 1241029 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219341.692241 1241029 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219341.692243 1241029 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:29:01.696062: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-07-16 16:29:03.385050: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:29:03.396909: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219343.414242 1241095 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219343.419932 1241095 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219343.433177 1241095 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219343.433215 1241095 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219343.433218 1241095 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219343.433231 1241095 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:29:03.437022: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[lwf] Step 0 — Subj-7     F1=0.9532
+[lwf] Step 1 — Subj-20    AA=0.7526 BWT=+0.0000 F=0.0000 RF=0.0000
+[lwf] Step 2 — Subj-35    AA=0.8468 BWT=+0.0726 F=0.0000 RF=0.0000
+[lwf] Step 3 — Subj-17    AA=0.7879 BWT=-0.0154 F=0.0637 RF=0.0719
+[lwf] Step 4 — Subj-6     AA=0.7964 BWT=-0.0319 F=0.0681 RF=0.0753
+[srcdistill] Step 0 — Subj-7     F1=0.9532
+[srcdistill] Step 1 — Subj-20    AA=0.7526 BWT=+0.0000 F=0.0000 RF=0.0000
+[lwf] Step 5 — Subj-2     AA=0.7766 BWT=-0.0129 F=0.0479 RF=0.0526
+[srcdistill] Step 2 — Subj-35    AA=0.8438 BWT=+0.0756 F=0.0000 RF=0.0000
+[lwf] Step 6 — Subj-33    AA=0.7985 BWT=-0.0089 F=0.0446 RF=0.0491
+[srcdistill] Step 3 — Subj-17    AA=0.7815 BWT=-0.0157 F=0.0661 RF=0.0744
+[srcdistill] Step 4 — Subj-6     AA=0.8109 BWT=-0.0055 F=0.0464 RF=0.0556
+[lwf] Step 7 — Subj-5     AA=0.7480 BWT=-0.0141 F=0.0448 RF=0.0522
+[srcdistill] Step 5 — Subj-2     AA=0.7865 BWT=+0.0021 F=0.0306 RF=0.0381
+[lwf] Step 8 — Subj-28    AA=0.8014 BWT=+0.0359 F=0.0375 RF=0.0437
+[srcdistill] Step 6 — Subj-33    AA=0.7647 BWT=-0.0037 F=0.0310 RF=0.0398
+[srcdistill] Step 7 — Subj-5     AA=0.6874 BWT=-0.0342 F=0.0608 RF=0.0831
+[lwf] Step 9 — Subj-23    AA=0.7882 BWT=+0.0447 F=0.0298 RF=0.0340
+[srcdistill] Step 8 — Subj-28    AA=0.7659 BWT=+0.0370 F=0.0230 RF=0.0292
+[lwf] Step 10 — Subj-32    AA=0.7840 BWT=+0.0394 F=0.0292 RF=0.0339
+[srcdistill] Step 9 — Subj-23    AA=0.7525 BWT=+0.0391 F=0.0225 RF=0.0270
+[lwf] Step 11 — Subj-4     AA=0.7746 BWT=+0.0363 F=0.0260 RF=0.0305
+[srcdistill] Step 10 — Subj-32    AA=0.6970 BWT=-0.0238 F=0.0792 RF=0.1007
+[lwf] Step 12 — Subj-26    AA=0.7645 BWT=+0.0425 F=0.0206 RF=0.0234
+[srcdistill] Step 11 — Subj-4     AA=0.7045 BWT=-0.0169 F=0.0673 RF=0.0862
+[lwf] Step 13 — Subj-12    AA=0.7724 BWT=+0.0408 F=0.0187 RF=0.0226
+[srcdistill] Step 12 — Subj-26    AA=0.6943 BWT=-0.0108 F=0.0653 RF=0.0821
+[lwf] Step 14 — Subj-11    AA=0.7679 BWT=+0.0328 F=0.0238 RF=0.0304
+[srcdistill] Step 13 — Subj-12    AA=0.6980 BWT=-0.0205 F=0.0749 RF=0.0976
+[srcdistill] Step 14 — Subj-11    AA=0.7056 BWT=-0.0171 F=0.0676 RF=0.0881
+[lwf] Step 15 — Subj-19    AA=0.7539 BWT=+0.0181 F=0.0365 RF=0.0477
+[srcdistill] Step 15 — Subj-19    AA=0.7512 BWT=+0.0351 F=0.0235 RF=0.0303
+[lwf] Step 16 — Subj-31    AA=0.7610 BWT=+0.0263 F=0.0257 RF=0.0331
+[srcdistill] Step 16 — Subj-31    AA=0.7406 BWT=+0.0262 F=0.0365 RF=0.0467
+[lwf] Step 17 — Subj-30    AA=0.7624 BWT=+0.0250 F=0.0241 RF=0.0305
+[srcdistill] Step 17 — Subj-30    AA=0.7157 BWT=+0.0004 F=0.0585 RF=0.0793
+[lwf] Step 18 — Subj-18    AA=0.7730 BWT=+0.0295 F=0.0218 RF=0.0273
+
+[lwf] Final: AA=0.7730 F=0.0218 RF=0.0273
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_lwf_c5_s42
+[srcdistill] Step 18 — Subj-18    AA=0.7210 BWT=+0.0044 F=0.0517 RF=0.0664
+
+[srcdistill] Final: AA=0.7210 F=0.0517 RF=0.0664
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_srcdistill_c5_s42
+[16:29:37] FAILED (exit -1) on cuda:1
+[16:29:37] >>> [cuda:1] scripts/run_sequential.py --dataset wisdm --backbone tslanet --domain_order adatime --seed 42
+[16:29:39] FAILED (exit -1) on cuda:0
+[16:29:39] >>> [cuda:0] scripts/run_sequential_tsfm.py --dataset wisdm --tsfm sundial --domain_order adatime --seed 0 --adapter_kind lora
+AdaTime-derived chain: 19 domains, 10/10 AdaTime pairs captured forward (0 backward due to cycles)
+Device=cuda:1  dataset=wisdm  backbone=tslanet  T=19  K=16  calib=5%  temp=0.5  adapter=lora
+Domain order: ['Subj-7', 'Subj-20', 'Subj-35', 'Subj-17', 'Subj-6', 'Subj-2', 'Subj-33', 'Subj-5', 'Subj-28', 'Subj-23', 'Subj-32', 'Subj-4', 'Subj-26', 'Subj-12', 'Subj-11', 'Subj-19', 'Subj-31', 'Subj-30', 'Subj-18']
+
+  Training tslanet on wisdm domain 7 (Subj-7)
+    [pretrain] ep  10/50  val_loss=0.4853
+    [pretrain] ep  20/50  val_loss=0.4906
+    [pretrain] ep  30/50  val_loss=0.4834
+    [pretrain] ep  40/50  val_loss=0.4897
+    [pretrain] ep  50/50  val_loss=0.4682
+  Pretraining done (best val 0.4682)
+    [finetune] ep  20/100  val_loss=1.8388  val_f1=0.1429
+    [finetune] ep  40/100  val_loss=1.8388  val_f1=0.1429
+    [finetune] ep  60/100  val_loss=1.8388  val_f1=0.1429
+AdaTime chain: 19 domains, 10/10 pairs forward
+Device=cuda:0  tsfm=sundial(frozen)  dataset=wisdm  T=19  K=16  calib=c5
+    [finetune] ep  80/100  val_loss=1.8388  val_f1=0.1429
+    [finetune] ep 100/100  val_loss=1.8388  val_f1=0.1429
+  Done — val acc=0.1154  val F1=0.1429
+  Saved -> /home/AD/sachith/PACT/checkpoints/tslanet/tslanet_wisdm/tslanet_wisdm_7_ps8_d2_dim128.pt
+Step 0 — Subj-7     F1=0.1124
+Step 1 — Subj-20    AA=0.0972 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 2 — Subj-35    AA=0.0727 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+2026-07-16 16:29:44.082276: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:29:44.094466: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219384.111596 1241739 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219384.117207 1241739 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219384.130318 1241739 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219384.130354 1241739 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219384.130357 1241739 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219384.130359 1241739 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:29:44.134116: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Step 3 — Subj-17    AA=0.0718 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 4 — Subj-6     AA=0.0614 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 5 — Subj-2     AA=0.0658 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+sundial loaded in 6.4s  (emb_dim=768)
+Standardizer + linear head fitted on source: train acc=1.0000  (source=Subj-7, multi_window=True)
+Step 6 — Subj-33    AA=0.0701 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 7 — Subj-5     AA=0.0715 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 8 — Subj-28    AA=0.0812 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 0 — Subj-7     F1=0.9714
+Step 9 — Subj-23    AA=0.0844 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 1 — Subj-20    AA=0.8238 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 10 — Subj-32    AA=0.0832 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 2 — Subj-35    AA=0.8406 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 11 — Subj-4     AA=0.0861 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 3 — Subj-17    AA=0.8014 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 12 — Subj-26    AA=0.0908 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 4 — Subj-6     AA=0.8073 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 13 — Subj-12    AA=0.0881 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 5 — Subj-2     AA=0.7702 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 14 — Subj-11    AA=0.0879 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 6 — Subj-33    AA=0.7669 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 15 — Subj-19    AA=0.0949 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 7 — Subj-5     AA=0.7165 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 16 — Subj-31    AA=0.0984 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 8 — Subj-28    AA=0.7313 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 9 — Subj-23    AA=0.7118 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 17 — Subj-30    AA=0.1004 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 10 — Subj-32    AA=0.7130 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 18 — Subj-18    AA=0.0972 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 11 — Subj-4     AA=0.7159 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+
+Final: AA=0.0972  BWT=+0.0000  F_all=0.0000  F_tgt=0.0000  RF=0.0000  PRF=0.0000
+Results -> /home/AD/sachith/PACT/results/sequential/wisdm_tslanet_adatime_K16_c5_t0.5_lora_learned_s42
+Step 12 — Subj-26    AA=0.7012 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 13 — Subj-12    AA=0.7124 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[16:30:07] FAILED (exit -1) on cuda:1
+[16:30:07] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method head-ft --domain_order adatime --calib_frac 0.05 --seed 0
+Step 14 — Subj-11    AA=0.7147 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+AdaTime chain: 19 domains
+Device=cuda:1  tsfm=sundial(frozen)  method=head-ft  calib=c5  lam=0.0
+Step 15 — Subj-19    AA=0.7127 BWT=-0.0009 F_all=0.0009 F_tgt=0.0010 RF=0.0012 PRF=0.0003
+Step 16 — Subj-31    AA=0.7112 BWT=-0.0023 F_all=0.0023 F_tgt=0.0024 RF=0.0032 PRF=0.0010
+2026-07-16 16:30:11.686642: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:30:11.703442: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219411.722460 1242205 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219411.728169 1242205 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219411.741427 1242205 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219411.741469 1242205 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219411.741485 1242205 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219411.741488 1242205 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:30:11.745309: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Step 17 — Subj-30    AA=0.7089 BWT=-0.0019 F_all=0.0019 F_tgt=0.0021 RF=0.0028 PRF=0.0009
+Step 18 — Subj-18    AA=0.7141 BWT=-0.0016 F_all=0.0016 F_tgt=0.0017 RF=0.0023 PRF=0.0007
+
+Final (PACT on frozen sundial): AA=0.7141  BWT=-0.0016  F_all=0.0016  RF=0.0023  PRF=0.0007
+Results -> /home/AD/sachith/PACT/results/sequential_tsfm/wisdm_sundial_adatime_K16_c5_lora_learned_s0
+Elapsed 34s
+[head-ft] Step 0 — Subj-7     F1=0.9532
+[head-ft] Step 1 — Subj-20    AA=0.7069 BWT=-0.0469 F=0.0469 RF=0.0492
+[head-ft] Step 2 — Subj-35    AA=0.8416 BWT=+0.0857 F=0.0486 RF=0.0510
+[head-ft] Step 3 — Subj-17    AA=0.7836 BWT=-0.0352 F=0.1248 RF=0.1393
+[head-ft] Step 4 — Subj-6     AA=0.7746 BWT=-0.0619 F=0.1291 RF=0.1442
+[head-ft] Step 5 — Subj-2     AA=0.8445 BWT=+0.0087 F=0.0550 RF=0.0607
+[16:30:19] FAILED (exit -1) on cuda:0
+[16:30:19] >>> [cuda:0] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method lwf --domain_order adatime --calib_frac 0.05 --seed 0
+[head-ft] Step 6 — Subj-33    AA=0.8279 BWT=-0.0210 F=0.0746 RF=0.0822
+[head-ft] Step 7 — Subj-5     AA=0.8108 BWT=-0.0327 F=0.0786 RF=0.0881
+AdaTime chain: 19 domains
+Device=cuda:0  tsfm=sundial(frozen)  method=lwf  calib=c5  lam=1.0
+[head-ft] Step 8 — Subj-28    AA=0.8004 BWT=-0.0415 F=0.0895 RF=0.0986
+[head-ft] Step 9 — Subj-23    AA=0.7467 BWT=-0.0750 F=0.1176 RF=0.1329
+2026-07-16 16:30:24.072365: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:30:24.084456: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219424.101979 1242415 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219424.107839 1242415 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219424.121369 1242415 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219424.121411 1242415 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219424.121414 1242415 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219424.121417 1242415 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:30:24.125209: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[head-ft] Step 10 — Subj-32    AA=0.7621 BWT=-0.0528 F=0.0930 RF=0.1061
+[head-ft] Step 11 — Subj-4     AA=0.7176 BWT=-0.0851 F=0.1219 RF=0.1405
+[head-ft] Step 12 — Subj-26    AA=0.7025 BWT=-0.0777 F=0.1147 RF=0.1306
+[lwf] Step 0 — Subj-7     F1=0.9532
+[lwf] Step 1 — Subj-20    AA=0.8396 BWT=+0.0182 F=0.0000 RF=0.0000
+[lwf] Step 2 — Subj-35    AA=0.8695 BWT=+0.0106 F=0.0181 RF=0.0187
+[head-ft] Step 13 — Subj-12    AA=0.6759 BWT=-0.1015 F=0.1436 RF=0.1647
+[lwf] Step 3 — Subj-17    AA=0.8007 BWT=-0.0487 F=0.0740 RF=0.0791
+[lwf] Step 4 — Subj-6     AA=0.8253 BWT=-0.0289 F=0.0520 RF=0.0561
+[lwf] Step 5 — Subj-2     AA=0.8209 BWT=-0.0272 F=0.0470 RF=0.0509
+[head-ft] Step 14 — Subj-11    AA=0.6570 BWT=-0.1208 F=0.1599 RF=0.1937
+[lwf] Step 6 — Subj-33    AA=0.8257 BWT=-0.0230 F=0.0406 RF=0.0442
+[lwf] Step 7 — Subj-5     AA=0.7864 BWT=-0.0170 F=0.0342 RF=0.0374
+[head-ft] Step 15 — Subj-19    AA=0.7439 BWT=-0.0337 F=0.0812 RF=0.0969
+[lwf] Step 8 — Subj-28    AA=0.8178 BWT=+0.0063 F=0.0339 RF=0.0377
+[lwf] Step 9 — Subj-23    AA=0.7880 BWT=-0.0018 F=0.0375 RF=0.0421
+[head-ft] Step 16 — Subj-31    AA=0.7249 BWT=-0.0531 F=0.0976 RF=0.1187
+[lwf] Step 10 — Subj-32    AA=0.7855 BWT=-0.0005 F=0.0355 RF=0.0409
+[head-ft] Step 17 — Subj-30    AA=0.7311 BWT=-0.0479 F=0.0929 RF=0.1142
+[lwf] Step 11 — Subj-4     AA=0.7732 BWT=-0.0058 F=0.0389 RF=0.0463
+[lwf] Step 12 — Subj-26    AA=0.7565 BWT=-0.0035 F=0.0338 RF=0.0383
+[head-ft] Step 18 — Subj-18    AA=0.7649 BWT=-0.0209 F=0.0658 RF=0.0801
+
+[head-ft] Final: AA=0.7649 F=0.0658 RF=0.0801
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_head-ft_c5_s0
+[lwf] Step 13 — Subj-12    AA=0.7485 BWT=-0.0197 F=0.0509 RF=0.0648
+[16:30:45] FAILED (exit -1) on cuda:1
+[16:30:45] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method srcdistill --domain_order adatime --calib_frac 0.05 --seed 0
+[lwf] Step 14 — Subj-11    AA=0.7422 BWT=-0.0271 F=0.0564 RF=0.0702
+AdaTime chain: 19 domains
+Device=cuda:1  tsfm=sundial(frozen)  method=srcdistill  calib=c5  lam=1.0
+[lwf] Step 15 — Subj-19    AA=0.7633 BWT=-0.0028 F=0.0372 RF=0.0471
+[lwf] Step 16 — Subj-31    AA=0.7663 BWT=+0.0001 F=0.0334 RF=0.0414
+2026-07-16 16:30:50.800252: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:30:50.812752: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219450.830210 1242820 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219450.835956 1242820 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219450.848938 1242820 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219450.848974 1242820 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219450.848978 1242820 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219450.848980 1242820 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:30:50.852730: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[lwf] Step 17 — Subj-30    AA=0.7691 BWT=-0.0023 F=0.0351 RF=0.0425
+[lwf] Step 18 — Subj-18    AA=0.7723 BWT=-0.0075 F=0.0386 RF=0.0466
+
+[lwf] Final: AA=0.7723 F=0.0386 RF=0.0466
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_lwf_c5_s0
+[srcdistill] Step 0 — Subj-7     F1=0.9532
+[srcdistill] Step 1 — Subj-20    AA=0.8396 BWT=+0.0182 F=0.0000 RF=0.0000
+[srcdistill] Step 2 — Subj-35    AA=0.8681 BWT=+0.0227 F=0.0091 RF=0.0094
+[srcdistill] Step 3 — Subj-17    AA=0.7886 BWT=-0.0554 F=0.0765 RF=0.0850
+[16:30:57] FAILED (exit -1) on cuda:0
+[16:30:57] >>> [cuda:0] scripts/run_sequential.py --dataset wisdm --backbone tslanet --domain_order adatime --seed 0
+[srcdistill] Step 4 — Subj-6     AA=0.8219 BWT=-0.0151 F=0.0428 RF=0.0480
+[srcdistill] Step 5 — Subj-2     AA=0.8217 BWT=-0.0082 F=0.0303 RF=0.0341
+AdaTime-derived chain: 19 domains, 10/10 AdaTime pairs captured forward (0 backward due to cycles)
+Device=cuda:0  dataset=wisdm  backbone=tslanet  T=19  K=16  calib=5%  temp=0.5  adapter=lora
+Domain order: ['Subj-7', 'Subj-20', 'Subj-35', 'Subj-17', 'Subj-6', 'Subj-2', 'Subj-33', 'Subj-5', 'Subj-28', 'Subj-23', 'Subj-32', 'Subj-4', 'Subj-26', 'Subj-12', 'Subj-11', 'Subj-19', 'Subj-31', 'Subj-30', 'Subj-18']
+[srcdistill] Step 6 — Subj-33    AA=0.8306 BWT=+0.0018 F=0.0254 RF=0.0285
+  Loading checkpoint: /home/AD/sachith/PACT/checkpoints/tslanet/tslanet_wisdm/tslanet_wisdm_7_ps8_d2_dim128.pt
+[srcdistill] Step 7 — Subj-5     AA=0.7696 BWT=-0.0015 F=0.0254 RF=0.0290
+Step 0 — Subj-7     F1=0.1124
+[srcdistill] Step 8 — Subj-28    AA=0.7848 BWT=+0.0057 F=0.0249 RF=0.0285
+Step 1 — Subj-20    AA=0.0972 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[srcdistill] Step 9 — Subj-23    AA=0.7564 BWT=-0.0029 F=0.0301 RF=0.0347
+Step 2 — Subj-35    AA=0.0727 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[srcdistill] Step 10 — Subj-32    AA=0.7494 BWT=-0.0075 F=0.0320 RF=0.0490
+Step 3 — Subj-17    AA=0.0718 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 4 — Subj-6     AA=0.0614 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[srcdistill] Step 11 — Subj-4     AA=0.7420 BWT=-0.0131 F=0.0363 RF=0.0546
+Step 5 — Subj-2     AA=0.0658 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[srcdistill] Step 12 — Subj-26    AA=0.7250 BWT=-0.0129 F=0.0366 RF=0.0518
+Step 6 — Subj-33    AA=0.0701 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 7 — Subj-5     AA=0.1298 BWT=+0.0533 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[srcdistill] Step 13 — Subj-12    AA=0.7244 BWT=-0.0223 F=0.0450 RF=0.0624
+Step 8 — Subj-28    AA=0.1383 BWT=+0.0467 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[srcdistill] Step 14 — Subj-11    AA=0.7288 BWT=-0.0232 F=0.0479 RF=0.0669
+Step 9 — Subj-23    AA=0.1359 BWT=+0.0415 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[srcdistill] Step 15 — Subj-19    AA=0.7557 BWT=+0.0057 F=0.0319 RF=0.0395
+Step 10 — Subj-32    AA=0.1436 BWT=+0.0373 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 11 — Subj-4     AA=0.1426 BWT=+0.0326 F_all=0.0013 F_tgt=0.0015 RF=0.0115 PRF=0.0103
+[srcdistill] Step 16 — Subj-31    AA=0.7384 BWT=-0.0104 F=0.0458 RF=0.0626
+Step 12 — Subj-26    AA=0.1442 BWT=+0.0311 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[srcdistill] Step 17 — Subj-30    AA=0.7352 BWT=-0.0073 F=0.0423 RF=0.0586
+Step 13 — Subj-12    AA=0.1457 BWT=+0.0270 F_all=0.0017 F_tgt=0.0018 RF=0.0126 PRF=0.0111
+Step 14 — Subj-11    AA=0.1429 BWT=+0.0265 F_all=0.0002 F_tgt=0.0002 RF=0.0011 PRF=0.0009
+[srcdistill] Step 18 — Subj-18    AA=0.7447 BWT=-0.0064 F=0.0398 RF=0.0549
+
+[srcdistill] Final: AA=0.7447 F=0.0398 RF=0.0549
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_srcdistill_c5_s0
+Step 15 — Subj-19    AA=0.1371 BWT=+0.0234 F_all=0.0014 F_tgt=0.0015 RF=0.0109 PRF=0.0096
+[16:31:25] FAILED (exit -1) on cuda:1
+[16:31:25] >>> [cuda:1] scripts/run_sequential_tsfm.py --dataset wisdm --tsfm sundial --domain_order adatime --seed 1 --adapter_kind lora
+Step 16 — Subj-31    AA=0.1461 BWT=+0.0223 F_all=0.0010 F_tgt=0.0011 RF=0.0088 PRF=0.0079
+Step 17 — Subj-30    AA=0.1513 BWT=+0.0213 F_all=0.0010 F_tgt=0.0010 RF=0.0083 PRF=0.0074
+AdaTime chain: 19 domains, 10/10 pairs forward
+Device=cuda:1  tsfm=sundial(frozen)  dataset=wisdm  T=19  K=16  calib=c5
+Step 18 — Subj-18    AA=0.1447 BWT=+0.0206 F_all=0.0004 F_tgt=0.0005 RF=0.0019 PRF=0.0015
+2026-07-16 16:31:30.155277: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:31:30.167479: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219490.184771 1243465 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219490.190456 1243465 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219490.203637 1243465 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219490.203672 1243465 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219490.203675 1243465 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219490.203678 1243465 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:31:30.207507: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+
+Final: AA=0.1447  BWT=+0.0206  F_all=0.0004  F_tgt=0.0005  RF=0.0019  PRF=0.0015
+Results -> /home/AD/sachith/PACT/results/sequential/wisdm_tslanet_adatime_K16_c5_t0.5_lora_learned_s0
+[16:31:31] FAILED (exit -1) on cuda:0
+[16:31:31] >>> [cuda:0] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method head-ft --domain_order adatime --calib_frac 0.05 --seed 1
+sundial loaded in 6.5s  (emb_dim=768)
+AdaTime chain: 19 domains
+Device=cuda:0  tsfm=sundial(frozen)  method=head-ft  calib=c5  lam=0.0
+Standardizer + linear head fitted on source: train acc=1.0000  (source=Subj-7, multi_window=True)
+2026-07-16 16:31:36.803229: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:31:36.815390: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219496.832845 1243583 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219496.838485 1243583 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219496.851555 1243583 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219496.851592 1243583 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219496.851596 1243583 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219496.851599 1243583 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:31:36.855373: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Step 0 — Subj-7     F1=0.9714
+Step 1 — Subj-20    AA=0.7842 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 2 — Subj-35    AA=0.7945 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 0 — Subj-7     F1=0.9714
+[head-ft] Step 1 — Subj-20    AA=0.6261 BWT=-0.2278 F=0.2278 RF=0.2345
+Step 3 — Subj-17    AA=0.7723 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 2 — Subj-35    AA=0.7441 BWT=-0.0421 F=0.1212 RF=0.1247
+[head-ft] Step 3 — Subj-17    AA=0.7799 BWT=-0.0100 F=0.1056 RF=0.1138
+Step 4 — Subj-6     AA=0.7885 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 4 — Subj-6     AA=0.8122 BWT=+0.0015 F=0.0762 RF=0.0833
+[head-ft] Step 5 — Subj-2     AA=0.8010 BWT=-0.0201 F=0.0822 RF=0.0933
+Step 5 — Subj-2     AA=0.7516 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 6 — Subj-33    AA=0.8309 BWT=-0.0074 F=0.0783 RF=0.0878
+Step 6 — Subj-33    AA=0.7216 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 7 — Subj-5     AA=0.6808 BWT=-0.1116 F=0.1724 RF=0.1914
+Step 7 — Subj-5     AA=0.6768 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 8 — Subj-28    AA=0.7831 BWT=+0.0029 F=0.0860 RF=0.0932
+Step 8 — Subj-28    AA=0.6673 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 9 — Subj-23    AA=0.7776 BWT=+0.0224 F=0.0648 RF=0.0715
+Step 9 — Subj-23    AA=0.6546 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[head-ft] Step 10 — Subj-32    AA=0.7303 BWT=-0.0331 F=0.1115 RF=0.1242
+Step 10 — Subj-32    AA=0.6592 BWT=-0.0026 F_all=0.0120 F_tgt=0.0133 RF=0.0174 PRF=0.0060
+[head-ft] Step 11 — Subj-4     AA=0.7647 BWT=+0.0050 F=0.0672 RF=0.0756
+Step 11 — Subj-4     AA=0.6747 BWT=-0.0002 F_all=0.0088 F_tgt=0.0096 RF=0.0128 PRF=0.0045
+[head-ft] Step 12 — Subj-26    AA=0.7775 BWT=+0.0275 F=0.0503 RF=0.0556
+Step 12 — Subj-26    AA=0.6622 BWT=-0.0003 F_all=0.0081 F_tgt=0.0088 RF=0.0118 PRF=0.0042
+[head-ft] Step 13 — Subj-12    AA=0.7683 BWT=+0.0029 F=0.0745 RF=0.0853
+Step 13 — Subj-12    AA=0.6723 BWT=-0.0006 F_all=0.0079 F_tgt=0.0085 RF=0.0114 PRF=0.0040
+[head-ft] Step 14 — Subj-11    AA=0.7782 BWT=+0.0096 F=0.0635 RF=0.0721
+Step 14 — Subj-11    AA=0.6710 BWT=-0.0015 F_all=0.0082 F_tgt=0.0089 RF=0.0120 PRF=0.0042
+[head-ft] Step 15 — Subj-19    AA=0.7238 BWT=-0.0575 F=0.1281 RF=0.1478
+Step 15 — Subj-19    AA=0.7097 BWT=+0.0309 F_all=0.0181 F_tgt=0.0194 RF=0.0247 PRF=0.0086
+[head-ft] Step 16 — Subj-31    AA=0.7092 BWT=-0.0716 F=0.1424 RF=0.1661
+Step 16 — Subj-31    AA=0.7146 BWT=+0.0377 F_all=0.0133 F_tgt=0.0142 RF=0.0181 PRF=0.0058
+[head-ft] Step 17 — Subj-30    AA=0.7277 BWT=-0.0514 F=0.1180 RF=0.1391
+Step 17 — Subj-30    AA=0.7215 BWT=+0.0345 F_all=0.0157 F_tgt=0.0166 RF=0.0213 PRF=0.0075
+[head-ft] Step 18 — Subj-18    AA=0.7496 BWT=-0.0324 F=0.0991 RF=0.1178
+
+[head-ft] Final: AA=0.7496 F=0.0991 RF=0.1178
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_head-ft_c5_s1
+Step 18 — Subj-18    AA=0.7365 BWT=+0.0395 F_all=0.0095 F_tgt=0.0101 RF=0.0129 PRF=0.0039
+
+Final (PACT on frozen sundial): AA=0.7365  BWT=+0.0395  F_all=0.0095  RF=0.0129  PRF=0.0039
+Results -> /home/AD/sachith/PACT/results/sequential_tsfm/wisdm_sundial_adatime_K16_c5_lora_learned_s1
+Elapsed 40s
+[16:32:09] FAILED (exit -1) on cuda:0
+[16:32:09] FAILED (exit -1) on cuda:1
+[16:32:09] >>> [cuda:0] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method lwf --domain_order adatime --calib_frac 0.05 --seed 1
+[16:32:09] >>> [cuda:1] scripts/run_cl_baselines_tsfm.py --dataset wisdm --tsfm sundial --method srcdistill --domain_order adatime --calib_frac 0.05 --seed 1
+AdaTime chain: 19 domains
+Device=cuda:1  tsfm=sundial(frozen)  method=srcdistill  calib=c5  lam=1.0
+AdaTime chain: 19 domains
+Device=cuda:0  tsfm=sundial(frozen)  method=lwf  calib=c5  lam=1.0
+2026-07-16 16:32:14.402558: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:32:14.414490: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-07-16 16:32:14.422889: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219534.432214 1244161 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-07-16 16:32:14.434731: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+E0000 00:00:1784219534.438029 1244161 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219534.451564 1244161 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219534.451599 1244161 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219534.451603 1244161 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219534.451606 1244161 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219534.452074 1244156 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-07-16 16:32:14.455529: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+E0000 00:00:1784219534.457746 1244156 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219534.470752 1244156 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219534.470789 1244156 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219534.470793 1244156 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219534.470795 1244156 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:32:14.474492: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[lwf] Step 0 — Subj-7     F1=0.9714
+[srcdistill] Step 0 — Subj-7     F1=0.9714
+[lwf] Step 1 — Subj-20    AA=0.8035 BWT=-0.0184 F=0.0184 RF=0.0189
+[srcdistill] Step 1 — Subj-20    AA=0.8035 BWT=-0.0184 F=0.0184 RF=0.0189
+[lwf] Step 2 — Subj-35    AA=0.8559 BWT=+0.0154 F=0.0092 RF=0.0095
+[srcdistill] Step 2 — Subj-35    AA=0.8581 BWT=+0.0326 F=0.0000 RF=0.0000
+[lwf] Step 3 — Subj-17    AA=0.8309 BWT=+0.0256 F=0.0084 RF=0.0092
+[srcdistill] Step 3 — Subj-17    AA=0.8236 BWT=+0.0133 F=0.0173 RF=0.0196
+[lwf] Step 4 — Subj-6     AA=0.8187 BWT=-0.0013 F=0.0267 RF=0.0320
+[srcdistill] Step 4 — Subj-6     AA=0.8250 BWT=+0.0040 F=0.0256 RF=0.0298
+[lwf] Step 5 — Subj-2     AA=0.7727 BWT=-0.0189 F=0.0392 RF=0.0466
+[srcdistill] Step 5 — Subj-2     AA=0.7856 BWT=-0.0004 F=0.0240 RF=0.0270
+[lwf] Step 6 — Subj-33    AA=0.7692 BWT=-0.0313 F=0.0482 RF=0.0605
+[srcdistill] Step 6 — Subj-33    AA=0.7702 BWT=-0.0044 F=0.0279 RF=0.0320
+[lwf] Step 7 — Subj-5     AA=0.7389 BWT=-0.0158 F=0.0304 RF=0.0375
+[srcdistill] Step 7 — Subj-5     AA=0.7116 BWT=-0.0131 F=0.0372 RF=0.0470
+[lwf] Step 8 — Subj-28    AA=0.7824 BWT=+0.0307 F=0.0276 RF=0.0312
+[srcdistill] Step 8 — Subj-28    AA=0.7929 BWT=+0.0603 F=0.0109 RF=0.0129
+[srcdistill] Step 9 — Subj-23    AA=0.7570 BWT=+0.0409 F=0.0243 RF=0.0344
+[lwf] Step 9 — Subj-23    AA=0.7624 BWT=+0.0341 F=0.0178 RF=0.0201
+[srcdistill] Step 10 — Subj-32    AA=0.6904 BWT=-0.0348 F=0.0953 RF=0.1284
+[lwf] Step 10 — Subj-32    AA=0.7574 BWT=+0.0271 F=0.0239 RF=0.0314
+[srcdistill] Step 11 — Subj-4     AA=0.7171 BWT=-0.0099 F=0.0674 RF=0.0898
+[lwf] Step 11 — Subj-4     AA=0.7741 BWT=+0.0413 F=0.0135 RF=0.0152
+[srcdistill] Step 12 — Subj-26    AA=0.6853 BWT=-0.0267 F=0.0825 RF=0.1086
+[lwf] Step 12 — Subj-26    AA=0.7505 BWT=+0.0349 F=0.0179 RF=0.0214
+[srcdistill] Step 13 — Subj-12    AA=0.6977 BWT=-0.0252 F=0.0796 RF=0.1071
+[lwf] Step 13 — Subj-12    AA=0.7596 BWT=+0.0332 F=0.0175 RF=0.0219
+[srcdistill] Step 14 — Subj-11    AA=0.6876 BWT=-0.0362 F=0.0867 RF=0.1138
+[lwf] Step 14 — Subj-11    AA=0.7599 BWT=+0.0334 F=0.0161 RF=0.0192
+[srcdistill] Step 15 — Subj-19    AA=0.7535 BWT=+0.0358 F=0.0250 RF=0.0297
+[lwf] Step 15 — Subj-19    AA=0.7896 BWT=+0.0653 F=0.0107 RF=0.0121
+[srcdistill] Step 16 — Subj-31    AA=0.7243 BWT=+0.0065 F=0.0540 RF=0.0663
+[lwf] Step 16 — Subj-31    AA=0.7726 BWT=+0.0480 F=0.0243 RF=0.0279
+[srcdistill] Step 17 — Subj-30    AA=0.6619 BWT=-0.0571 F=0.1141 RF=0.1502
+[lwf] Step 17 — Subj-30    AA=0.7629 BWT=+0.0290 F=0.0440 RF=0.0522
+[srcdistill] Step 18 — Subj-18    AA=0.6662 BWT=-0.0512 F=0.1080 RF=0.1412
+
+[srcdistill] Final: AA=0.6662 F=0.1080 RF=0.1412
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_srcdistill_c5_s1
+[lwf] Step 18 — Subj-18    AA=0.7744 BWT=+0.0314 F=0.0376 RF=0.0450
+
+[lwf] Final: AA=0.7744 F=0.0376 RF=0.0450
+Results -> /home/AD/sachith/PACT/results/cl_baselines_tsfm/wisdm_sundial_adatime_lwf_c5_s1
+[16:32:50] FAILED (exit -1) on cuda:0
+[16:32:50] FAILED (exit -1) on cuda:1
+[16:32:50] >>> [cuda:0] scripts/run_sequential.py --dataset wisdm --backbone tslanet --domain_order adatime --seed 1
+[16:32:50] skip sprompts fd_moment_adatime_sprompts_c5_s42 (done)
+[16:32:50] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 42
+Chain baseline=sprompts  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=42
+AdaTime-derived chain: 19 domains, 10/10 AdaTime pairs captured forward (0 backward due to cycles)
+Device=cuda:0  dataset=wisdm  backbone=tslanet  T=19  K=16  calib=5%  temp=0.5  adapter=lora
+Domain order: ['Subj-7', 'Subj-20', 'Subj-35', 'Subj-17', 'Subj-6', 'Subj-2', 'Subj-33', 'Subj-5', 'Subj-28', 'Subj-23', 'Subj-32', 'Subj-4', 'Subj-26', 'Subj-12', 'Subj-11', 'Subj-19', 'Subj-31', 'Subj-30', 'Subj-18']
+  Loading checkpoint: /home/AD/sachith/PACT/checkpoints/tslanet/tslanet_wisdm/tslanet_wisdm_7_ps8_d2_dim128.pt
+Step 0 — Subj-7     F1=0.1124
+2026-07-16 16:32:53.898368: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:32:53.909633: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219573.926883 1244813 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219573.932522 1244813 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219573.946066 1244813 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219573.946115 1244813 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219573.946118 1244813 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219573.946122 1244813 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:32:53.949881: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Step 1 — Subj-20    AA=0.0972 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 2 — Subj-35    AA=0.0727 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 3 — Subj-17    AA=0.0718 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 4 — Subj-6     AA=0.0614 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 5 — Subj-2     AA=0.0658 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+Step 6 — Subj-33    AA=0.0701 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 7 — Subj-5     AA=0.0715 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 8 — Subj-28    AA=0.0812 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 9 — Subj-23    AA=0.0844 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 10 — Subj-32    AA=0.0832 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 11 — Subj-4     AA=0.0861 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 12 — Subj-26    AA=0.0908 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 13 — Subj-12    AA=0.0881 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 14 — Subj-11    AA=0.0879 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 15 — Subj-19    AA=0.0949 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 16 — Subj-31    AA=0.0984 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 17 — Subj-30    AA=0.1004 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+Step 18 — Subj-18    AA=0.0972 BWT=+0.0000 F_all=0.0000 F_tgt=0.0000 RF=0.0000 PRF=0.0000
+[sprompts] Step 0 — User-0     AA=0.8190 BWT=+0.0000 F=0.0000 RF=0.0000
+
+Final: AA=0.0972  BWT=+0.0000  F_all=0.0000  F_tgt=0.0000  RF=0.0000  PRF=0.0000
+Results -> /home/AD/sachith/PACT/results/sequential/wisdm_tslanet_adatime_K16_c5_t0.5_lora_learned_s1
+[16:33:20] FAILED (exit -1) on cuda:0
+[16:33:20] >>> [cuda:0] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 42
+Chain baseline=sprompts  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=42
+[sprompts] Step 1 — User-2     AA=0.7578 BWT=-0.0473 F=0.0473 RF=0.0578
+2026-07-16 16:33:23.693584: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:33:23.710288: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219603.735829 1245340 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219603.744122 1245340 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219603.762920 1245340 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219603.762971 1245340 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219603.762977 1245340 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219603.762980 1245340 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:33:23.768283: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[sprompts] Step 2 — User-7     AA=0.6631 BWT=-0.1701 F=0.1701 RF=0.2109
+[sprompts] Step 3 — User-1     AA=0.6602 BWT=-0.1249 F=0.1273 RF=0.1586
+[sprompts] Step 0 — Subj-0     AA=0.7146 BWT=+0.0000 F=0.0000 RF=0.0000
+[sprompts] Step 4 — User-3     AA=0.6517 BWT=-0.1278 F=0.1296 RF=0.1619
+[sprompts] Step 1 — Subj-7     AA=0.6879 BWT=-0.0495 F=0.0495 RF=0.0693
+[sprompts] Step 5 — User-8     AA=0.6075 BWT=-0.1041 F=0.1055 RF=0.1320
+[sprompts] Step 2 — Subj-9     AA=0.6737 BWT=-0.0318 F=0.0318 RF=0.0446
+[sprompts] Step 6 — User-6     AA=0.5761 BWT=-0.0902 F=0.0928 RF=0.1167
+[sprompts] Step 7 — User-4     AA=0.5862 BWT=-0.0777 F=0.0798 RF=0.1016
+[sprompts] Step 3 — Subj-16    AA=0.6564 BWT=-0.0223 F=0.0224 RF=0.0314
+[sprompts] Step 8 — User-5     AA=0.6133 BWT=-0.0498 F=0.0698 RF=0.0879
+Final: AA=0.6133  F=0.0698  -> /home/AD/sachith/PACT/results/chain_baselines/hhar_moment_adatime_sprompts_c5_s42
+[16:36:06] FAILED (exit -1) on cuda:1
+[16:36:06] >>> [cuda:1] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+Chain baseline=sprompts  tsfm=moment  dataset=fd  T=4  calib=c5  seed=0
+2026-07-16 16:36:09.930775: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:36:09.942545: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784219769.959552 1247495 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784219769.965147 1247495 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784219769.978249 1247495 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219769.978284 1247495 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219769.978287 1247495 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784219769.978290 1247495 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:36:09.982051: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[sprompts] Step 4 — Subj-3     AA=0.6497 BWT=-0.0175 F=0.0189 RF=0.0265
+[sprompts] Step 5 — Subj-13    AA=0.6587 BWT=-0.0177 F=0.0188 RF=0.0268
+[sprompts] Step 0 — FD-A       AA=0.8475 BWT=+0.0000 F=0.0000 RF=0.0000
+[sprompts] Step 6 — Subj-6     AA=0.6570 BWT=-0.0136 F=0.0145 RF=0.0208
+[sprompts] Step 1 — FD-B       AA=0.8603 BWT=-0.0585 F=0.0585 RF=0.0691
+[sprompts] Step 7 — Subj-18    AA=0.6440 BWT=-0.0200 F=0.0208 RF=0.0303
+[sprompts] Step 2 — FD-C       AA=0.8538 BWT=-0.0461 F=0.0461 RF=0.0526
+[sprompts] Step 8 — Subj-12    AA=0.6245 BWT=-0.0198 F=0.0216 RF=0.0312
+[sprompts] Step 3 — FD-D       AA=0.8573 BWT=-0.0371 F=0.0371 RF=0.0421
+Final: AA=0.8573  F=0.0371  -> /home/AD/sachith/PACT/results/chain_baselines/fd_moment_adatime_sprompts_c5_s0
+[16:41:02] FAILED (exit -1) on cuda:1
+[16:41:02] >>> [cuda:1] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+Chain baseline=sprompts  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=0
+2026-07-16 16:41:06.311933: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:41:06.323897: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784220066.341110 1251406 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784220066.346752 1251406 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784220066.360020 1251406 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784220066.360058 1251406 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784220066.360062 1251406 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784220066.360064 1251406 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:41:06.363865: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[sprompts] Step 0 — User-0     AA=0.8188 BWT=+0.0000 F=0.0000 RF=0.0000
+[sprompts] Step 1 — User-2     AA=0.6877 BWT=-0.0734 F=0.0734 RF=0.0896
+[sprompts] Step 2 — User-7     AA=0.6204 BWT=-0.1487 F=0.1487 RF=0.1921
+[sprompts] Step 3 — User-1     AA=0.6239 BWT=-0.1046 F=0.1108 RF=0.1443
+[sprompts] Step 9 — Subj-5     AA=0.6231 BWT=-0.0116 F=0.0209 RF=0.0301
+[sprompts] Step 4 — User-3     AA=0.6344 BWT=-0.0774 F=0.0822 RF=0.1070
+[sprompts] Step 5 — User-8     AA=0.6056 BWT=-0.0636 F=0.0675 RF=0.0884
+[sprompts] Step 6 — User-6     AA=0.5881 BWT=-0.0545 F=0.0580 RF=0.0765
+[sprompts] Step 10 — Subj-2     AA=0.5743 BWT=-0.0726 F=0.0850 RF=0.1278
+[sprompts] Step 7 — User-4     AA=0.5976 BWT=-0.0475 F=0.0525 RF=0.0684
+[sprompts] Step 8 — User-5     AA=0.6157 BWT=-0.0380 F=0.0515 RF=0.0704
+Final: AA=0.6157  F=0.0515  -> /home/AD/sachith/PACT/results/chain_baselines/hhar_moment_adatime_sprompts_c5_s0
+[16:44:17] FAILED (exit -1) on cuda:1
+[16:44:17] >>> [cuda:1] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 0
+Chain baseline=sprompts  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=0
+2026-07-16 16:44:20.556554: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:44:20.568803: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784220260.586252 1253904 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784220260.591859 1253904 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784220260.605006 1253904 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784220260.605042 1253904 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784220260.605045 1253904 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784220260.605047 1253904 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:44:20.608811: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[sprompts] Step 0 — Subj-0     AA=0.6830 BWT=+0.0000 F=0.0000 RF=0.0000
+[sprompts] Step 1 — Subj-7     AA=0.6455 BWT=-0.0598 F=0.0598 RF=0.0875
+[sprompts] Step 11 — Subj-15    AA=0.5799 BWT=-0.0667 F=0.0791 RF=0.1188
+[sprompts] Step 2 — Subj-9     AA=0.6287 BWT=-0.0423 F=0.0423 RF=0.0624
+[sprompts] Step 3 — Subj-16    AA=0.6361 BWT=-0.0228 F=0.0228 RF=0.0340
+[sprompts] Step 4 — Subj-3     AA=0.6257 BWT=-0.0229 F=0.0230 RF=0.0344
+[sprompts] Step 12 — Subj-17    AA=0.5659 BWT=-0.0644 F=0.0759 RF=0.1141
+[sprompts] Step 5 — Subj-13    AA=0.6238 BWT=-0.0239 F=0.0240 RF=0.0362
+[sprompts] Step 6 — Subj-6     AA=0.6140 BWT=-0.0190 F=0.0209 RF=0.0317
+[sprompts] Step 13 — Subj-19    AA=0.5628 BWT=-0.0597 F=0.0704 RF=0.1059
+[sprompts] Step 7 — Subj-18    AA=0.6165 BWT=-0.0110 F=0.0137 RF=0.0206
+[sprompts] Step 8 — Subj-12    AA=0.6096 BWT=-0.0050 F=0.0115 RF=0.0171
+[sprompts] Step 14 — Subj-1     AA=0.5652 BWT=-0.0545 F=0.0647 RF=0.0973
+[sprompts] Step 9 — Subj-5     AA=0.6259 BWT=+0.0114 F=0.0096 RF=0.0144
+[sprompts] Step 15 — Subj-14    AA=0.5700 BWT=-0.0496 F=0.0592 RF=0.0891
+[sprompts] Step 10 — Subj-2     AA=0.5708 BWT=-0.0552 F=0.0759 RF=0.1166
+[sprompts] Step 11 — Subj-15    AA=0.5740 BWT=-0.0488 F=0.0678 RF=0.1041
+[sprompts] Step 16 — Subj-11    AA=0.5638 BWT=-0.0472 F=0.0561 RF=0.0846
+Final: AA=0.5638  F=0.0561  -> /home/AD/sachith/PACT/results/chain_baselines/sleep_moment_adatime_sprompts_c5_s42
+[16:59:36] FAILED (exit -1) on cuda:0
+[16:59:36] >>> [cuda:0] scripts/run_chain_baselines.py --dataset fd --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=sprompts  tsfm=moment  dataset=fd  T=4  calib=c5  seed=1
+2026-07-16 16:59:39.554485: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 16:59:39.566575: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784221179.583605 1263433 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784221179.589211 1263433 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784221179.602441 1263433 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221179.602484 1263433 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221179.602488 1263433 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221179.602490 1263433 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 16:59:39.606320: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[sprompts] Step 0 — FD-A       AA=0.8694 BWT=+0.0000 F=0.0000 RF=0.0000
+[sprompts] Step 12 — Subj-17    AA=0.5659 BWT=-0.0482 F=0.0668 RF=0.1023
+[sprompts] Step 1 — FD-B       AA=0.8710 BWT=-0.0442 F=0.0442 RF=0.0509
+[sprompts] Step 2 — FD-C       AA=0.8685 BWT=-0.0238 F=0.0238 RF=0.0273
+[sprompts] Step 13 — Subj-19    AA=0.5613 BWT=-0.0432 F=0.0604 RF=0.0926
+[sprompts] Step 3 — FD-D       AA=0.8549 BWT=-0.0293 F=0.0293 RF=0.0334
+Final: AA=0.8549  F=0.0293  -> /home/AD/sachith/PACT/results/chain_baselines/fd_moment_adatime_sprompts_c5_s1
+[17:04:26] FAILED (exit -1) on cuda:0
+[17:04:26] >>> [cuda:0] scripts/run_chain_baselines.py --dataset hhar --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=sprompts  tsfm=moment  dataset=hhar  T=9  calib=c5  seed=1
+2026-07-16 17:04:29.938251: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 17:04:29.949963: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784221469.967113 1267115 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784221469.972683 1267115 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784221469.985709 1267115 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221469.985743 1267115 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221469.985747 1267115 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221469.985749 1267115 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 17:04:29.989466: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[sprompts] Step 0 — User-0     AA=0.8143 BWT=+0.0000 F=0.0000 RF=0.0000
+[sprompts] Step 1 — User-2     AA=0.7263 BWT=-0.0065 F=0.0065 RF=0.0079
+[sprompts] Step 2 — User-7     AA=0.6731 BWT=-0.0815 F=0.0851 RF=0.1045
+[sprompts] Step 3 — User-1     AA=0.6744 BWT=-0.0410 F=0.0539 RF=0.0662
+[sprompts] Step 4 — User-3     AA=0.6313 BWT=-0.0868 F=0.0964 RF=0.1284
+[sprompts] Step 14 — Subj-1     AA=0.5637 BWT=-0.0408 F=0.0573 RF=0.0884
+[sprompts] Step 5 — User-8     AA=0.6212 BWT=-0.0789 F=0.0866 RF=0.1164
+[sprompts] Step 6 — User-6     AA=0.6106 BWT=-0.0675 F=0.0739 RF=0.0994
+[sprompts] Step 7 — User-4     AA=0.6094 BWT=-0.0651 F=0.0708 RF=0.0943
+[sprompts] Step 8 — User-5     AA=0.6229 BWT=-0.0540 F=0.0598 RF=0.0809
+Final: AA=0.6229  F=0.0598  -> /home/AD/sachith/PACT/results/chain_baselines/hhar_moment_adatime_sprompts_c5_s1
+[17:07:38] FAILED (exit -1) on cuda:0
+[17:07:38] >>> [cuda:0] scripts/run_chain_baselines.py --dataset sleep --tsfm moment --method sprompts --domain_order adatime --calib_frac 0.05 --seed 1
+Chain baseline=sprompts  tsfm=moment  dataset=sleep  T=17  calib=c5  seed=1
+2026-07-16 17:07:42.194305: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-07-16 17:07:42.206582: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:467] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1784221662.224777 1269575 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1784221662.230453 1269575 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1784221662.243563 1269575 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221662.243598 1269575 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221662.243601 1269575 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1784221662.243604 1269575 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+2026-07-16 17:07:42.247394: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/home/AD/sachith/.conda/envs/entrope/lib/python3.10/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.
+  warnings.warn("Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.")
+[sprompts] Step 0 — Subj-0     AA=0.7339 BWT=+0.0000 F=0.0000 RF=0.0000
+[sprompts] Step 15 — Subj-14    AA=0.5614 BWT=-0.0411 F=0.0565 RF=0.0876
+[sprompts] Step 1 — Subj-7     AA=0.6874 BWT=-0.0478 F=0.0478 RF=0.0651
+[sprompts] Step 2 — Subj-9     AA=0.6865 BWT=-0.0138 F=0.0200 RF=0.0272
+[sprompts] Step 3 — Subj-16    AA=0.6653 BWT=-0.0181 F=0.0226 RF=0.0323
+[sprompts] Step 4 — Subj-3     AA=0.6642 BWT=-0.0167 F=0.0210 RF=0.0300
+[sprompts] Step 16 — Subj-11    AA=0.5605 BWT=-0.0385 F=0.0530 RF=0.0821
+Final: AA=0.5605  F=0.0530  -> /home/AD/sachith/PACT/results/chain_baselines/sleep_moment_adatime_sprompts_c5_s0
+[sprompts] Step 5 — Subj-13    AA=0.6630 BWT=-0.0136 F=0.0177 RF=0.0255
+[sprompts] Step 6 — Subj-6     AA=0.6566 BWT=-0.0104 F=0.0138 RF=0.0199
+[sprompts] Step 7 — Subj-18    AA=0.6456 BWT=-0.0149 F=0.0178 RF=0.0253
+[sprompts] Step 8 — Subj-12    AA=0.6388 BWT=-0.0058 F=0.0125 RF=0.0179
+[sprompts] Step 9 — Subj-5     AA=0.6362 BWT=-0.0074 F=0.0210 RF=0.0297
+[sprompts] Step 10 — Subj-2     AA=0.5757 BWT=-0.0762 F=0.0890 RF=0.1324
+[sprompts] Step 11 — Subj-15    AA=0.5750 BWT=-0.0713 F=0.0836 RF=0.1246
+[sprompts] Step 12 — Subj-17    AA=0.5687 BWT=-0.0683 F=0.0806 RF=0.1201
+[sprompts] Step 13 — Subj-19    AA=0.5659 BWT=-0.0615 F=0.0730 RF=0.1090
+[sprompts] Step 14 — Subj-1     AA=0.5699 BWT=-0.0540 F=0.0659 RF=0.0983
+[sprompts] Step 15 — Subj-14    AA=0.5631 BWT=-0.0577 F=0.0688 RF=0.1030
+[sprompts] Step 16 — Subj-11    AA=0.5579 BWT=-0.0553 F=0.0658 RF=0.0986
+Final: AA=0.5579  F=0.0658  -> /home/AD/sachith/PACT/results/chain_baselines/sleep_moment_adatime_sprompts_c5_s1
+[17:31:28] Done. Log: results/experiment_logs/b7_sprompts_20260716_162818.log

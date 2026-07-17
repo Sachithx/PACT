@@ -297,7 +297,11 @@ class SoftGateMLP(nn.Module):
         )
 
     def forward(self, x):
-        return self.net(x)
+        logits = self.net(x)
+        mask = getattr(self, "_domain_mask", None)
+        if mask is not None:
+            logits = logits.masked_fill(~mask.to(logits.device), NEG_INF)
+        return logits
 
 
 # ── Mask fix for the isotropic/diag/lowrank prototype gates ──────────────────

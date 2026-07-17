@@ -9,10 +9,7 @@ also used for the distance-routing baseline / trigger.
 import numpy as np
 
 
-def kmeans_numpy(embs, k, seed=42, n_iter=100):
-    """Lloyd's k-means (numpy). Returns (centroids [k, D], assignments [N])."""
-    rng = np.random.default_rng(seed)
-    centroids = embs[rng.choice(len(embs), k, replace=False)].copy()
+def _kmeans_lloyd(embs, centroids, n_iter=100):
     asgn = np.zeros(len(embs), dtype=int)
     for _ in range(n_iter):
         d = np.linalg.norm(embs[:, None] - centroids[None], axis=2)
@@ -20,11 +17,28 @@ def kmeans_numpy(embs, k, seed=42, n_iter=100):
         if np.all(new == asgn):
             break
         asgn = new
-        for c in range(k):
+        for c in range(len(centroids)):
             m = embs[asgn == c]
             if len(m):
                 centroids[c] = m.mean(0)
-    return centroids, asgn
+    inertia = float(((embs - centroids[asgn]) ** 2).sum())
+    return centroids, asgn, inertia
+
+
+def kmeans_numpy(embs, k, seed=42, n_iter=100, n_init=10):
+    """Lloyd's k-means (numpy) with multiple random restarts.
+
+    Returns (centroids [k, D], assignments [N]) for the lowest-inertia run.
+    """
+    rng = np.random.default_rng(seed)
+    best_centroids, best_asgn, best_inertia = None, None, np.inf
+    for init in range(max(1, n_init)):
+        init_rng = np.random.default_rng(seed + init * 9973)
+        centroids = embs[init_rng.choice(len(embs), k, replace=False)].copy()
+        centroids, asgn, inertia = _kmeans_lloyd(embs, centroids, n_iter=n_iter)
+        if inertia < best_inertia:
+            best_inertia, best_centroids, best_asgn = inertia, centroids, asgn
+    return best_centroids, best_asgn
 
 
 def assign_concepts(embs, centroids):

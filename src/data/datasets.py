@@ -26,11 +26,42 @@ _FD_SUFFIX = {0: "a", 1: "b", 2: "c", 3: "d"}
 _FD_NAME = {0: "FD-A", 1: "FD-B", 2: "FD-C", 3: "FD-D"}
 
 
+def _first_existing(*paths: Path) -> Path:
+    for p in paths:
+        if p.exists():
+            return p
+    raise FileNotFoundError(
+        "None of the candidate dataset paths exist:\n  "
+        + "\n  ".join(str(p) for p in paths)
+    )
+
+
+def _fd_path(data_root: Path, domain_id: int, split: str) -> Path:
+    return _first_existing(
+        data_root / _FD_NAME[domain_id] / f"{split}_{_FD_SUFFIX[domain_id]}.pt",
+        data_root / "FD" / "FD" / f"{split}_{domain_id}.pt",
+    )
+
+
+def _hhar_path(data_root: Path, domain_id: int, split: str) -> Path:
+    return _first_existing(
+        data_root / "HHAR_processed" / f"{split}_{domain_id}.pt",
+        data_root / "HHAR" / "HHAR_SA" / f"{split}_{domain_id}.pt",
+    )
+
+
+def _sleep_path(data_root: Path, domain_id: int, split: str) -> Path:
+    return _first_existing(
+        data_root / "Sleep-EDF" / "EEG" / f"{split}_{domain_id}.pt",
+        data_root / "Sleep" / "EEG" / f"{split}_{domain_id}.pt",
+    )
+
+
 class FDDataset(torch.utils.data.Dataset):
     """Paderborn bearing fault diagnosis, one operating condition per domain."""
 
     def __init__(self, domain_id: int, split: str, data_root: Path):
-        path = Path(data_root) / _FD_NAME[domain_id] / f"{split}_{_FD_SUFFIX[domain_id]}.pt"
+        path = _fd_path(Path(data_root), domain_id, split)
         d = torch.load(path, map_location="cpu", weights_only=False)
         x = d["samples"]
         if x.dim() == 2:
@@ -49,10 +80,13 @@ class HHARDataset(torch.utils.data.Dataset):
     """Heterogeneity Human Activity Recognition, one user per domain."""
 
     def __init__(self, domain_id: int, split: str, data_root: Path):
-        path = Path(data_root) / "HHAR_processed" / f"{split}_{domain_id}.pt"
+        path = _hhar_path(Path(data_root), domain_id, split)
         d = torch.load(path, map_location="cpu", weights_only=False)
-        self.x = d["samples"].float()   # [N, 3, 128]
-        self.y = d["labels"].long()
+        x = torch.as_tensor(d["samples"]).float()
+        if x.ndim == 3 and x.shape[1] != 3 and x.shape[2] == 3:
+            x = x.transpose(1, 2)   # [N, 128, 3] -> [N, 3, 128]
+        self.x = x
+        self.y = torch.as_tensor(d["labels"]).long()
 
     def __len__(self):
         return len(self.y)
@@ -106,7 +140,7 @@ class SleepEDFDataset(torch.utils.data.Dataset):
     """Sleep-EDF sleep-stage classification, one subject per domain."""
 
     def __init__(self, domain_id: int, split: str, data_root: Path):
-        path = Path(data_root) / "Sleep-EDF" / "EEG" / f"{split}_{domain_id}.pt"
+        path = _sleep_path(Path(data_root), domain_id, split)
         d = torch.load(path, map_location="cpu", weights_only=False)
         x = torch.as_tensor(d["samples"]).float()
         if x.ndim == 3 and x.shape[-1] == 1:

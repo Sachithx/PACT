@@ -7,6 +7,9 @@ The encoder stays frozen; only the linear head is updated each domain:
   srcdistill : CE + distillation from the frozen SOURCE head
   ewc        : CE + Fisher-weighted L2 to each past domain's head [Kirkpatrick+ 2017]
   mas        : CE + Memory-Aware-Synapses importance-weighted L2 [Aljundi+ 2018]
+  dualcd     : orthogonal causal/spurious disentanglement + dual intra-/inter-
+               class causal-intervention loss on the frozen embedding
+               [Liu et al. 2026, see baselines/DualCD and src/method/dualcd.py]
 
 Full backbone fine-tuning is omitted (prohibitively expensive for a 341M-param
 frozen encoder and contradicts the frozen-TSFM story); EWC/MAS here regularize
@@ -34,12 +37,13 @@ from src.data import DATASET_NAMES, get_spec
 from src.data.calib import calib_indices
 from src.data.datasets import adatime_chain
 from src.method import compute_cl_metrics
+from src.method.dualcd import DualCDHead
 from src.method.pact import extract_embs
 from src.models.tsfm import TSFM_MODELS, make_tsfm
 from src.utils import get_device, set_seed
 
-METHODS = ["head-ft", "lwf", "srcdistill", "ewc", "mas"]
-DEFAULT_LAMBDA = {"lwf": 1.0, "srcdistill": 1.0, "ewc": 1000.0, "mas": 1.0}
+METHODS = ["head-ft", "lwf", "srcdistill", "ewc", "mas", "dualcd"]
+DEFAULT_LAMBDA = {"lwf": 1.0, "srcdistill": 1.0, "ewc": 1000.0, "mas": 1.0, "dualcd": 0.5}
 
 
 def parse_args():
@@ -156,7 +160,27 @@ def reg_penalty(head, anchors, device):
     return loss
 
 
-def fit_source(model, spec, src_id, device, batch, head_ep, head_lr):
+def head_loss(model, eb, yb, method, lam, prev_head, source_head, anchors, device, ce):
+    """Dispatch the per-batch loss for whichever method is training the head."""
+    if method == "dualcd":
+        out_intra, out_inter = model.head(eb, yb)
+        return lam * ce(out_intra, yb) + (1 - lam) * ce(out_inter, yb)
+    logits = model.head(eb)
+    loss = ce(logits, yb)
+    if method == "lwf" and prev_head is not None:
+        with torch.no_grad():
+            old = prev_head(eb)
+        loss = loss + lam * kd_loss(old, logits)
+    elif method == "srcdistill" and source_head is not None:
+        with torch.no_grad():
+            src = source_head(eb)
+        loss = loss + lam * kd_loss(src, logits)
+    elif method in ("ewc", "mas") and anchors:
+        loss = loss + (lam / 2.0) * reg_penalty(model.head, anchors, device)
+    return loss
+
+
+def fit_source(model, spec, src_id, device, batch, head_ep, head_lr, method="head-ft", lam=0.0):
     ld = torch.utils.data.DataLoader(
         spec.get_dataset(src_id, "train", DATA_ROOT), batch_size=batch)
     X, y = extract_embs(model, ld, device)
@@ -166,13 +190,15 @@ def fit_source(model, spec, src_id, device, batch, head_ep, head_lr):
     Xt = torch.from_numpy(Xs).to(device)
     yt = torch.from_numpy(y).long().to(device)
     opt = torch.optim.AdamW(model.head.parameters(), lr=head_lr, weight_decay=1e-4)
-    crit = nn.CrossEntropyLoss()
+    ce = nn.CrossEntropyLoss()
     dl = torch.utils.data.DataLoader(
         torch.utils.data.TensorDataset(Xt, yt), batch_size=256, shuffle=True)
     model.head.train()
     for _ in range(head_ep):
         for eb, yb in dl:
-            opt.zero_grad(); crit(model.head(eb), yb).backward(); opt.step()
+            opt.zero_grad()
+            loss = head_loss(model, eb, yb, method, lam, None, None, None, device, ce)
+            loss.backward(); opt.step()
     return copy.deepcopy(model.head).eval(), Xt, yt
 
 
@@ -192,18 +218,7 @@ def train_head_step(model, calib_ds, device, batch, head_ep, head_lr, method, la
     for _ in range(head_ep):
         for eb, yb in dl:
             opt.zero_grad()
-            logits = model.head(eb)
-            loss = ce(logits, yb)
-            if method == "lwf" and prev_head is not None:
-                with torch.no_grad():
-                    old = prev_head(eb)
-                loss = loss + lam * kd_loss(old, logits)
-            elif method == "srcdistill" and source_head is not None:
-                with torch.no_grad():
-                    src = source_head(eb)
-                loss = loss + lam * kd_loss(src, logits)
-            elif method in ("ewc", "mas") and anchors:
-                loss = loss + (lam / 2.0) * reg_penalty(model.head, anchors, device)
+            loss = head_loss(model, eb, yb, method, lam, prev_head, source_head, anchors, device, ce)
             loss.backward(); opt.step()
     return Xt, yt
 
@@ -229,8 +244,10 @@ def main():
     print(f"Device={device}  tsfm={args.tsfm}(frozen)  method={args.method}  "
           f"calib={calib_tag}  lam={lam}")
     model = make_tsfm(args.tsfm, spec.num_classes, device=str(device)).to(device)
+    if args.method == "dualcd":
+        model.head = DualCDHead(model.emb_dim, spec.num_classes).to(device)
     source_head, Xt0, yt0 = fit_source(model, spec, order[0], device, args.batch,
-                                       args.head_ep, args.head_lr)
+                                       args.head_ep, args.head_lr, args.method, lam)
     anchor_head = source_head if args.method == "srcdistill" else None
 
     # EWC/MAS need an importance anchor on the SOURCE before the first update
@@ -263,7 +280,7 @@ def main():
               f"BWT={bwt:+.4f} F={f:.4f} RF={rf:.4f}")
 
     tag = (f"{args.dataset}_{args.tsfm}_{args.domain_order}_{args.method}"
-           f"_{calib_tag}")
+           f"_{calib_tag}_s{args.seed}")
     out_dir = RESULTS_ROOT / "cl_baselines_tsfm" / tag
     out_dir.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(A, index=labels, columns=labels).to_csv(out_dir / "f1_matrix.csv")
