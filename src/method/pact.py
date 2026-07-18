@@ -98,12 +98,18 @@ def train_adapters(calib_embs, calib_lbls, centroids, frozen_head, device, cfg: 
 
 # ── Gate training ─────────────────────────────────────────────────────────────
 
+def _calib_ea(entry):
+    """Normalize a calib buffer entry to (embs, asgn). Labels are never required."""
+    return entry[0], entry[1]
+
+
 def train_binary_gates(src_embs, src_asgn, calib_per_domain, device, cfg: PactConfig):
     """Binary gate: source = class 0, all targets pooled = class 1."""
     gates = []
     for c in range(cfg.k):
         neg = src_embs[src_asgn == c]
-        pos_parts = [embs[asgn == c] for embs, asgn, _ in calib_per_domain if (asgn == c).any()]
+        pos_parts = [embs[asgn == c] for embs, asgn in (_calib_ea(e) for e in calib_per_domain)
+                     if (asgn == c).any()]
         pos = np.concatenate(pos_parts) if pos_parts else np.empty((0, cfg.emb_dim), np.float32)
         if len(pos) == 0:
             gates.append(None); continue
@@ -139,8 +145,8 @@ def train_binary_gates(src_embs, src_asgn, calib_per_domain, device, cfg: PactCo
 def train_soft_gates(src_embs, src_asgn, calib_per_domain, device, cfg: PactConfig):
     """Multi-class gate: logit per domain (0 = source, 1..N = targets).
 
-    calib_per_domain: list of (embs, asgn, lbls), one per PAST/CURRENT target
-    domain. Each class is balanced by oversampling to the largest class.
+    calib_per_domain: list of (embs, asgn) — embedding keys only, no class labels.
+    Each class is balanced by oversampling to the largest class.
     Chart-domain pairs with fewer than cfg.min_chart_domain_n calibration samples
     are omitted from gate training; at inference their logits are masked to
     -inf so routing falls back to available branches.
@@ -151,7 +157,8 @@ def train_soft_gates(src_embs, src_asgn, calib_per_domain, device, cfg: PactConf
     for c in range(cfg.k):
         X_by_class = {0: src_embs[src_asgn == c]}
         active_targets = []
-        for j, (embs, asgn, _) in enumerate(calib_per_domain):
+        for j, entry in enumerate(calib_per_domain):
+            embs, asgn = _calib_ea(entry)
             X_cls = embs[asgn == c]
             if len(X_cls) >= cfg.min_chart_domain_n:
                 active_targets.append(j + 1)

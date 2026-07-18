@@ -75,10 +75,10 @@ def build_prototype_gates(src_embs, src_asgn, calib_per_domain, k: int, emb_dim:
                           device, floor: float = 1e-2):
     """Parameter-free counterpart to train_soft_gates: one PrototypeGate per
     concept, fit directly from embeddings (no optimizer, no accumulated-
-    calibration re-fit). calib_per_domain: list of (embs, asgn, lbls), one per
+    calibration re-fit). calib_per_domain: list of (embs, asgn[, lbls]), one per
     past/current target domain, same as train_soft_gates. Returns a list of K
     PrototypeGate (or None where no domain has any sample in that concept)."""
-    domain_embs_asgn = [(src_embs, src_asgn)] + [(e, a) for e, a, _ in calib_per_domain]
+    domain_embs_asgn = [(src_embs, src_asgn)] + [(e[0], e[1]) for e in calib_per_domain]
     gates = []
     for c in range(k):
         pooled = np.concatenate([e[a == c] for e, a in domain_embs_asgn if (a == c).any()]) \
@@ -115,7 +115,7 @@ def _per_dim_variance(embs: np.ndarray, floor: float) -> np.ndarray:
 def build_prototype_gates_diag(src_embs, src_asgn, calib_per_domain, k: int,
                                emb_dim: int, device, floor: float = 1e-4):
     """Diagonal Mahalanobis prototype gate: per-dimension variance."""
-    domain_embs_asgn = [(src_embs, src_asgn)] + [(e, a) for e, a, _ in calib_per_domain]
+    domain_embs_asgn = [(src_embs, src_asgn)] + [(e[0], e[1]) for e in calib_per_domain]
     gates = []
     for c in range(k):
         pooled = np.concatenate([e[a == c] for e, a in domain_embs_asgn if (a == c).any()]) \
@@ -149,7 +149,7 @@ def build_prototype_gates_lowrank(src_embs, src_asgn, calib_per_domain, k: int,
                                   floor: float = 1e-2):
     """Low-rank projected prototype gate: discriminative subspace from
     between-domain scatter of the concept means."""
-    domain_embs_asgn = [(src_embs, src_asgn)] + [(e, a) for e, a, _ in calib_per_domain]
+    domain_embs_asgn = [(src_embs, src_asgn)] + [(e[0], e[1]) for e in calib_per_domain]
     gates = []
     for c in range(k):
         means, scales, any_domain = [], [], False
@@ -333,7 +333,7 @@ def build_prototype_gates_masked(src_embs, src_asgn, calib_per_domain, k: int,
                                  emb_dim: int, device, floor: float = 1e-2):
     """Corrected isotropic builder: identical to build_prototype_gates except
     absent (chart, domain) cells are masked instead of modeled at zero."""
-    domain_embs_asgn = [(src_embs, src_asgn)] + [(e, a) for e, a, _ in calib_per_domain]
+    domain_embs_asgn = [(src_embs, src_asgn)] + [(e[0], e[1]) for e in calib_per_domain]
     gates = []
     for c in range(k):
         pooled_list = [e[a == c] for e, a in domain_embs_asgn if (a == c).any()]
@@ -546,7 +546,7 @@ def build_analytic_gates(src_embs, src_asgn, calib_per_domain, k: int,
     least squares), which is the point.
     """
     feats = features or RandomFeatures(emb_dim, n_features, seed, str(device))
-    domain_embs_asgn = [(src_embs, src_asgn)] + [(e, a) for e, a, _ in calib_per_domain]
+    domain_embs_asgn = [(src_embs, src_asgn)] + [(e[0], e[1]) for e in calib_per_domain]
 
     if states is None:
         states = [AnalyticGateState(feats.n_features, str(device)) for _ in range(k)]

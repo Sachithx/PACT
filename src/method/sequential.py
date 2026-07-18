@@ -204,7 +204,10 @@ def run_sequential(model, spec, domain_order, data_root, device, cfg: PactConfig
 
     src_ld = torch.utils.data.DataLoader(
         spec.get_dataset(domain_order[0], "train", data_root), batch_size=cfg.batch)
-    src_embs, src_lbls = extract_embs(model, src_ld, device)
+    src_embs, src_lbls_all = extract_embs(model, src_ld, device)
+    # Class labels are not retained for the default embedding-key buffer.
+    src_lbls = src_lbls_all if cfg.gate_kind == "prototype_mixture" else None
+    del src_lbls_all
     centroids, src_asgn = kmeans_numpy(src_embs, cfg.k, seed=cfg.seed,
                                        n_init=cfg.kmeans_n_init)
 
@@ -243,13 +246,18 @@ def run_sequential(model, spec, domain_order, data_root, device, cfg: PactConfig
         calib_embs, _ = extract_embs(model, calib_ld, device)
         calib_lbls = y_all[idx]
         calib_asgn = assign_concepts(calib_embs, centroids)
-        accumulated_calib.append((calib_embs, calib_asgn, calib_lbls))
+        # Default gates need embedding keys only (no class labels / values).
+        # Keep labels in the buffer solely for prototype_mixture.
+        if cfg.gate_kind == "prototype_mixture":
+            accumulated_calib.append((calib_embs, calib_asgn, calib_lbls))
+        else:
+            accumulated_calib.append((calib_embs, calib_asgn))
 
         adapters = train_adapters(calib_embs, calib_lbls, centroids, frozen_head, device, cfg)
         adapters_list.append(adapters)
         soft_gates = fit_gates(src_embs, src_asgn, accumulated_calib, device, cfg,
                                adapters_list=adapters_list, frozen_head=frozen_head,
-                               src_lbls=src_lbls)
+                               src_lbls=src_lbls if cfg.gate_kind == "prototype_mixture" else None)
 
         for j in range(t + 1):
             lbl_j = labels[j]

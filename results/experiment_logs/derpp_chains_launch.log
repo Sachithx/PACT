@@ -1,0 +1,80 @@
+[09:29:32] Computing byte-matched buffer sizes...
+dataset backbone  buffer_size_mean  buffer_size_min  buffer_size_max  pact_mb_mean
+     fd   moment            420.00              420              420      8.218750
+     fd  sundial            315.00              315              315      6.164062
+     fd  tslanet             52.00               52               52      1.027344
+   hhar   moment           4354.00             4257             4461      6.511719
+   hhar  sundial           3265.75             3193             3346      4.883789
+   hhar  tslanet            543.75              532              557      0.813965
+  sleep   moment            727.25              656              859      8.348633
+  sleep  sundial            545.25              492              644      6.261475
+  sleep  tslanet             90.50               82              107      1.043579
+  wisdm   moment           2959.25             2554             3343      4.425781
+  wisdm  sundial           2219.25             1916             2507      3.319336
+  wisdm  tslanet            369.50              319              417      0.553223
+
+Full table -> /home/AD/sachith/PACT/results/tables/derpp_byte_matched_buffer.csv
+Summary   -> /home/AD/sachith/PACT/results/tables/derpp_byte_matched_buffer_summary.csv
+[09:30:01] DER++ random-chains  num_gpus=2  n_jobs=32
+[09:30:01] skip tslanet fd 2,1,0,3 (done)
+[09:30:01] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset fd --backbone tslanet --domain_order 2,1,3,0 --calib_frac 0.05 --seed 42
+[09:30:01] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset fd --backbone tslanet --domain_order 2,0,1,3 --calib_frac 0.05 --seed 42
+[09:30:15] FAILED (exit -1) on cuda:1
+[09:30:15] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset fd --backbone tslanet --domain_order 0,2,3,1 --calib_frac 0.05 --seed 42
+[09:30:27] FAILED (exit -1) on cuda:0
+[09:30:27] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset hhar --backbone tslanet --domain_order 6,0,8,2,5,1,3,4,7 --calib_frac 0.05 --seed 42
+[09:30:29] FAILED (exit -1) on cuda:1
+[09:30:29] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset hhar --backbone tslanet --domain_order 5,1,6,3,2,7,4,0,8 --calib_frac 0.05 --seed 42
+[09:30:51] FAILED (exit -1) on cuda:0
+[09:30:51] FAILED (exit -1) on cuda:1
+[09:30:51] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset hhar --backbone tslanet --domain_order 1,6,4,7,8,5,0,2,3 --calib_frac 0.05 --seed 42
+[09:30:51] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset hhar --backbone tslanet --domain_order 5,8,0,3,2,6,4,1,7 --calib_frac 0.05 --seed 42
+[09:31:03] FAILED (exit -1) on cuda:1
+[09:31:03] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset sleep --backbone tslanet --domain_order 0,5,18,9,3,10,6,1,14 --calib_frac 0.05 --seed 42
+[09:31:11] FAILED (exit -1) on cuda:0
+[09:31:11] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset sleep --backbone tslanet --domain_order 18,5,12,7,10,17,0,3,1 --calib_frac 0.05 --seed 42
+[09:31:23] FAILED (exit -1) on cuda:1
+[09:31:23] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset sleep --backbone tslanet --domain_order 15,6,17,5,8,9,18,19,2 --calib_frac 0.05 --seed 42
+[09:32:31] FAILED (exit -1) on cuda:0
+[09:32:31] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset sleep --backbone tslanet --domain_order 1,5,9,0,4,3,18,8,13 --calib_frac 0.05 --seed 42
+[09:33:11] FAILED (exit -1) on cuda:1
+[09:33:11] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset wisdm --backbone tslanet --domain_order 10,24,20,0,3,1,22,14,2 --calib_n 450 --seed 42
+[09:33:21] FAILED (exit -1) on cuda:1
+[09:33:21] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset wisdm --backbone tslanet --domain_order 24,11,0,23,13,21,16,35,3 --calib_n 450 --seed 42
+[09:33:33] FAILED (exit -1) on cuda:1
+[09:33:33] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset wisdm --backbone tslanet --domain_order 30,3,0,31,20,24,19,13,17 --calib_n 450 --seed 42
+[09:33:45] FAILED (exit -1) on cuda:1
+[09:33:45] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset wisdm --backbone tslanet --domain_order 12,23,7,9,5,15,31,28,10 --calib_n 450 --seed 42
+[09:33:57] FAILED (exit -1) on cuda:1
+[09:33:57] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset fd --tsfm sundial --domain_order 2,1,0,3 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:34:03] FAILED (exit -1) on cuda:0
+[09:34:04] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset fd --tsfm sundial --domain_order 2,1,3,0 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:38:48] FAILED (exit -1) on cuda:0
+[09:38:48] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset fd --tsfm sundial --domain_order 2,0,1,3 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:39:46] FAILED (exit -1) on cuda:1
+[09:39:46] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset fd --tsfm sundial --domain_order 0,2,3,1 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:43:30] FAILED (exit -1) on cuda:0
+[09:43:30] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset hhar --tsfm sundial --domain_order 6,0,8,2,5,1,3,4,7 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:44:36] FAILED (exit -1) on cuda:1
+[09:44:36] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset hhar --tsfm sundial --domain_order 5,1,6,3,2,7,4,0,8 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:46:27] FAILED (exit -1) on cuda:0
+[09:46:27] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset hhar --tsfm sundial --domain_order 1,6,4,7,8,5,0,2,3 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:47:39] FAILED (exit -1) on cuda:1
+[09:47:39] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset hhar --tsfm sundial --domain_order 5,8,0,3,2,6,4,1,7 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:49:25] FAILED (exit -1) on cuda:0
+[09:49:25] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset sleep --tsfm sundial --domain_order 0,5,18,9,3,10,6,1,14 --calib_frac 0.05 --seed 42 --freeze_backbone
+[09:51:47] FAILED (exit -1) on cuda:1
+[09:51:47] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset sleep --tsfm sundial --domain_order 18,5,12,7,10,17,0,3,1 --calib_frac 0.05 --seed 42 --freeze_backbone
+[10:01:34] FAILED (exit -1) on cuda:0
+[10:01:34] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset sleep --tsfm sundial --domain_order 15,6,17,5,8,9,18,19,2 --calib_frac 0.05 --seed 42 --freeze_backbone
+[10:04:35] FAILED (exit -1) on cuda:1
+[10:04:35] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset sleep --tsfm sundial --domain_order 1,5,9,0,4,3,18,8,13 --calib_frac 0.05 --seed 42 --freeze_backbone
+[10:14:42] FAILED (exit -1) on cuda:0
+[10:14:42] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset wisdm --tsfm sundial --domain_order 10,24,20,0,3,1,22,14,2 --calib_n 450 --seed 42 --freeze_backbone
+[10:17:00] FAILED (exit -1) on cuda:1
+[10:17:00] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset wisdm --tsfm sundial --domain_order 24,11,0,23,13,21,16,35,3 --calib_n 450 --seed 42 --freeze_backbone
+[10:21:14] FAILED (exit -1) on cuda:0
+[10:21:14] >>> [cuda:0] scripts/run_derpp_baseline.py --dataset wisdm --tsfm sundial --domain_order 30,3,0,31,20,24,19,13,17 --calib_n 450 --seed 42 --freeze_backbone
+[10:23:54] FAILED (exit -1) on cuda:1
+[10:23:54] >>> [cuda:1] scripts/run_derpp_baseline.py --dataset wisdm --tsfm sundial --domain_order 12,23,7,9,5,15,31,28,10 --calib_n 450 --seed 42 --freeze_backbone
+[10:31:52] Done. Log: results/experiment_logs/derpp_chains_20260718_092932.log

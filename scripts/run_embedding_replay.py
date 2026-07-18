@@ -41,13 +41,15 @@ METHODS = ["emb-replay-head", "global-adapter"]
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--dataset", choices=["fd", "hhar", "sleep"], default="fd")
+    p.add_argument("--dataset", choices=["fd", "hhar", "sleep", "wisdm", "ucihar"], default="fd")
     p.add_argument("--method", choices=METHODS, required=True)
     p.add_argument("--backbone", choices=BACKBONES, default="tslanet")
     p.add_argument("--tsfm", choices=list(TSFM_MODELS), default=None,
                    help="If set, use a frozen TSFM instead of --backbone")
     p.add_argument("--domain_order", default="adatime")
     p.add_argument("--calib_frac", type=float, default=0.05)
+    p.add_argument("--calib_n", type=int, default=None,
+                   help="Fixed calibration label budget (overrides calib_frac)")
     p.add_argument("--head_ep", type=int, default=200)
     p.add_argument("--head_lr", type=float, default=1e-3)
     p.add_argument("--temperature", type=float, default=0.5)
@@ -89,7 +91,7 @@ def run_emb_replay_head(model, spec, order, device, args):
     for t in range(1, T):
         ds = spec.get_dataset(order[t], "train", DATA_ROOT)
         y_all = ds.y.numpy()
-        idx = calib_indices(y_all, args.calib_frac, args.seed)
+        idx = calib_indices(y_all, args.calib_frac, args.seed, calib_n=args.calib_n)
         calib_ld = torch.utils.data.DataLoader(
             torch.utils.data.Subset(ds, idx), batch_size=args.batch)
         calib_embs, calib_lbls = extract_embs(model, calib_ld, device)
@@ -123,7 +125,8 @@ def run_emb_replay_head(model, spec, order, device, args):
 
 def run_global_adapter(model, spec, order, device, args):
     cfg = PactConfig(k=1, emb_dim=model.emb_dim, calib_frac=args.calib_frac,
-                     seed=args.seed, batch=args.batch, gate_kind="learned")
+                     calib_n=args.calib_n, seed=args.seed, batch=args.batch,
+                     gate_kind="learned")
     res = run_sequential(model, spec, order, DATA_ROOT, device, cfg,
                          temperature=args.temperature, verbose=False)
     return res["A_soft"], res["labels"]
@@ -153,8 +156,9 @@ def main():
     else:
         order = [int(x) for x in args.domain_order.split(",")]
 
+    calib_str = f"n={args.calib_n}" if args.calib_n else f"{args.calib_frac*100:.0f}%"
     print(f"Embedding-replay baseline: {args.method}  dataset={args.dataset}  "
-          f"seed={args.seed}  calib={args.calib_frac*100:.0f}%")
+          f"seed={args.seed}  calib={calib_str}")
 
     t0 = time.perf_counter()
     model = load_model(args, spec, order[0], device)
@@ -166,8 +170,9 @@ def main():
 
     T = len(order)
     aa, bwt, f, rf, prf = compute_cl_metrics(A, T - 1)
-    tag = (f"{args.dataset}_{args.tsfm or args.backbone}_{args.method}"
-           f"_c{int(args.calib_frac*100)}_s{args.seed}")
+    calib_tag = f"n{args.calib_n}" if args.calib_n else f"c{int(args.calib_frac*100)}"
+    tag = (f"{args.dataset}_{args.tsfm or args.backbone}_{args.domain_order}_{args.method}"
+           f"_{calib_tag}_s{args.seed}")
     out_dir = RESULTS_ROOT / "embedding_replay" / tag
     out_dir.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(A, index=labels, columns=labels).to_csv(out_dir / "soft_f1_matrix.csv")

@@ -32,11 +32,13 @@ from src.utils import get_device, set_seed
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--dataset", choices=["fd", "hhar", "sleep", "wisdm"], default="fd")
+    p.add_argument("--dataset", choices=["fd", "hhar", "sleep", "wisdm", "ucihar"], default="fd")
     p.add_argument("--backbone", choices=BACKBONES, default="tslanet")
     p.add_argument("--tsfm", choices=list(TSFM_MODELS), default=None)
     p.add_argument("--domain_order", default="adatime")
     p.add_argument("--calib_frac", type=float, default=0.05)
+    p.add_argument("--calib_n", type=int, default=None,
+                   help="Fixed calibration label budget (overrides calib_frac)")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--batch", type=int, default=256)
     p.add_argument("--device", default=None)
@@ -115,7 +117,7 @@ def main():
     for t in range(1, T):
         ds = spec.get_dataset(order[t], "train", DATA_ROOT)
         y_all = ds.y.numpy()
-        idx = calib_indices(y_all, args.calib_frac, args.seed)
+        idx = calib_indices(y_all, args.calib_frac, args.seed, calib_n=args.calib_n)
         calib_ld = torch.utils.data.DataLoader(
             torch.utils.data.Subset(ds, idx), batch_size=args.batch)
         ce, cl = extract_embs(model, calib_ld, device)
@@ -130,7 +132,8 @@ def main():
 
     aa, bwt, f, rf, prf = compute_cl_metrics(A, T - 1)
     bb = args.tsfm or args.backbone
-    tag = f"{args.dataset}_{bb}_ncm_c{int(args.calib_frac*100)}_s{args.seed}"
+    calib_tag = f"n{args.calib_n}" if args.calib_n else f"c{int(args.calib_frac*100)}"
+    tag = f"{args.dataset}_{bb}_{args.domain_order}_ncm_{calib_tag}_s{args.seed}"
     out_dir = RESULTS_ROOT / "ncm_baselines" / tag
     out_dir.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(A, index=labels, columns=labels).to_csv(out_dir / "f1_matrix.csv")

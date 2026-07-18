@@ -32,7 +32,7 @@ from src.utils import get_device, set_seed
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--dataset", choices=["fd", "hhar", "sleep", "wisdm"], default="fd")
+    p.add_argument("--dataset", choices=["fd", "hhar", "sleep", "wisdm", "ucihar"], default="fd")
     p.add_argument("--tsfm", choices=list(TSFM_MODELS), default="moment")
     p.add_argument("--domain_order", default="adatime",
                    help="'adatime', comma-separated ids, or blank for 0..N")
@@ -122,8 +122,9 @@ def main():
           f"BWT={final['BWT']:+.4f}  F_all={final['F_all']:.4f}  "
           f"RF={final['RF']:.4f}  PRF={final['PRF']:.4f}")
 
+    rank_tag = f"_r{args.lora_rank}" if args.adapter_kind == "lora" and args.lora_rank != 8 else ""
     tag = (f"{args.dataset}_{args.tsfm}_{args.domain_order}_K{args.k}"
-           f"_{calib_tag}_{args.adapter_kind}_{args.gate_kind}_s{args.seed}")
+           f"_{calib_tag}_{args.adapter_kind}_{args.gate_kind}{rank_tag}_s{args.seed}")
     out_dir = RESULTS_ROOT / "sequential_tsfm" / tag
     out_dir.mkdir(parents=True, exist_ok=True)
     labels = res["labels"]

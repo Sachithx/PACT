@@ -80,7 +80,7 @@ def profile_pact(model, spec, order, device, cfg, temperature=0.5):
             torch.utils.data.Subset(ds, idx), batch_size=cfg.batch)
         calib_embs, calib_lbls = extract_embs(model, calib_ld, device)
         calib_asgn = assign_concepts(calib_embs, centroids)
-        accumulated.append((calib_embs, calib_asgn, calib_lbls))
+        accumulated.append((calib_embs, calib_asgn))
         adapters = train_adapters(calib_embs, calib_lbls, centroids, model.head,
                                   device, cfg)
         adapters_list.append(adapters)
