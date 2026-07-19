@@ -394,6 +394,108 @@ class MantisBackbone(nn.Module):
             p.requires_grad_(False)
 
 
+class UniShapeBackbone(nn.Module):
+    """UniShape (AAAI'26) -- a shape-aware, classification-targeted TS
+    foundation model, as a frozen encoder. Natively univariate (n_channels=1
+    per the reference zero-shot script); each channel is embedded
+    independently and pooled, matching the Chronos/Sundial/Mantis treatment.
+    window=512 (fixed context, matches the reference `getInteSet` resize)."""
+
+    _REPO_ADDED = False
+
+    def __init__(self, num_classes, ckpt_path=None, window=512, multi_window=True, enc_bs=128):
+        super().__init__()
+        import os
+        import sys
+        repo_root = os.environ.get(
+            "UNISHAPE_REPO", os.path.join(os.path.dirname(__file__), "..", "..",
+                                          "baselines", "UniShape"))
+        repo_root = os.path.abspath(repo_root)
+        if repo_root not in sys.path:
+            sys.path.insert(0, repo_root)
+        import argparse
+        from models.unishapemodel_zeroshot import UniShapeModel
+
+        emb_dim = 128
+        cfg = argparse.Namespace(window_size=16, stride=16)
+        self.enc = UniShapeModel(config=cfg, series_size=window, in_channels=emb_dim,
+                                 window_emb_dim=emb_dim, out_channels=num_classes,
+                                 window_size=16, stride=16, shape_alpha=0.01,
+                                 shape_sparse_ratio=0.6, scale_len=4)
+        ckpt_path = ckpt_path or os.path.join(repo_root, "pretrained_model_ckpt",
+                                              "unishape_checkpoint_zeroshot.pth")
+        checkpoint = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+        state_dict = checkpoint["state_dict"]
+        for k in list(state_dict.keys()):
+            if k.startswith("backbone.") and not k.startswith("backbone.fc."):
+                state_dict[k[len("backbone."):]] = state_dict[k]
+            if k.startswith("backbone.") or k.startswith("fc."):
+                del state_dict[k]
+        state_dict.pop("transformer_enc.pos_encoder.pe", None)
+        model_state_dict = self.enc.state_dict()
+        filtered = {k: v for k, v in state_dict.items()
+                   if k in model_state_dict and v.shape == model_state_dict[k].shape}
+        self.enc.load_state_dict(filtered, strict=False)
+        self.enc.eval()
+        for p in self.enc.parameters():
+            p.requires_grad_(False)
+
+        self.window = window
+        self.multi_window = multi_window
+        self.enc_bs = enc_bs
+        self.emb_dim = emb_dim
+        self.head = nn.Linear(self.emb_dim, num_classes)
+        self._mean = None
+        self._std = None
+
+    def to(self, device, *args, **kwargs):
+        out = super().to(device, *args, **kwargs)
+        out.enc.to(device)
+        return out
+
+    def set_standardizer(self, mean, std):
+        dev = next(self.head.parameters()).device
+        self._mean = torch.as_tensor(mean, dtype=torch.float32, device=dev)
+        self._std = torch.as_tensor(std, dtype=torch.float32, device=dev).clamp_min(1e-6)
+
+    @torch.no_grad()
+    def _embed_ctx(self, seqs):
+        """seqs: (M, window) -> (M, D)."""
+        outs = []
+        for i in range(0, seqs.shape[0], self.enc_bs):
+            outs.append(self.enc(seqs[i:i + self.enc_bs].unsqueeze(1)).float())
+        return torch.cat(outs, 0)
+
+    @torch.no_grad()
+    def extract(self, x):
+        x = x.float()
+        B, C, L = x.shape
+        if L > self.window and self.multi_window:
+            nw = math.ceil(L / self.window)
+            starts = torch.linspace(0, L - self.window, nw).long()
+            wins = torch.stack([x[..., s:s + self.window] for s in starts], 2)  # (B,C,nw,window)
+            seqs = wins.reshape(B * C * nw, self.window)
+            e = self._embed_ctx(seqs).reshape(B, C, nw, -1).mean(2).mean(1)
+        elif L != self.window:
+            xw = F.interpolate(x, size=self.window, mode="linear", align_corners=False)
+            seqs = xw.reshape(B * C, self.window)
+            e = self._embed_ctx(seqs).reshape(B, C, -1).mean(1)
+        else:
+            seqs = x.reshape(B * C, L)
+            e = self._embed_ctx(seqs).reshape(B, C, -1).mean(1)
+        e = e.to(next(self.head.parameters()).device)
+        if self._mean is not None:
+            e = (e - self._mean) / self._std
+        return e
+
+    def forward(self, x):
+        return self.head(self.extract(x))
+
+    def freeze_head(self):
+        for p in self.head.parameters():
+            p.requires_grad_(False)
+
+
 def make_moment(num_classes, seq_len=None, model_name="AutonLab/MOMENT-1-large",
                 multi_window=True):
     return MomentBackbone(num_classes, model_name=model_name,
@@ -408,6 +510,7 @@ TSFM_MODELS = {
     "time-moe": dict(cls=CausalLMTSFMBackbone, model_name="Maple728/TimeMoE-200M"),
     "moirai": dict(cls=MoiraiBackbone, model_name="Salesforce/moirai-1.1-R-large"),
     "mantis": dict(cls=MantisBackbone, model_name="paris-noah/MantisV2"),
+    "unishape": dict(cls=UniShapeBackbone),
 }
 
 
