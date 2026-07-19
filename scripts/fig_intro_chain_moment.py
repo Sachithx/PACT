@@ -1,7 +1,7 @@
 """Introduction figure: average-accuracy curve along the FD domain-incremental
 chain (0->1->2->3), frozen MOMENT-1-large backbone, 5% calibration per step.
 
-Shows how AA_t = mean F1 over all domains seen so far evolves as FD-A -> B ->
+Shows how AMF1_t (average macro-F1 over all domains seen so far) evolves as FD-A -> B ->
 C -> D arrive one at a time: PACT stays essentially flat and near the
 source ceiling while every CL baseline degrades, and the frozen (no-adapt)
 backbone collapses fastest. Full fine-tuning of the 341M-parameter frozen
@@ -9,7 +9,7 @@ MOMENT encoder is not run (prohibitive / not scalable -- same call as
 fig_motivation.py / fig_ablation.py) and is annotated rather than plotted.
 
 Data: results/{controls,cl_baselines_tsfm,sequential_tsfm}/fd_moment_adatime_*_c5
-AA_t computed exactly as src.method.sequential.compute_cl_metrics: nanmean of
+AMF1_t computed exactly as src.method.sequential.compute_cl_metrics: nanmean of
 row t (domains 0..t) of the NaN-padded F1 retention matrix.
 
 Outputs: results/figures/fig_intro_chain_moment.{pdf,png}
@@ -98,7 +98,7 @@ def main():
     ax.set_xlim(-0.25, 3.55)
     ax.set_ylim(0.30, 1.05)
     ax.set_xlabel("Domains added sequentially (5% calibration labels/step)")
-    ax.set_ylabel(r"Average macro-$F_1$, $AA_t$  ($\uparrow$)")
+    ax.set_ylabel(r"$AMF_{1,t}$  ($\uparrow$)")
     ax.set_title("PACT (ours) vs. existing methods (frozen MOMENT-1-large)\n"
                   "Fault Diagnosis, operating-condition shift",
                   fontsize=9.3)

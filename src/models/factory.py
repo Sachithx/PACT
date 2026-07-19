@@ -51,6 +51,8 @@ def checkpoint_path(ckpt_root, backbone: str, dataset: str, domain_id: int) -> P
             return base / "tslanet_sleepedf" / f"tslanet_sleepedf_s{domain_id}_ps8_d2_dim128.pt"
         if dataset == "wisdm":
             return base / "tslanet_wisdm" / f"tslanet_wisdm_{domain_id}_ps8_d2_dim128.pt"
+        if dataset == "ucihar":
+            return base / "tslanet_ucihar" / f"tslanet_ucihar_{domain_id}_ps8_d2_dim128.pt"
     if backbone in ("patchtst", "timesnet"):
         return ckpt_root / backbone / f"{backbone}_{dataset}_{domain_id}.pt"
     raise ValueError(f"Unknown (backbone={backbone}, dataset={dataset})")

@@ -316,6 +316,84 @@ class MoiraiBackbone(nn.Module):
             p.requires_grad_(False)
 
 
+class MantisBackbone(nn.Module):
+    """Mantis (Feofanov et al.) -- a lightweight, classification-targeted TS
+    foundation model, as a frozen encoder. Natively univariate
+    (n_channels=1); each channel is embedded independently and pooled,
+    matching the Chronos/Sundial/Time-MoE/Moirai treatment. seq_len must be a
+    multiple of num_patches (default 32), enforced via the same
+    multi-window / interpolate scheme as the other backbones."""
+
+    def __init__(self, num_classes, model_name="paris-noah/MantisV2",
+                 window=512, multi_window=True, enc_bs=128):
+        super().__init__()
+        from mantis.architecture import MantisV2
+        net = MantisV2(device="cpu")
+        self.enc = net.from_pretrained(model_name)
+        self.enc.eval()
+        for p in self.enc.parameters():
+            p.requires_grad_(False)
+        num_patches = self.enc.num_patches  # from_pretrained loads this from the checkpoint config
+        if window % num_patches != 0:
+            raise ValueError(f"window ({window}) must be a multiple of num_patches ({num_patches})")
+        self.window = window
+        self.multi_window = multi_window
+        self.enc_bs = enc_bs
+        with torch.no_grad():
+            d = self.enc(torch.zeros(1, 1, window)).shape[-1]
+        self.emb_dim = int(d)
+        self.head = nn.Linear(self.emb_dim, num_classes)
+        self._mean = None
+        self._std = None
+
+    def to(self, device, *args, **kwargs):
+        out = super().to(device, *args, **kwargs)
+        out.enc.to(device)
+        return out
+
+    def set_standardizer(self, mean, std):
+        dev = next(self.head.parameters()).device
+        self._mean = torch.as_tensor(mean, dtype=torch.float32, device=dev)
+        self._std = torch.as_tensor(std, dtype=torch.float32, device=dev).clamp_min(1e-6)
+
+    @torch.no_grad()
+    def _embed_ctx(self, seqs):
+        """seqs: (M, window) -> (M, D)."""
+        outs = []
+        for i in range(0, seqs.shape[0], self.enc_bs):
+            outs.append(self.enc(seqs[i:i + self.enc_bs].unsqueeze(1)).float())
+        return torch.cat(outs, 0)
+
+    @torch.no_grad()
+    def extract(self, x):
+        x = x.float()
+        B, C, L = x.shape
+        if L > self.window and self.multi_window:
+            nw = math.ceil(L / self.window)
+            starts = torch.linspace(0, L - self.window, nw).long()
+            wins = torch.stack([x[..., s:s + self.window] for s in starts], 2)  # (B,C,nw,window)
+            seqs = wins.reshape(B * C * nw, self.window)
+            e = self._embed_ctx(seqs).reshape(B, C, nw, -1).mean(2).mean(1)
+        elif L != self.window:
+            xw = F.interpolate(x, size=self.window, mode="linear", align_corners=False)
+            seqs = xw.reshape(B * C, self.window)
+            e = self._embed_ctx(seqs).reshape(B, C, -1).mean(1)
+        else:
+            seqs = x.reshape(B * C, L)
+            e = self._embed_ctx(seqs).reshape(B, C, -1).mean(1)
+        e = e.to(next(self.head.parameters()).device)
+        if self._mean is not None:
+            e = (e - self._mean) / self._std
+        return e
+
+    def forward(self, x):
+        return self.head(self.extract(x))
+
+    def freeze_head(self):
+        for p in self.head.parameters():
+            p.requires_grad_(False)
+
+
 def make_moment(num_classes, seq_len=None, model_name="AutonLab/MOMENT-1-large",
                 multi_window=True):
     return MomentBackbone(num_classes, model_name=model_name,
@@ -329,6 +407,7 @@ TSFM_MODELS = {
     "sundial": dict(cls=CausalLMTSFMBackbone, model_name="thuml/sundial-base-128m"),
     "time-moe": dict(cls=CausalLMTSFMBackbone, model_name="Maple728/TimeMoE-200M"),
     "moirai": dict(cls=MoiraiBackbone, model_name="Salesforce/moirai-1.1-R-large"),
+    "mantis": dict(cls=MantisBackbone, model_name="paris-noah/MantisV2"),
 }
 
 

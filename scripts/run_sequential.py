@@ -29,13 +29,15 @@ from src.utils import get_device, set_seed
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--dataset", choices=["fd", "hhar", "sleep", "wisdm"], default="fd")
+    p.add_argument("--dataset", choices=["fd", "hhar", "sleep", "wisdm", "ucihar"], default="fd")
     p.add_argument("--backbone", choices=BACKBONES, default="tslanet")
     p.add_argument("--domain_order", default=None,
                    help="Comma-separated domain ids (first = source), or "
                         "'adatime' to derive one chain from the AdaTime pair set.")
     p.add_argument("--k", type=int, default=16)
     p.add_argument("--calib_frac", type=float, default=0.05)
+    p.add_argument("--calib_n", type=int, default=None,
+                   help="Fixed calibration label budget (overrides calib_frac)")
     p.add_argument("--temperature", type=float, default=0.5)
     p.add_argument("--adapter_kind", choices=["identity", "lora"], default="lora")
     p.add_argument("--lora_rank", type=int, default=8)
@@ -95,7 +97,7 @@ def main():
                           device, freeze=True)
 
     cfg = PactConfig(k=args.k, emb_dim=model.emb_dim, calib_frac=args.calib_frac,
-                     adapter_ep=args.adapter_ep, gate_ep=args.gate_ep,
+                     calib_n=args.calib_n, adapter_ep=args.adapter_ep, gate_ep=args.gate_ep,
                      seed=args.seed, batch=args.batch,
                      adapter_kind=args.adapter_kind, lora_rank=args.lora_rank,
                      gate_kind=args.gate_kind)
@@ -103,9 +105,10 @@ def main():
     res = run_sequential(model, spec, order, DATA_ROOT, device, cfg,
                          temperature=args.temperature)
 
-    order_tag = "adatime" if args.domain_order == "adatime" else "_".join(map(str, order))
+    order_tag = "adatime" if args.domain_order == "adatime" else ",".join(map(str, order))
+    calib_tag = f"n{args.calib_n}" if args.calib_n else f"c{int(args.calib_frac*100)}"
     tag = (f"{args.dataset}_{args.backbone}_{order_tag}"
-           f"_K{args.k}_c{int(args.calib_frac*100)}_t{args.temperature}"
+           f"_K{args.k}_{calib_tag}_t{args.temperature}"
            f"_{args.adapter_kind}_{args.gate_kind}_s{args.seed}")
     out_dir = RESULTS_ROOT / "sequential" / tag
     out_dir.mkdir(parents=True, exist_ok=True)
