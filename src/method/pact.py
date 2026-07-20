@@ -261,6 +261,34 @@ def eval_hard_gate(embs_np, labels_np, centroids, soft_gates,
 
 
 @torch.no_grad()
+@torch.no_grad()
+def transport_embeddings(embs_np, centroids, soft_gates, adapters_per_domain,
+                         device, k, temperature=0.5):
+    """Same soft-mixture forward pass as eval_soft_mixture, but returns the
+    transported embeddings themselves (numpy) instead of scoring them --
+    for representation-space visualization (t-SNE/UMAP/PCA figures)."""
+    asgn = assign_concepts(embs_np, centroids)
+    embs_t = torch.from_numpy(embs_np).to(device)
+    corr = torch.zeros_like(embs_t)
+    for c in range(k):
+        mask = (asgn == c)
+        if not mask.any():
+            continue
+        gate = soft_gates[c]
+        batch = embs_t[mask]
+        if gate is None:
+            corr[mask] = batch
+            continue
+        gate.eval()
+        weights = torch.softmax(gate(batch) / temperature, dim=1)
+        mixed = weights[:, 0:1] * batch
+        for j, domain_adapters in enumerate(adapters_per_domain):
+            domain_adapters[c].eval()
+            mixed = mixed + weights[:, j + 1: j + 2] * domain_adapters[c](batch)
+        corr[mask] = mixed
+    return corr.cpu().numpy()
+
+
 def eval_soft_mixture(embs_np, labels_np, centroids, soft_gates,
                       adapters_per_domain, frozen_head, device, k, temperature=0.5):
     """Soft-mixture forward pass (the main PACT inference path).

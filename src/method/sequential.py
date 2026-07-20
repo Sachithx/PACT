@@ -287,4 +287,5 @@ def run_sequential(model, spec, domain_order, data_root, device, cfg: PactConfig
     )
     return dict(labels=labels, A_soft=A_soft, A_hard=A_hard, A_orc=A_orc,
                 ACC=ACC, metrics=metrics_rows, centroids=centroids,
+                adapters_list=adapters_list, soft_gates=soft_gates,
                 margin_diagnostics=margin_diagnostics)
