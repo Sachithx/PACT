@@ -29,6 +29,11 @@ def calib_indices(labels, calib_frac: float, seed: int, min_size: int | None = N
         n_calib = min(n, max(floor, int(np.ceil(n * calib_frac))))
     if n_calib >= n:
         return np.arange(n)
+    if n - n_calib < n_classes:
+        # Remainder too small to stratify (sklearn needs >= 1 sample per
+        # class in the complement too) -- nothing meaningful is left to
+        # hold out, so just use everything.
+        return np.arange(n)
     sss = StratifiedShuffleSplit(n_splits=1, train_size=n_calib, random_state=seed)
     idx, _ = next(sss.split(np.zeros(n), y))
     return idx
