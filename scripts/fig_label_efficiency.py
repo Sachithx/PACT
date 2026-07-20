@@ -20,8 +20,8 @@ import _bootstrap  # noqa: F401
 from _bootstrap import RESULTS_ROOT
 
 plt.rcParams.update({
-    "font.size": 15, "axes.titlesize": 15, "axes.labelsize": 15,
-    "xtick.labelsize": 13, "ytick.labelsize": 13, "legend.fontsize": 13,
+    "font.size": 18, "axes.titlesize": 18, "axes.labelsize": 18,
+    "xtick.labelsize": 13, "ytick.labelsize": 13, "legend.fontsize": 14,
     "font.family": "sans-serif", "pdf.fonttype": 42, "ps.fonttype": 42,
 })
 
@@ -43,7 +43,7 @@ def main():
     for ds, label, col, mk in FRAC_DATASETS:
         sub = df[(df["dataset"] == ds) & (df["budget_type"] == "frac")].sort_values("budget_value")
         ax1.plot(sub["budget_value"], sub["mean_AA"], "-", color=col, lw=2.2,
-                 marker=mk, markersize=8, markeredgecolor="white", markeredgewidth=0.6,
+                 marker=mk, markersize=12, markeredgecolor="white", markeredgewidth=0.6,
                  label=label, zorder=3)
     ax1.set_xscale("log")
     ax1.set_xticks(FRAC_TICKS)
@@ -55,7 +55,7 @@ def main():
     for ds, label, col, mk in N_DATASETS:
         sub = df[(df["dataset"] == ds) & (df["budget_type"] == "n")].sort_values("budget_value")
         ax2.plot(sub["budget_value"], sub["mean_AA"], "-", color=col, lw=2.2,
-                 marker=mk, markersize=8, markeredgecolor="white", markeredgewidth=0.6,
+                 marker=mk, markersize=12, markeredgecolor="white", markeredgewidth=0.6,
                  label=label, zorder=3)
     ax2.set_xscale("log")
     ax2.set_xticks(N_TICKS)

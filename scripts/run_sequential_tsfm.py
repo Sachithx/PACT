@@ -132,6 +132,8 @@ def main():
     pd.DataFrame(res["metrics"]).to_csv(out_dir / "metrics.csv", index=False)
     pd.DataFrame(res["A_soft"], index=labels, columns=labels).to_csv(
         out_dir / "soft_f1_matrix.csv")
+    pd.DataFrame(res["A_hard"], index=labels, columns=labels).to_csv(
+        out_dir / "hard_f1_matrix.csv")
     pd.DataFrame(res["A_orc"], index=labels, columns=labels).to_csv(
         out_dir / "oracle_f1_matrix.csv")
     print(f"Results -> {out_dir}")
