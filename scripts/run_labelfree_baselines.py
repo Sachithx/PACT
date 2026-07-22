@@ -1,5 +1,5 @@
-"""Genuinely label-free baselines on frozen TSFM embeddings: TENT and
-source-free MAPU. Unlike scripts/run_mapu_baseline.py (which is a
+"""Genuinely label-free baselines on frozen TSFM embeddings: TENT, source-free
+MAPU, and ACCUP. Unlike scripts/run_mapu_baseline.py (which is a
 label-supervised variant, kept in the paper with a dagger footnote), these
 methods see NO calibration labels on target domains -- only the unlabeled
 inputs of the same calibration-sized subset every other baseline uses (same
@@ -13,6 +13,27 @@ data budget, no label signal).
                (argmax predictions), not ground truth. Faithful to the
                source-free premise of MAPU_SFDA_TS (labeled source, unlabeled
                target stream).
+  accup     -- Gong et al., KDD 2025 (baselines/ACCUP-main): augmented
+               contrastive clustering with uncertainty-aware prototyping.
+               Maintains a low-entropy support memory (bootstrapped from the
+               source head's own class weights, refreshed every batch to the
+               filter_K lowest-entropy examples per pseudo-class), forms
+               prototype logits from the memory, picks whichever of
+               {prototype, classifier} logits has lower entropy as the
+               pseudo-label, and adapts the head with a supervised
+               contrastive loss on those pseudo-labels. Ported from the
+               original CNN/raw-signal implementation to this repo's
+               frozen-embedding-plus-linear-head setting: the same
+               adaptation surface TENT and MAPU-free already use here, since
+               there is no conv backbone to unfreeze under a frozen TSFM.
+               The original also contrasts a raw/augmented view pair; with
+               no time-series augmentation pipeline in embedding space this
+               collapses to a single view, so the memory and support-set
+               mechanics are preserved but the two-view contrastive term is
+               not. filter_K/tau/temperature/lr are the paper's published
+               per-dataset values for FD->fd, EEG->sleep, HAR->ucihar; HHAR
+               and WISDM (not studied in the original paper) reuse the HAR
+               setting as the closest available accelerometer-HAR analogue.
 
 The source domain (step 0) is always labeled -- source-free DA assumes a
 labeled source and only withholds labels on the target stream. Step 0 reuses
@@ -22,6 +43,7 @@ on the FULL source train set), exactly like every other baseline in this repo.
 Example:
   python scripts/run_labelfree_baselines.py --dataset fd --method tent --tsfm sundial
   python scripts/run_labelfree_baselines.py --dataset fd --method mapu-free --tsfm sundial
+  python scripts/run_labelfree_baselines.py --dataset fd --method accup --tsfm sundial
 """
 
 import argparse
@@ -45,7 +67,115 @@ from src.method.pact import extract_embs
 from src.models.tsfm import TSFM_MODELS, make_tsfm
 from src.utils import get_device, set_seed
 
-METHODS = ["tent", "mapu-free"]
+METHODS = ["tent", "mapu-free", "accup"]
+
+# Published per-dataset ACCUP hyperparameters (configs/tta_hparams_new.py in
+# baselines/ACCUP-main): FD, EEG (=Sleep-EDF/SSC), HAR (=UCI-HAR). HHAR/WISDM
+# were not studied in the original paper and reuse the HAR setting.
+ACCUP_HPARAMS = {
+    "fd": dict(filter_K=100, tau=1.0, temperature=0.6, lr=3e-4),
+    "sleep": dict(filter_K=50, tau=50.0, temperature=0.3, lr=1e-5),
+    "ucihar": dict(filter_K=10, tau=20.0, temperature=0.7, lr=3e-4),
+    "hhar": dict(filter_K=10, tau=20.0, temperature=0.7, lr=3e-4),
+    "wisdm": dict(filter_K=10, tau=20.0, temperature=0.7, lr=3e-4),
+}
+
+
+def softmax_entropy(x, x_ema):
+    return -(x_ema.softmax(1) * x.log_softmax(1)).sum(1)
+
+
+def domain_contrastive_loss(features, pseudo_labels, temperature):
+    """Supervised contrastive loss over same-pseudo-label pairs within the
+    batch (ported from baselines/ACCUP-main/loss/sup_contrast_loss.py)."""
+    device = features.device
+    anchor = F.normalize(features, dim=1)
+    labels = pseudo_labels.contiguous().view(-1, 1)
+    mask = torch.eq(labels, labels.T).float()
+    logits = (anchor @ anchor.T) / temperature
+    logits = logits - logits.max(dim=1, keepdim=True)[0].detach()
+    self_mask = torch.eye(features.shape[0], device=device)
+    logits_mask = 1.0 - self_mask
+    mask = mask * logits_mask
+    exp_logits = torch.exp(logits) * logits_mask
+    log_prob = logits - torch.log(exp_logits.sum(1, keepdim=True) + 1e-12)
+    mask_sum = mask.sum(1).clamp_min(1.0)
+    mean_log_prob_pos = (mask * log_prob).sum(1) / mask_sum
+    return (-mean_log_prob_pos).mean()
+
+
+class AccupState:
+    """Low-entropy support memory + prototype logits (ported from
+    baselines/ACCUP-main/algorithms/accup.py: ACCUP.__init__/select_supports/
+    compute_logits). Bootstrapped from the source head's own class weight
+    rows, then refreshed every adaptation batch."""
+
+    def __init__(self, head, num_classes, filter_K, tau, device):
+        self.num_classes = num_classes
+        self.filter_K = filter_K
+        self.tau = tau
+        with torch.no_grad():
+            warmup_supports = head.weight.data.detach().clone()
+            warmup_prob = head(warmup_supports)
+            warmup_labels = F.one_hot(warmup_prob.argmax(1), num_classes=num_classes).float()
+            warmup_ent = softmax_entropy(warmup_prob, warmup_prob)
+        self.supports = warmup_supports.to(device)
+        self.labels = warmup_labels.to(device)
+        self.ents = warmup_ent.to(device)
+
+    def update(self, z, yhat, ent):
+        self.supports = torch.cat([self.supports, z.detach()])
+        self.labels = torch.cat([self.labels, yhat])
+        self.ents = torch.cat([self.ents, ent.detach()])
+
+    def select_supports(self):
+        if self.filter_K == -1:
+            return
+        y_hat = self.labels.argmax(dim=1).long()
+        base = torch.arange(len(self.ents), device=self.ents.device)
+        indices = []
+        for c in range(self.num_classes):
+            mask = y_hat == c
+            if mask.any():
+                order = torch.argsort(self.ents[mask])
+                indices.append(base[mask][order][: self.filter_K])
+        if not indices:
+            return
+        indices = torch.cat(indices)
+        self.supports = self.supports[indices]
+        self.labels = self.labels[indices]
+        self.ents = self.ents[indices]
+
+    def compute_logits(self, z):
+        temp_centroids = (self.labels / (self.labels.sum(0, keepdim=True) + 1e-12)).T @ self.supports
+        temp_z = F.normalize(z, dim=1)
+        temp_centroids = F.normalize(temp_centroids, dim=1)
+        return self.tau * temp_z @ temp_centroids.T
+
+
+def adapt_head_accup(head, z, state, epochs, lr, temperature):
+    opt = torch.optim.AdamW(head.parameters(), lr=lr, weight_decay=1e-4)
+    dl = torch.utils.data.DataLoader(
+        torch.utils.data.TensorDataset(z), batch_size=256, shuffle=True)
+    head.train()
+    for _ in range(epochs):
+        for (zb,) in dl:
+            p = head(zb)
+            yhat = F.one_hot(p.argmax(1), num_classes=state.num_classes).float()
+            ent = softmax_entropy(p, p)
+            state.update(zb, yhat, ent)
+            state.select_supports()
+            prt_scores = state.compute_logits(zb)
+            prt_ent = softmax_entropy(prt_scores, prt_scores)
+            use_proto = (prt_ent < ent).unsqueeze(1).expand(-1, state.num_classes)
+            select_pred = torch.where(use_proto, prt_scores, F.softmax(p, 1))
+            pseudo_labels = select_pred.argmax(1).float()
+
+            loss = domain_contrastive_loss(p, pseudo_labels, temperature)
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
+    head.eval()
 
 
 def parse_args():
@@ -153,6 +283,12 @@ def main():
     for p in head.parameters():
         p.requires_grad_(True)  # fit_standardizer_and_head froze the source model.head
 
+    accup_state, accup_hp = None, None
+    if args.method == "accup":
+        accup_hp = ACCUP_HPARAMS[args.dataset]
+        accup_state = AccupState(head, spec.num_classes, accup_hp["filter_K"],
+                                 accup_hp["tau"], device)
+
     A = np.full((T, T), np.nan)
     A[0, 0] = eval_f1(model, head, spec, order[0], device, args.batch)
     print(f"[{args.method}] Step 0 — {labels[0]:<10} F1={A[0,0]:.4f}  (labeled source)")
@@ -162,8 +298,12 @@ def main():
         calib_ld = torch.utils.data.DataLoader(calib_ds, batch_size=args.batch)
         embs, _ = extract_embs(model, calib_ld, device)  # labels discarded, unlabeled target
         z = torch.from_numpy(embs).to(device)
-        adapt_head_labelfree(head, z, spec.num_classes, args.method,
-                             args.head_ep, args.head_lr, args.ent_weight, args.proto_weight)
+        if args.method == "accup":
+            adapt_head_accup(head, z, accup_state, args.head_ep, accup_hp["lr"],
+                            accup_hp["temperature"])
+        else:
+            adapt_head_labelfree(head, z, spec.num_classes, args.method,
+                                 args.head_ep, args.head_lr, args.ent_weight, args.proto_weight)
         for j in range(t + 1):
             A[t, j] = eval_f1(model, head, spec, order[j], device, args.batch)
         aa, bwt, f, rf, prf = compute_cl_metrics(A, t)

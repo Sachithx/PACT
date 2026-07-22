@@ -189,6 +189,124 @@ def margin_condition_diagnostics(embs_np, labels_np, centroids, soft_gates,
     }
 
 
+@torch.no_grad()
+def target_recovery_diagnostics(tgt_embs_np, tgt_lbls_np, own_domain_rank,
+                                src_embs_np, src_lbls_np, centroids, soft_gates,
+                                adapters_list, frozen_head, device, temperature, k):
+    """Evaluate Proposition 2's pointwise recovery condition for one target
+    domain's test embeddings against the atlas fitted by run_sequential().
+
+    own_domain_rank is the 1-indexed position of this domain among the
+    adapted domains: adapters_list[own_domain_rank-1] is its own transport
+    bank and gate column `own_domain_rank` is its own routing branch (column
+    0 is always the source/identity branch).
+
+    For each target embedding z assigned to chart c, we search source chart-c
+    embeddings sigma(z) of the same true label that the frozen head already
+    classifies correctly, and take the nearest one (by raw distance to z,
+    not to the transported point, to avoid cherry-picking an anchor that
+    flatters the transport). This realizes epsilon_c(z) =
+    ||T_c^own(z) - sigma(z)||_2 and gamma(z) = m(sigma(z)) from the paper's
+    epsilon-chart-relatedness condition. Samples with no eligible source
+    anchor in their chart (has_anchor=False) cannot be evaluated and should
+    be excluded before checking the condition.
+    """
+    tgt_asgn = assign_concepts(tgt_embs_np, centroids)
+    src_asgn = assign_concepts(src_embs_np, centroids)
+    tgt_embs = torch.from_numpy(tgt_embs_np).to(device)
+    src_embs = torch.from_numpy(src_embs_np).to(device)
+    src_labels = torch.from_numpy(src_lbls_np).long().to(device)
+
+    src_logits = frozen_head(src_embs)
+    src_true = src_logits.gather(1, src_labels[:, None]).squeeze(1)
+    src_comp = src_logits.clone()
+    src_comp[torch.arange(len(src_labels), device=device), src_labels] = -torch.inf
+    src_margin = (src_true - src_comp.amax(dim=1)).cpu().numpy()
+    src_correct = src_margin > 0
+
+    own_bank = adapters_list[own_domain_rank - 1]
+    lipschitz = float(torch.linalg.vector_norm(frozen_head.weight, dim=1).amax().cpu())
+
+    n = len(tgt_embs_np)
+    eps = np.full(n, np.nan)
+    gamma = np.full(n, np.nan)
+    has_anchor = np.zeros(n, dtype=bool)
+    pi_own = np.zeros(n)
+    residual_bound = np.zeros(n)
+    isolated_correct = np.zeros(n, dtype=bool)
+    deployed_correct = np.zeros(n, dtype=bool)
+
+    for c in range(k):
+        mask = tgt_asgn == c
+        if not mask.any():
+            continue
+        idx = np.flatnonzero(mask)
+        batch = tgt_embs[idx]
+        y_np = tgt_lbls_np[idx]
+
+        own_bank[c].eval()
+        A_z = own_bank[c](batch)
+        isolated_correct[idx] = frozen_head(A_z).argmax(1).cpu().numpy() == y_np
+
+        anchor_mask = (src_asgn == c) & src_correct
+        if anchor_mask.any():
+            anchor_idx = np.flatnonzero(anchor_mask)
+            anchor_embs = src_embs[anchor_idx]
+            anchor_lbls = src_lbls_np[anchor_idx]
+            anchor_margin = src_margin[anchor_idx]
+            for row, gi in enumerate(idx):
+                same_label = anchor_lbls == y_np[row]
+                if not same_label.any():
+                    continue
+                cand = anchor_embs[same_label]
+                # sigma(z) is existentially quantified in the relatedness
+                # condition, so the tightest legitimate witness is the
+                # correctly-classified same-label source point nearest to
+                # the transported point A(z), not to the raw z.
+                d = torch.linalg.vector_norm(cand - A_z[row:row + 1], dim=1)
+                j = int(torch.argmin(d).item())
+                eps[gi] = float(d[j].cpu())
+                gamma[gi] = float(anchor_margin[same_label][j])
+                has_anchor[gi] = True
+
+        gate = soft_gates[c] if c < len(soft_gates) else None
+        if gate is not None:
+            gate.eval()
+            wts = torch.softmax(gate(batch) / temperature, dim=1)
+            pi_own[idx] = wts[:, own_domain_rank].cpu().numpy()
+            mixed = wts[:, 0:1] * batch
+            for r, bank in enumerate(adapters_list):
+                bank[c].eval()
+                mixed = mixed + wts[:, r + 1:r + 2] * bank[c](batch)
+        else:
+            mixed = batch
+        deployed_correct[idx] = frozen_head(mixed).argmax(1).cpu().numpy() == y_np
+
+        residual_norms = []
+        for bank in adapters_list:
+            bank[c].eval()
+            residual_norms.append(torch.linalg.vector_norm(bank[c](batch) - batch, dim=1))
+        if residual_norms:
+            residual_bound[idx] = torch.stack(residual_norms, dim=1).amax(dim=1).cpu().numpy()
+
+    lhs = eps + 2.0 * (1.0 - pi_own) * residual_bound
+    rhs = gamma / (2.0 * lipschitz)
+
+    return {
+        "chart": tgt_asgn,
+        "true_label": tgt_lbls_np,
+        "eps": eps,
+        "gamma": gamma,
+        "pi_own": pi_own,
+        "B": residual_bound,
+        "lhs": lhs,
+        "rhs": rhs,
+        "has_anchor": has_anchor,
+        "isolated_correct": isolated_correct,
+        "deployed_correct": deployed_correct,
+    }
+
+
 # ── Sequential procedure ────────────────────────────────────────────────────────
 
 def run_sequential(model, spec, domain_order, data_root, device, cfg: PactConfig,
