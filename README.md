@@ -1,194 +1,95 @@
-# PACT: Piecewise Adaptation via Chart Transport
+# PACT: minimal code to reproduce the FD results
 
-**Forgetting-Free Domain-Incremental Adaptation of Time-Series Foundation Models**
+This folder contains only the code needed to reproduce the **FD row of PACT**
+in the main comparison table (frozen Sundial backbone, 4 domain orders):
 
-<p align="center">
-  <img src="results/figures/fig_intro_chain_moment.png" width="700">
-</p>
+| | AMF1 (↑) | PRF (↓) |
+|---|---|---|
+| PACT, FD | 0.958 ± 0.011 | 0.000 ± 0.000 |
 
-<p align="center"><em>PACT maintains near-perfect average accuracy as operating conditions accumulate sequentially, while all baselines degrade significantly. Frozen MOMENT-large backbone, 5% calibration labels per step, no condition identity at test time.</em></p>
-
-## Overview
-
-Pretrained Time-Series Foundation Models (TSFMs) deliver strong representations out of the box, but deployed systems often encounter **operating conditions that shift sequentially** after training. Fine-tuning shared parameters can recover accuracy on a new condition but degrades previously observed ones (catastrophic forgetting), while regularization-based methods trade plasticity for stability.
-
-PACT sidesteps this dilemma entirely. It **never modifies** the pretrained encoder, the classifier head, or any previously learned correction. Instead, it partitions the frozen encoder's embedding space into local regions called *charts*, learns lightweight residual transports for each new condition, and softly routes every test sample through the accumulated transports at inference -- retaining an explicit identity path back to the original representation.
-
-### Key idea
-
-Operating-condition shift is **locally concentrated**: some embedding regions move substantially while others stay stable. A global correction therefore damages regions that need no adaptation. PACT applies corrections only where they are needed:
+## Files
 
 ```
-e_hat = sum_d  alpha_d(e, c) * A_{d,c}(e)
-
-alpha = softmax(g_c(e) / T)        (per-chart soft gate)
-A_{0,c} = identity                  (source path, always retained)
+run_fd.py          entry point: fits the source head, runs PACT on the 4 FD domain orders, reports mean ± std
+pact/backbone.py   frozen Sundial encoder (multi-window pooling + source standardization) and linear source head
+pact/method.py     PACT: k-means charts, chart-local LoRA transports, per-chart soft gate, soft-mixture inference, CL metrics
+pact/data.py       FD dataset loader and the stratified 5% calibration split
 ```
 
-Because the source "adapter" is the identity, source-like samples route back to the untouched embedding (preserving old performance) while shifted samples get their local correction. Only the gate is retrained as domains accumulate; the encoder, head, and prior transports remain frozen.
+`pact/method.py` is the file to read for the method. Its top docstring maps each
+step onto the paper.
 
-### Highlights
-
-- **Zero host-level forgetting** -- encoder and classifier head are never updated
-- **Few-label calibration** -- adapts from as few as 5% labeled samples per new condition
-- **No condition identity at test time** -- soft gating handles mixed-condition streams automatically
-- **Backbone-agnostic** -- works with TSLANet, PatchTST, TimesNet, MOMENT, Sundial, Chronos, Moirai, and Time-MoE
-- **Margin-based preservation guarantee** -- a derived condition under which the original prediction is provably unchanged
-
-## Results at a Glance
-
-On a bearing-fault diagnosis benchmark with four sequential operating conditions (5% calibration labels, no condition identity at test time):
-
-| Method | Avg Accuracy after 4 conditions |
-|---|---|
-| **PACT** | **0.984** |
-| Head fine-tuning | 0.68 |
-| Full fine-tuning | 0.38 |
-| EWC / MAS / LwF | 0.54 -- 0.86 |
-
-PACT is the only evaluated method to remain above 98% average accuracy as conditions accumulate. The same retention-adaptation advantage is observed on human-activity recognition (HHAR) and sleep-staging (Sleep-EDF) datasets across multiple TSFM backbones.
-
-## Repository Structure
-
-```
-PACT/
-├── src/                          # Core library (clean, refactored)
-│   ├── models/                   # Backbones, adapters, gate, concepts, factory
-│   │   ├── tslanet.py            # TSLANet backbone
-│   │   ├── patchtst.py           # PatchTST backbone
-│   │   ├── timesnet.py           # TimesNet backbone
-│   │   ├── tsfm.py               # Foundation model wrappers (MOMENT, Sundial, etc.)
-│   │   ├── adapters.py           # Per-concept adapter banks
-│   │   ├── gate.py               # Soft-mixture gating network
-│   │   ├── concepts.py           # K-means chart partitioning
-│   │   └── factory.py            # Backbone registry and loader
-│   ├── data/                     # Dataset registry + AdaTime scenarios
-│   │   ├── datasets.py           # FD, HHAR, Sleep-EDF, UCIHAR, WISDM loaders
-│   │   └── calib.py              # Calibration set sampling
-│   ├── method/                   # PACT algorithm
-│   │   ├── pact.py               # Core: adapters + gate training + inference
-│   │   ├── sequential.py         # Domain-incremental CL loop + metrics (AA/BWT/F)
-│   │   └── dp.py                 # Differential privacy extension (DP-PACT)
-│   ├── training.py               # Source-backbone training / checkpoint loading
-│   └── utils/                    # Seeding, device selection, masking
-├── scripts/                      # Entry points
-│   ├── run_sequential.py         # MAIN: sequential domain-incremental CL with PACT
-│   ├── train_backbone.py         # Train or load a source backbone
-│   ├── run_ablations.sh          # Backbone / LoRA / K / label-budget / temperature sweeps
-│   ├── run_cl_baselines.py       # Continual learning baselines (EWC, MAS, LwF, etc.)
-│   ├── run_cl_baselines_tsfm.py  # CL baselines on foundation model backbones
-│   ├── run_sequential_tsfm.py    # PACT on foundation model backbones
-│   └── run_controls.py           # Control experiments
-├── experiments/                  # Original experiment drivers (exact paper reproduction)
-│   ├── run_unified_eval.py       # PACT vs all baselines (FD + HHAR)
-│   ├── run_sleep_unified_eval.py # PACT vs all baselines (Sleep-EDF)
-│   ├── compute_cl_metrics.py     # AA / BWT / F / FWT aggregation
-│   └── ...                       # Transfer, ablation, and sweep scripts
-├── results/                      # Pre-computed experiment results (CSVs + figures)
-├── requirements.txt
-└── README.md
-```
-
-## Datasets
-
-| Dataset | Task | Domains | Classes | Seq Length | Channels |
-|---|---|---|---|---|---|
-| **FD** | Bearing fault diagnosis | 4 operating conditions | 3 | 5120 | 1 |
-| **HHAR** | Human activity recognition | 9 users | 6 | 128 | 3 |
-| **Sleep-EDF** | Sleep stage classification | 20 subjects | 5 | 3000 | 1 |
-| **UCIHAR** | Human activity recognition | 30 subjects | 6 | 128 | 9 |
-| **WISDM** | Human activity recognition | 36 users | 6 | 128 | 3 |
-
-Datasets are not included in this repository due to size. Place them under a `datasets/` directory at the project root (or symlink `dataset` to your data location). See `src/data/datasets.py` for the expected directory layout.
-
-## Installation
+## Setup
 
 ```bash
-conda create -n pact python=3.10
-conda activate pact
 pip install -r requirements.txt
 ```
 
-> **Note:** If you encounter `GLIBCXX` errors with `torch.optim` or `optree`, preload the conda `libstdc++`:
-> ```bash
-> LD_PRELOAD=$CONDA_PREFIX/lib/libstdc++.so.6 python ...
-> ```
+Use a GPU. The Sundial checkpoint (`thuml/sundial-base-128m`, ~128M parameters)
+is downloaded from the Hugging Face Hub on first use. Sundial needs
+`transformers==4.40.x` because it is loaded with `trust_remote_code`.
 
-### Requirements
+## Data
 
-- Python 3.10+
-- PyTorch 2.10+
-- scikit-learn, scipy, pandas, matplotlib, einops
-- opacus (for DP-PACT ablation only)
+We use the preprocessed FD (Paderborn bearing) data from the
+[AdaTime benchmark](https://github.com/emadeldeen24/AdaTime): 4 operating
+conditions (domains 0–3 = FD-A…FD-D), 3 classes, length 5120, 1 channel.
+Put the files in one folder:
 
-## Quick Start
-
-### 1. Train or load a source backbone
-
-```bash
-python scripts/train_backbone.py --backbone tslanet --dataset fd --domain 0
+```
+FD/
+  train_0.pt  train_1.pt  train_2.pt  train_3.pt
+  test_0.pt   test_1.pt   test_2.pt   test_3.pt
 ```
 
-Pre-trained checkpoints for TSLANet and PatchTST are available for all datasets.
+Each file is a dict with `samples` (N × 5120) and `labels` (N).
 
-### 2. Run PACT (sequential domain-incremental CL)
-
-```bash
-# TSLANet on FD (default order: 0 → 1 → 2 → 3)
-python scripts/run_sequential.py --dataset fd
-
-# PatchTST on HHAR
-python scripts/run_sequential.py --dataset hhar --backbone patchtst
-
-# Custom domain order and calibration fraction
-python scripts/run_sequential.py --dataset fd --domain_order 3,2,1,0 --calib_frac 0.05
-```
-
-### 3. Run baselines for comparison
+## Reproduce the FD row
 
 ```bash
-cd experiments
-python run_unified_eval.py            # FD + HHAR
-python run_sleep_unified_eval.py      # Sleep-EDF
-python compute_cl_metrics.py          # Aggregate AA / BWT / F / FWT
+python run_fd.py --data_dir /path/to/FD
 ```
 
-### 4. Run ablations
+This runs the 4 domain orders used in the paper (first domain = source):
 
-```bash
-# Backbone, LoRA, K, label-budget, and temperature sweeps
-bash scripts/run_ablations.sh fd
-
-# Differential privacy sweep
-cd experiments
-python run_sequential_soft_gate_dp.py --dataset fd --sweep_epsilons "0.1,0.5,1,2,5,10,inf"
+```
+FD-C -> FD-B -> FD-A -> FD-D
+FD-C -> FD-B -> FD-D -> FD-A
+FD-C -> FD-A -> FD-B -> FD-D
+FD-A -> FD-C -> FD-D -> FD-B
 ```
 
-### 5. Foundation model backbones
+It prints per-step metrics, then the mean ± std over the 4 orders. Per-order
+metrics and macro-F1 retention matrices go to `results/`. A single order can be
+run with `--orders 2,1,0,3`.
 
-```bash
-# Run PACT with MOMENT, Sundial, Chronos, Moirai, or Time-MoE
-python scripts/run_sequential_tsfm.py --backbone moment --dataset fd
-```
+Settings, all defaults in `run_fd.py` / `PactConfig`:
 
-## Method Details
+| Setting | Value |
+|---|---|
+| Backbone | Sundial-base-128m, frozen; linear head fitted on the source domain, then frozen |
+| Charts K | 8 (k-means on source train embeddings, 10 restarts) |
+| Transports | LoRA rank 8, identity init, 200 epochs, lr 1e-3, penalty 1e-3 on ‖BA‖² |
+| Gate | per-chart MLP (hidden 64), 200 epochs, lr 1e-3, temperature 0.5 |
+| Labels | stratified 5% of each target domain's train split |
+| Seed | 42 |
 
-PACT operates in three stages for each new operating condition:
+AMF1 is the average macro-F1 over all domains after the last domain. PRF is the
+performance-weighted relative forgetting, (1 − final) × max(0, peak − final)/peak,
+averaged over earlier domains. The ± is the (population) std over the 4 orders.
+The source backbone and head are never updated.
 
-1. **Chart partitioning** -- K-means clusters the source embeddings into K local regions (charts), computed once
-2. **Adapter training** -- For each chart, a lightweight residual adapter is trained on the new condition's calibration set (default 5% labels), optimized through the frozen classifier head
-3. **Gate calibration** -- A per-chart soft-mixture gate learns to route test samples across all accumulated adapters, retaining an identity path to the source representation
+## Expected output
 
-Key hyperparameters (defaults in `PactConfig`):
+Per-order final AMF1 from our runs:
 
-| Parameter | Default | Description |
+| Order | AMF1 | PRF |
 |---|---|---|
-| `k` | 16 | Number of charts (K-means clusters) |
-| `calib_frac` | 0.05 | Fraction of labeled data for calibration |
-| `adapter_ep` | 200 | Adapter training epochs |
-| `gate_ep` | 200 | Gate training epochs |
-| `temperature` | 0.5 | Softmax temperature for gating |
+| 2,1,0,3 | 0.9614 | 0.00002 |
+| 2,1,3,0 | 0.9647 | 0.00003 |
+| 2,0,1,3 | 0.9647 | 0.00006 |
+| 0,2,3,1 | 0.9393 | 0.00029 |
+| **mean ± std** | **0.958 ± 0.011** | **0.0001 ± 0.0001** |
 
-## License
-
-This project is released under the MIT License.
+Small deviations (third decimal) can occur on different GPUs or library
+versions because of non-deterministic CUDA kernels.
