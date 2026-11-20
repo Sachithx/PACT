@@ -58,5 +58,4 @@ AAAI_27_PACT_Sachith
 tmp/*
 .codex_deps
 
-old
- 
+.DS_Store
