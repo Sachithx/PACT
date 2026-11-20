@@ -124,14 +124,11 @@ results/             per-stream metrics (not in git)
 If you found this work useful for you, please consider citing it.
 
 ```bibtex
-@misc{abeywickrama2026pact,
+@article{abeywickrama2026pact,
   title={Recurrent Domain Incremental Adaptation of Time-Series Foundation Models},
   author={Sachith Abeywickrama and Peiliang Gong and Emadeldeen Eldele and Min Wu and Chau Yuen},
   year={2026},
-  eprint={2611.24075},
-  archivePrefix={arXiv},
-  primaryClass={cs.AI},
-  url={https://arxiv.org/abs/2611.24075}
+  journal={arXiv preprint arXiv:2611.24075}
 }
 ```
 
