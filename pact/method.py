@@ -7,9 +7,9 @@ construction.
     1. Charts: k-means (K centroids) on the SOURCE training embeddings. Every
        embedding is routed to its nearest centroid c(z).
     2. Transports: when target domain d arrives, a bank of K LoRA maps
-       T_{d,c}(z) = z + B A z (rank r, initialised to the identity) is trained
+       T_{d,c}(z) = z + B A z (rank r, residual initialised at zero) is trained
        on a small labelled calibration slice of d, through the frozen head.
-       The bank is then frozen.
+       The objective adds λ ||B||_F^2 (Eq. 3). The bank is then frozen.
     3. Gate: for each chart c, an MLP predicts which domain (0 = source,
        1..t = targets) an embedding came from. It is refit at every step on
        the source embeddings plus the accumulated calibration embeddings
@@ -34,15 +34,16 @@ NEG_INF = -1e9  # gate logit for (chart, domain) cells without calibration suppo
 
 @dataclass
 class PactConfig:
-    k: int = 8                  # number of charts (FD main table: K=8)
+    k: int = 8                  # charts: FD K=8; WISDM/HHAR/UCI-HAR K=4; Sleep-EDF K=1
     emb_dim: int = 768
     calib_frac: float = 0.05    # labelled fraction of each target domain's train split
+    calib_n: int | None = None  # fixed budget (WISDM 450, UCI-HAR 100); overrides the fraction
     lora_rank: int = 8
     adapter_ep: int = 200
     adapter_lr: float = 1e-3
     gate_ep: int = 200
     gate_lr: float = 1e-3
-    penalty: float = 1e-3       # weight of ||BA||_F^2 (keeps transports near identity)
+    penalty: float = 1e-3       # weight of ||B||_F^2 in Eq. (3)
     batch: int = 64
     seed: int = 42
     kmeans_n_init: int = 10
@@ -99,7 +100,9 @@ class LoRATransport(nn.Module):
         return x + self.B(self.A(x))
 
     def identity_penalty(self):
-        return torch.sum((self.B.weight @ self.A.weight) ** 2)
+        # Eq. (3): λ Σ_c ||B_c||_F^2. The residual starts at zero, so this
+        # keeps each new transport near the identity.
+        return torch.sum(self.B.weight ** 2)
 
 
 class ChartGate(nn.Module):
@@ -290,7 +293,7 @@ def run_stream(model, make_dataset, domain_order, names, device, cfg, verbose=Tr
         d = domain_order[t]
         ds = make_dataset(d, "train")
         y_all = ds.y.numpy()
-        idx = calib_indices(y_all, cfg.calib_frac, cfg.seed)
+        idx = calib_indices(y_all, cfg.calib_frac, cfg.seed, calib_n=cfg.calib_n)
         calib_ld = torch.utils.data.DataLoader(torch.utils.data.Subset(ds, idx),
                                                batch_size=cfg.batch)
         calib_embs, _ = extract_embs(model, calib_ld, device)

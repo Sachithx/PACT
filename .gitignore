@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+eggs/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Datasets (external symlink + large .pt data files)
+dataset
+dataset/
+datasets/
+
+# Checkpoints (external symlinks / model weights)
+checkpoints/
+
+# Logs
+logs/
+run_logs/
+
+# Symlinks to external directories
+baselines/baselines
+experiments/results
+experiments/baselines
+experiments/dataset
+experiments/TSLANet
+
+# IDE / editor
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+
+AAAI_27_PACT_Sachith
+tmp/*
+.codex_deps
+
+old
+ 
